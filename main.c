@@ -3,10 +3,10 @@
 int main(void)
 {
     char *cmd;
-    t_shell *shell;
+    t_token *token;
     int ret_val;
 
-    shell = malloc(sizeof(t_shell));
+    //token = malloc(sizeof(t_token));
     while (1)
     {
         cmd = readline("\033[34;01mMinishell : \033[00m");
@@ -22,6 +22,7 @@ int main(void)
 			//break;
 			// PARSING VALIDER, la commande peut ce faire tokeniser, 
 			// AVANT il faut simplement être sure que toute la memoire allouer a été correctement liberer // 
+			token_main(cmd, token);
 		}
 		else if(ret_val > 1)
 		{
@@ -32,7 +33,7 @@ int main(void)
         free(cmd);
     }
     free(cmd);
-    free(shell);
+    //free(token);
     return 0;
 }
     // HAVE TO MANAGE //

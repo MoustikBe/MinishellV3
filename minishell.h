@@ -12,10 +12,6 @@
 // -- End of include -- //
 // -------------------- //
 // # -- STRUCTURE -- # //
-typedef struct t_shell
-{
-    char **cmd_token;
-}    t_shell;
 
 typedef struct t_token
 {
@@ -26,6 +22,7 @@ typedef struct t_token
 
 // -- Declaration of external function -- //
 
+// -- Parsing -- //
 // src/parsing/parsing_main.c //
 int parsing_main(char *cmd);
 int first_element(char *cmd);
@@ -45,12 +42,16 @@ int pars_syntax(char **pars_cmd);
 // src/parsing/pars_dolar.c //
 int pars_dolar(char **pars_cmd);
 
+// -- Token -- //
+// src/token/token_main.c //
+int token_main(char *cmd, t_token *token);
+
+
 // src/utils.c //
 int ft_strlen(char *str);
 int str_cmp(char *cmd, char *cmp_cmd);
 void free_array(char **arr);
 int	ft_isalnum(int alph);
-
 
 // src/micro_lib/ft_split.c //
 char	**ft_split(char *s, char c);
