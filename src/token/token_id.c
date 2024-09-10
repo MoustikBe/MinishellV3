@@ -1,5 +1,15 @@
 #include "../../minishell.h"
 
+int is_var(t_token *token, int i)
+{
+	if(token[i].str[0] == '$')
+	{
+		token[i].id = 7;
+		return(1);
+	}
+	return(0);
+}
+
 int is_char(t_token *token, int i)
 {
 	int len;
@@ -44,12 +54,17 @@ int is_pipe(t_token *token, int i)
 /* Flemme pour le moment */
 int is_infile(t_token *token, int i)
 {
-	/*
-	int j;
+	//int len;
+	int j = 0;
 
-	j = 0;
-	if(token[i].str[j] == '')
-	*/
+	//len = ft_strlen(token[i].str);
+    if(i > 0 && token[i - 1].str[0] == '<' && token[i - 1].str[1] != '<')
+		token[i].id = 5;
+	else if(token[i].str[0] == '<' && token[i].str[1] != '<')
+		token[i].id = 5;
+	// Il manque a gerer un cas, le cas ou il y'a une commande coller au reste exemple : cat<main.c
+	if(token[i].id > 1)
+		return(1);
 	return(0);
 }
 

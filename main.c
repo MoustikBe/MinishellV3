@@ -19,10 +19,11 @@ int main(void)
 		}
 		else if(ret_val == 1)
 		{
-			//break;
 			// PARSING VALIDER, la commande peut ce faire tokeniser, 
 			// AVANT il faut simplement être sure que toute la memoire allouer a été correctement liberer // 
-			token_main(cmd, token);
+			token = token_main(cmd, token);
+			//break;
+			exec_main(token, cmd);
 		}
 		else if(ret_val > 1)
 		{

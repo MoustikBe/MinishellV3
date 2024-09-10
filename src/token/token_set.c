@@ -42,5 +42,7 @@ void token_id(t_token *token, int i)
 		return ;
 	else if(is_char(token, i) == 1)
 		return ;
+	else if(is_var(token, i) == 1)
+		return ;
 	return ;
 }
