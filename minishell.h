@@ -46,8 +46,17 @@ int pars_dolar(char **pars_cmd);
 // src/token/token_main.c //
 int token_main(char *cmd, t_token *token);
 
-// src/token/token_copy.c //
+// src/token/token_set.c //
 void token_copy(t_token *token, char *cmd, int i);
+void token_id(t_token *token, int i);
+
+// src/token/token_id.c // 
+int is_char(t_token *token, int i);
+int is_pipe(t_token *token, int i);
+int is_infile(t_token *token, int i);
+int is_outfile(t_token *token, int i);
+int is_cmd(t_token *token, int i);
+int is_flag(t_token *token, int i);
 
 
 // src/utils.c //

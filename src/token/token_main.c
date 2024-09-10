@@ -63,6 +63,7 @@ int token_main(char *cmd, t_token *token)
 		return(0);
 	while(i < len_token(cmd))
 	{
+		token[i].id = 0;
 		len_space = len_for_token(cmd, j);
 		// alloc de la memoire pour le char de la strucute // 
 		token[i].str = malloc(sizeof(char) * len_space + 1);
@@ -70,11 +71,12 @@ int token_main(char *cmd, t_token *token)
 			return(0);
 		token_copy(token, cmd, i);
 		//printf("len_for_token -> %d\n", len_space);
-		printf("token[i].str -> %s\n", token[i].str);
+		printf("\033[0;31mtoken[i].str -> %s\033[00m\n", token[i].str);
+		token_id(token, i);
+		printf("\033[0;33mtoken[i].id  -> %d\033[00m\n", token[i].id);
 		j = j + len_space + 1;
 		i++;
 	}
-	//free_all(token, len_token(cmd));
-
+	free_all(token, len_token(cmd));
 	return(1);
 }
