@@ -18,17 +18,63 @@ static int len_token(char *cmd)
 		else
 			i++;
 	}
-	printf("space -> %d\n", space);
-	return(space);
+	return(space + 1);
 
 }
 
+static int len_for_token(char *cmd, int i)
+{
+	int j = 0;
+	while(cmd[i] == ' ')
+		i++;
+	while(cmd[i] && cmd[i] != ' ')
+	{
+		i++;
+		j++;
+	}
+	return(j);
+}
+
+static void free_all(t_token *token, int len)
+{
+	int i;
+
+	i = 0;
+	while(i < len)
+	{
+		free(token[i].str);
+		i++;
+	}
+	free(token);
+
+}
 
 // Toute la memoire a été correctement liberer et une commande valide a été trouver // 
 int token_main(char *cmd, t_token *token)
 {
-	printf("len_space -> %d\n", len_token(cmd));
-	//token = malloc(sizeof(t_token) * len_token(cmd));
+	int i;
+	int j;
+	int len_space;
+
+	i = 0;
+	j = 0;
+	token = malloc(sizeof(t_token) * len_token(cmd));
+	if(!token)
+		return(0);
+	while(i < len_token(cmd))
+	{
+		len_space = len_for_token(cmd, j);
+		// alloc de la memoire pour le char de la strucute // 
+		token[i].str = malloc(sizeof(char) * len_space + 1);
+		if(!token[i].str)
+			return(0);
+		token_copy(token, cmd, i);
+		//printf("len_for_token -> %d\n", len_space);
+		printf("token[i].str -> %s\n", token[i].str);
+		j = j + len_space + 1;
+		i++;
+	}
+	//free_all(token, len_token(cmd));
 
 	return(1);
 }

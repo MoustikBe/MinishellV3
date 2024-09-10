@@ -46,6 +46,9 @@ int pars_dolar(char **pars_cmd);
 // src/token/token_main.c //
 int token_main(char *cmd, t_token *token);
 
+// src/token/token_copy.c //
+void token_copy(t_token *token, char *cmd, int i);
+
 
 // src/utils.c //
 int ft_strlen(char *str);
