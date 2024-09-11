@@ -8,7 +8,7 @@ char *make_path(char *token)
 	int i = 0;
 	int j = 0;
 
-	path = malloc(sizeof(char) * ft_strlen(bin) + ft_strlen(token));
+	path = malloc(sizeof(char) * ft_strlen(bin) + ft_strlen(token) + 1);
 	if(!path)
 		return(NULL);
 	while(bin[i])
@@ -24,6 +24,7 @@ char *make_path(char *token)
 		i++;
 		j++;
 	}
+	path[j] = '\0';
 	return(path);
 }
 
@@ -34,9 +35,8 @@ void exec_bin(t_token *token, char *cmd)
 	char **command;
 
 	path = make_path(token[0].str);
-	printf("%s\n", path);
-	//command = ft_split(cmd, ' ');
-	//execve(path, command, NULL);
+	command = ft_split(cmd, ' ');
+	execve(path, command, NULL);
 
 }
 
@@ -44,8 +44,15 @@ void exec_bin(t_token *token, char *cmd)
 
 void exec_main(t_token *token, char *cmd)
 {
-	printf("%d\n",token[0].id);
-	//if(token[0].id == 10)
-	//	exec_bin(token, cmd);
-	//return ;
+	pid_t pid;
+	//printf("%d\n",token[0].id);
+	if(token[0].id == 10)
+	{
+		pid = fork();
+		if(pid == 0)
+			exec_bin(token, cmd);
+		else
+			wait(0);
+	}
+	return ;
 }
