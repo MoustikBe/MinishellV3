@@ -60,6 +60,8 @@ int check_bin(char *command)
 
 	if(command[0] == '\0')
 		return(0);
+	else if(str_cmp(command, "/") || str_cmp(command, ".") || str_cmp(command, ".."))
+		return(0);
 	bin_path = get_bin_path(command, "/usr/bin/");
 	//printf("%d\n", open(bin_path, O_RDONLY));
 	return_val = open(bin_path, O_RDONLY);

@@ -10,8 +10,10 @@ int main(void)
     while (1)
     {
         cmd = readline("\033[34;01mMinishell : \033[00m");
-		ret_val = parsing_main(cmd); //parsing
-
+		if(cmd[0] == '\0')
+			ret_val = 0;
+		else 
+			ret_val = parsing_main(cmd); //parsing
         if(ret_val == 0)
 		{
             printf("\033[0;31mMinishell : command not found -> %s\033[00m\n", cmd);
