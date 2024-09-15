@@ -86,17 +86,6 @@ void exec_main(t_token *token, char *cmd, char **envp)
 		else
 			wait(0);
 	}
-	else if(token[0].id == 7)
-	{
-		// clean la commande puis verif
-		clean_char(token[0].str);
-		if(try_char(token[0].str) == 1)
-		{
-			
-		}
-		else
-			return ;
-	}
 
 	//else if(token[0].id == 10)
 	return ;
