@@ -28,21 +28,53 @@ char *make_path(char *token)
 	return(path);
 }
 
+int try_char(char *cmd)
+{
+	if(str_cmp(cmd, "echo") == 1)
+		return(1);
+	else if(str_cmp(cmd, "cd") == 1)
+		return(1);
+	else if(str_cmp(cmd, "pwd") == 1)
+		return(1);
+	else if(str_cmp(cmd, "export") == 1)
+		return(1);
+	else if(str_cmp(cmd, "unset") == 1)
+		return(1);
+	else if(str_cmp(cmd, "env") == 1)
+		return(1);
+	else if(check_bin(cmd) == 1)
+		return(1);
+	return(0);	
+}
 
-void exec_bin(t_token *token, char *cmd)
+void clean_char(char *cmd)
+{
+	int i;
+	int len;
+
+	i = 0;
+	len = ft_strlen(cmd);
+	while(cmd[i + 1])
+	{
+		cmd[i] = cmd[i + 1];
+		i++;
+	}
+	cmd[i - 1] = '\0';
+	printf("%s\n", cmd);
+}
+
+void exec_bin(t_token *token, char *cmd, char **envp)
 {
 	char *path;
 	char **command;
 
 	path = make_path(token[0].str);
 	command = ft_split(cmd, ' ');
-	execve(path, command, NULL);
+	execve(path, command, envp);
 
 }
 
-
-
-void exec_main(t_token *token, char *cmd)
+void exec_main(t_token *token, char *cmd, char **envp)
 {
 	pid_t pid;
 	//printf("%d\n",token[0].id);
@@ -50,10 +82,49 @@ void exec_main(t_token *token, char *cmd)
 	{
 		pid = fork();
 		if(pid == 0)
-			exec_bin(token, cmd);
+			exec_bin(token, cmd, envp);
 		else
 			wait(0);
 	}
+	else if(token[0].id == 7)
+	{
+		// clean la commande puis verif
+		clean_char(token[0].str);
+		if(try_char(token[0].str) == 1)
+		{
+			
+		}
+		else
+			return ;
+	}
+
 	//else if(token[0].id == 10)
 	return ;
 }
+
+/*
+char **envp
+char **argv
+
+argv[2] = "ls -la"
+split par 32 ls -l! arg[0] 
+				-la -s -s arg + 1 
+execve(arg[0], envp, arg + 1)
+
+append-> malloc(sizeof(len de mon string avec les quotes))
+join
+
+"echo "'123455'""|  ls -la
+
+
+double mode (*len_token)
+5
+
+single mode (*len_token):
+5 + 6
+
+token = malloc (*len_token - start);
+copy(line depuis start a len token dans token)
+
+*/
+

@@ -1,5 +1,48 @@
 #include "../../minishell.h"
 
+int quotes_mod(char *cmd)
+{
+	char *cmd_check;
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	if(cmd[i] == '"')
+	{
+		i++;
+		while(cmd[i] != '\0')
+		{	
+			if(cmd[i] != '"')
+			{
+				i++;
+				j++;
+			}
+			else
+				i++;
+		}
+	}
+	cmd_check = malloc(sizeof(char) * j + 1);
+	i = 1;
+	j = 0;
+	while (cmd[i] != '\0')
+	{
+		if(cmd[i] != '"')
+		{
+			cmd_check[j] = cmd[i];
+			j++;
+			i++; 
+		}
+		else
+			i++;
+	}
+	cmd_check[j] = '\0';
+	if(try_char(cmd_check) == 0)
+		return(0);
+	return(1);
+	//printf("%s\n", cmd);
+}
+
 
 int parsing_main(char *cmd)
 {
@@ -7,6 +50,12 @@ int parsing_main(char *cmd)
 	char **pars_cmd;
 	int ret_val;
 
+	if(cmd[0] == '"')
+	{
+		if(quotes_mod(cmd) == 0)
+			return(0);
+		return(1);
+	}
 	pars_cmd = ft_split(cmd, ' ');
 	ret_val = first_element(pars_cmd[0]); 
 	// Le parsing est seulement extremement important dans le cas des builtins. //

@@ -36,6 +36,9 @@ int pars_export(char **pars_cmd);
 int pars_syntax(char **pars_cmd);
 // src/parsing/pars_dolar.c //
 int pars_dolar(char **pars_cmd);
+// src/parsing/pars_char.c //
+void clean_char(char *cmd);
+int try_char(char *cmd);
 
 // -- Token -- //
 // src/token/token_main.c //
@@ -54,7 +57,7 @@ int is_flag(t_token *token, int i);
 
 // -- Executer -- //
 // src/executer/exec_main.c //
-void exec_main(t_token *token, char *cmd);
+void exec_main(t_token *token, char *cmd, char **envp);
 
 
 
@@ -63,6 +66,7 @@ int ft_strlen(char *str);
 int str_cmp(char *cmd, char *cmp_cmd);
 void free_array(char **arr);
 int	ft_isalnum(int alph);
+char	*ft_strdup(char *src);
 
 // src/micro_lib/ft_split.c //
 char	**ft_split(char *s, char c);

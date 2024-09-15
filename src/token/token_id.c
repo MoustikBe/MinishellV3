@@ -4,7 +4,7 @@ int is_var(t_token *token, int i)
 {
 	if(token[i].str[0] == '$')
 	{
-		token[i].id = 7;
+		token[i].id = 8;
 		return(1);
 	}
 	return(0);
@@ -17,7 +17,7 @@ int is_char(t_token *token, int i)
 	len = ft_strlen(token[i].str);
 	if(token[i].str[0] == '"' && token[i].str[len - 1] == '"' || token[i].str[0] == '\'' && token[i].str[len - 1] == '\'')
     {
-		token[i].id = 5;
+		token[i].id = 7;
 		return(1);
 	}
 	return(0);

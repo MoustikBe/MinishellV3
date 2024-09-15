@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int main(void)
+int main(int argc, char **argv, char **envp)
 {
     char *cmd;
     t_token *token;
@@ -25,7 +25,7 @@ int main(void)
 			// AVANT il faut simplement être sure que toute la memoire allouer a été correctement liberer // 
 			token = token_main(cmd, token);
 			//break;
-			exec_main(token, cmd);
+			exec_main(token, cmd, envp);
 		}
 		else if(ret_val > 1)
 		{
