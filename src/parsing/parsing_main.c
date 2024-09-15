@@ -1,6 +1,6 @@
 #include "../../minishell.h"
 
-int quotes_mod(char *cmd)
+int quotes_mod(t_shell *shell)
 {
 	char *cmd_check;
 	int i;
@@ -8,28 +8,24 @@ int quotes_mod(char *cmd)
 
 	i = 0;
 	j = 0;
-	if(cmd[i] == '"')
-	{
-		i++;
-		while(cmd[i] != '\0')
-		{	
-			if(cmd[i] != '"')
-			{
-				i++;
-				j++;
-			}
-			else
-				i++;
+	while(shell->cmd[i] != '\0')
+	{	
+		if(shell->cmd[i] != '"')
+		{
+			i++;
+			j++;
 		}
+		else
+			i++;
 	}
 	cmd_check = malloc(sizeof(char) * j + 1);
-	i = 1;
+	i = 0;
 	j = 0;
-	while (cmd[i] != '\0')
+	while (shell->cmd[i] != '\0')
 	{
-		if(cmd[i] != '"')
+		if(shell->cmd[i] != '"')
 		{
-			cmd_check[j] = cmd[i];
+			cmd_check[j] = shell->cmd[i];
 			j++;
 			i++; 
 		}
@@ -37,26 +33,28 @@ int quotes_mod(char *cmd)
 			i++;
 	}
 	cmd_check[j] = '\0';
+	shell->cmd = ft_strdup(cmd_check);
 	if(try_char(cmd_check) == 0)
+	{
+		free(cmd_check);
 		return(0);
+	}
+	free(cmd_check);
 	return(1);
-	//printf("%s\n", cmd);
 }
 
 
-int parsing_main(char *cmd)
+int parsing_main(t_shell *shell)
 {
 	// Savoir si il s'agit d'une commande écrite au début ou alors ou <, > ou <<, >> et $VARIABLE. Seul ses
 	char **pars_cmd;
 	int ret_val;
 
-	if(cmd[0] == '"')
-	{
-		if(quotes_mod(cmd) == 0)
-			return(0);
-		return(1);
-	}
-	pars_cmd = ft_split(cmd, ' ');
+
+	if(quotes_mod(shell) == 0)
+		return(0);
+	return(1);
+	pars_cmd = ft_split(shell->cmd, ' ');
 	ret_val = first_element(pars_cmd[0]); 
 	// Le parsing est seulement extremement important dans le cas des builtins. //
 	// Dans le cas d'un chemin binaire le parsing s'execute avec le excve //

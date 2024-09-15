@@ -12,6 +12,10 @@
 // -- End of include -- //
 // -------------------- //
 // # -- STRUCTURE -- # //
+typedef struct t_shell
+{
+	char *cmd;
+}	t_shell;
 
 typedef struct t_token
 {
@@ -24,7 +28,7 @@ typedef struct t_token
 
 // -- Parsing -- //
 // src/parsing/parsing_main.c //
-int parsing_main(char *cmd);
+int parsing_main(t_shell *shell);
 int first_element(char *cmd);
 // src/parsing/pars_first.c //
 int check_bin(char *command);

@@ -4,38 +4,42 @@ int main(int argc, char **argv, char **envp)
 {
     char *cmd;
     t_token *token;
-    int ret_val;
+    t_shell *shell;
+	int ret_val;
 
+	shell = malloc(sizeof(shell));
     //token = malloc(sizeof(t_token));
     while (1)
     {
-        cmd = readline("\033[34;01mMinishell : \033[00m");
-		if(cmd[0] == '\0')
+        shell->cmd = readline("\033[34;01mMinishell : \033[00m");
+		if(shell->cmd[0] == '\0')
 			ret_val = 0;
 		else 
-			ret_val = parsing_main(cmd); //parsing
+			ret_val = parsing_main(shell); //parsing
         if(ret_val == 0)
 		{
-            printf("\033[0;31mMinishell : command not found -> %s\033[00m\n", cmd);
-        	//break ; // Quand je test mes leaks //
+            printf("\033[0;31mMinishell : command not found -> %s\033[00m\n", shell->cmd);
+        	//
+			//break ; // Quand je test mes leaks //
 		}
 		else if(ret_val == 1)
 		{
 			// PARSING VALIDER, la commande peut ce faire tokeniser, 
 			// AVANT il faut simplement être sure que toute la memoire allouer a été correctement liberer // 
-			token = token_main(cmd, token);
+			token = token_main(shell->cmd, token);
 			//break;
-			exec_main(token, cmd, envp);
+			exec_main(token, shell->cmd, envp);
 		}
 		else if(ret_val > 1)
 		{
 			printf("\033[0;31mMinishell : command invalid \033[00m\n");
         	//break ; // Quand je test mes leaks //
 		}
-        add_history(cmd);
-        free(cmd);
+        add_history(shell->cmd);
+        free(shell->cmd);
     }
-    free(cmd);
+    free(shell->cmd);
+	free(shell);
     //free(token);
     return 0;
 }
