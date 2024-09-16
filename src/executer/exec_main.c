@@ -52,8 +52,11 @@ void exec_main(t_token *token, char *cmd, char **envp)
 		else
 			wait(0);
 	}
-	
-	//else if(token[0].id == 10)
+	// Echo
+	//else if(token[0].id == 11)
+	//{
+
+	//}
 	return ;
 }
 

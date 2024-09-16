@@ -15,6 +15,7 @@
 typedef struct t_shell
 {
 	char *cmd;
+	int	len_token;
 }	t_shell;
 
 typedef struct t_token
@@ -63,6 +64,8 @@ int is_flag(t_token *token, int i);
 // src/executer/exec_main.c //
 void exec_main(t_token *token, char *cmd, char **envp);
 
+// -- Builins -- // 
+void echo(t_token);
 
 // src/utils.c //
 int ft_strlen(char *str);

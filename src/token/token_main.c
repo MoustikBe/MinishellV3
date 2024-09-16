@@ -70,13 +70,15 @@ t_token *token_main(char *cmd, t_token *token)
 //		if(!token[i].str)
 //			return(0);
 		token_copy(token, cmd, i);
-		//printf("len_for_token -> %d\n", len_space);
-		//printf("\033[0;31mtoken[i].str -> %s\033[00m\n", token[i].str);
+		printf("len_for_token -> %d\n", len_space);
+		printf("\033[0;31mtoken[i].str -> %s\033[00m\n", token[i].str);
 		token_id(token, i);
-		//printf("\033[0;33mtoken[i].id  -> %d\033[00m\n", token[i].id);
+		printf("\033[0;33mtoken[i].id  -> %d\033[00m\n", token[i].id);
+		printf("i++ -> %d\n", i);
+		printf("len_token -> %d\n", len_token(cmd));
 		j = j + len_space + 1;
 		i++;
 	}
-	//free_all(token, len_token(cmd)); -> IMPORTANT DE FOU, FIX DE LEAK
+	//free_all(token, len_token(cmd)); //-> IMPORTANT DE FOU, FIX DE LEAK
 	return(token);
 } 

@@ -18,6 +18,7 @@ void quotes_mod(t_shell *shell)
 	}
 	if(flag % 2 != 0)
 		return ;
+	i = 0;
 	while(shell->cmd[i] != '\0')
 	{	
 		if(shell->cmd[i] != '"')
