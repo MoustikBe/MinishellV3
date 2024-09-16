@@ -5,9 +5,19 @@ void quotes_mod(t_shell *shell)
 	char *cmd_check;
 	int i;
 	int j;
+	int flag;
 
 	i = 0;
 	j = 0;
+	flag = 0;
+	while (shell->cmd[i])
+	{
+		if(shell->cmd[i] == '"')
+			flag++;
+		i++;
+	}
+	if(flag % 2 != 0)
+		return ;
 	while(shell->cmd[i] != '\0')
 	{	
 		if(shell->cmd[i] != '"')
