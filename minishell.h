@@ -41,7 +41,7 @@ int pars_syntax(char **pars_cmd);
 // src/parsing/pars_dolar.c //
 int pars_dolar(char **pars_cmd);
 // src/parsing/pars_char.c //
-void clean_char(char *cmd);
+int quotes_mod(t_shell *shell);
 int try_char(char *cmd);
 
 // -- Token -- //
@@ -62,7 +62,6 @@ int is_flag(t_token *token, int i);
 // -- Executer -- //
 // src/executer/exec_main.c //
 void exec_main(t_token *token, char *cmd, char **envp);
-
 
 
 // src/utils.c //

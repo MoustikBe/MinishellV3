@@ -28,40 +28,6 @@ char *make_path(char *token)
 	return(path);
 }
 
-int try_char(char *cmd)
-{
-	if(str_cmp(cmd, "echo") == 1)
-		return(1);
-	else if(str_cmp(cmd, "cd") == 1)
-		return(1);
-	else if(str_cmp(cmd, "pwd") == 1)
-		return(1);
-	else if(str_cmp(cmd, "export") == 1)
-		return(1);
-	else if(str_cmp(cmd, "unset") == 1)
-		return(1);
-	else if(str_cmp(cmd, "env") == 1)
-		return(1);
-	else if(check_bin(cmd) == 1)
-		return(1);
-	return(0);	
-}
-
-void clean_char(char *cmd)
-{
-	int i;
-	int len;
-
-	i = 0;
-	len = ft_strlen(cmd);
-	while(cmd[i + 1])
-	{
-		cmd[i] = cmd[i + 1];
-		i++;
-	}
-	cmd[i - 1] = '\0';
-	printf("%s\n", cmd);
-}
 
 void exec_bin(t_token *token, char *cmd, char **envp)
 {
