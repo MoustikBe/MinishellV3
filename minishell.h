@@ -19,7 +19,7 @@ typedef struct t_shell
 
 typedef struct t_token
 {
-    char *str;
+    char *str; 
     int id;
 }    t_token;
 // -- End -- //
@@ -41,7 +41,7 @@ int pars_syntax(char **pars_cmd);
 // src/parsing/pars_dolar.c //
 int pars_dolar(char **pars_cmd);
 // src/parsing/pars_char.c //
-int quotes_mod(t_shell *shell);
+void quotes_mod(t_shell *shell);
 int try_char(char *cmd);
 
 // -- Token -- //

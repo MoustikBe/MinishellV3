@@ -1,5 +1,19 @@
 #include "../../minishell.h"
 
+int pars_except(char *cmd)
+{
+	int i;
+
+	i = 0;
+	if(cmd[0] == '\0')
+		return(0);
+	while(cmd[i] == ' ')
+		i++;
+	if(cmd[i] == '\0')
+		return(0);
+	return(1);
+}
+
 
 int parsing_main(t_shell *shell)
 {
@@ -8,9 +22,9 @@ int parsing_main(t_shell *shell)
 	int ret_val;
 
 
-	if(quotes_mod(shell) == 0)
+	quotes_mod(shell);
+	if(pars_except(shell->cmd) == 0)
 		return(0);
-	return(1);
 	pars_cmd = ft_split(shell->cmd, ' ');
 	ret_val = first_element(pars_cmd[0]); 
 	// Le parsing est seulement extremement important dans le cas des builtins. //

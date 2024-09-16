@@ -1,6 +1,6 @@
 #include "../../minishell.h"
 
-int quotes_mod(t_shell *shell)
+void quotes_mod(t_shell *shell)
 {
 	char *cmd_check;
 	int i;
@@ -37,10 +37,10 @@ int quotes_mod(t_shell *shell)
 	if(try_char(cmd_check) == 0)
 	{
 		free(cmd_check);
-		return(0);
+		return ;
 	}
 	free(cmd_check);
-	return(1);
+	return ;
 }
 
 
@@ -57,6 +57,8 @@ int try_char(char *cmd)
 	else if(str_cmp(cmd, "unset") == 1)
 		return(1);
 	else if(str_cmp(cmd, "env") == 1)
+		return(1);
+	else if(str_cmp(cmd, "exit") == 1)
 		return(1);
 	else if(check_bin(cmd) == 1)
 		return(1);

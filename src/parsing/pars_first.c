@@ -11,8 +11,8 @@ static int check_char(char *cmd)
 		while(cmd[i] != '"' && cmd[i] != '\0')
 			i++;
 	}
-	printf("len -> %d\n", ft_strlen(cmd));
-	printf("i -> %d\n", i);
+	//printf("len -> %d\n", ft_strlen(cmd));
+	//printf("i -> %d\n", i);
 	if(ft_strlen(cmd) - 1 == i)
 		return(1);
 	return(0);
@@ -117,6 +117,8 @@ int first_element(char *cmd)
 		return(1);
 	else if(check_char(cmd) == 1)
 		return(10);
+	else if(str_cmp(cmd, "exit") == 1)
+		return(11);
 	return(0);
 }
 
