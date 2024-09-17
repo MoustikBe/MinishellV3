@@ -61,16 +61,11 @@ static char *get_bin_path(char *command, char *bin)
 		bin_path[i] = bin[i];
 		i++;
 	}
-	while(command[j])
+	while(command[j] && command[j] != ' ')
 	{
-		if(command[j] == ' ')
-			j++;
-		else
-		{
-			bin_path[i] = command[j];
-			i++;
-			j++;
-		}
+		bin_path[i] = command[j];
+		i++;
+		j++;
 	}
 	bin_path[i] = '\0';
 	return(bin_path);

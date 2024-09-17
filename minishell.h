@@ -67,13 +67,13 @@ void exec_main(t_token *token, char *cmd, char **envp, t_shell *shell);
 // -- Builins -- // 
 void echo(t_token *token, t_shell *shell);
 
-// src/utils.c //
+// -- Micro lib -- //
+// src/micro_lib/utils.c //
 int ft_strlen(char *str);
 int str_cmp(char *cmd, char *cmp_cmd);
 void free_array(char **arr);
 int	ft_isalnum(int alph);
 char	*ft_strdup(char *src);
-
 // src/micro_lib/ft_split.c //
 char	**ft_split(char *s, char c);
 
