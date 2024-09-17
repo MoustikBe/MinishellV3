@@ -71,6 +71,7 @@ void echo(t_token *token, t_shell *shell);
 // src/micro_lib/utils.c //
 int ft_strlen(char *str);
 int str_cmp(char *cmd, char *cmp_cmd);
+int str_cmp_quotes(char *cmd, char *cmp_cmd);
 void free_array(char **arr);
 int	ft_isalnum(int alph);
 char	*ft_strdup(char *src);

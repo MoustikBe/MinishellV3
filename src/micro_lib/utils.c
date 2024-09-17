@@ -21,7 +21,23 @@ int str_cmp(char *cmd, char *cmp_cmd)
 			return(0);
 		i++;
 	}
-	if(ft_strlen(cmd) == i)
+	if(ft_strlen(cmp_cmd) == i)
+		return(1);
+	return(0);
+}
+
+int str_cmp_quotes(char *cmd, char *cmp_cmd)
+{
+	int i;
+
+	i = 0;
+	while(cmd[i])
+	{
+		if(cmd[i] != cmp_cmd[i])
+			return(0);
+		i++;
+	}
+	if(ft_strlen(cmp_cmd) == i)
 		return(1);
 	return(0);
 }

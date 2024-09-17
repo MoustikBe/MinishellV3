@@ -25,6 +25,7 @@ $(NAME): $(OBJECTS)
 
 clean:
 	$(RM) $(OBJECTS)
+	@echo "\n"
 	@echo "\033[33;36mClean ✅"
 
 fclean: clean
