@@ -1,6 +1,6 @@
 #include "../../minishell.h"
 
-void quotes_mod(t_shell *shell)
+int quotes_mod(t_shell *shell)
 {
 	char *cmd_check;
 	int i;
@@ -17,7 +17,7 @@ void quotes_mod(t_shell *shell)
 		i++;
 	}
 	if(flag % 2 != 0)
-		return ;
+		return (0);
 	i = 0;
 	while(shell->cmd[i] != '\0')
 	{	
@@ -45,13 +45,13 @@ void quotes_mod(t_shell *shell)
 	}
 	cmd_check[j] = '\0';
 	shell->cmd = ft_strdup(cmd_check);
-	if(try_char(cmd_check) == 0)
+	if(first_element(cmd_check) == 0)
 	{
 		free(cmd_check);
-		return ;
+		return (0);
 	}
 	free(cmd_check);
-	return ;
+	return (1);
 }
 
 

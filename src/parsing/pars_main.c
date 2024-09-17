@@ -22,7 +22,8 @@ int parsing_main(t_shell *shell)
 	int ret_val;
 
 
-	quotes_mod(shell);
+	if(quotes_mod(shell) == 0)
+		return(0);
 	if(pars_except(shell->cmd) == 0)
 		return(0);
 	pars_cmd = ft_split(shell->cmd, ' ');

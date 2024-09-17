@@ -21,7 +21,7 @@ int str_cmp(char *cmd, char *cmp_cmd)
 			return(0);
 		i++;
 	}
-	if(ft_strlen(cmp_cmd) == i)
+	if(ft_strlen(cmd) == i)
 		return(1);
 	return(0);
 }

@@ -7,7 +7,7 @@ int main(int argc, char **argv, char **envp)
     t_shell *shell;
 	int ret_val;
 
-	shell = malloc(sizeof(shell));
+	shell = malloc(sizeof(t_shell));
 	shell->len_token = 0;
     //token = malloc(sizeof(t_token));
     while (1)
