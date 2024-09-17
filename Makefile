@@ -14,14 +14,14 @@ SOURCES     = src/parsing/pars_cd.c src/parsing/pars_char.c src/parsing/pars_dol
 OBJECTS     = $(SOURCES:%.c=%.o)
 
 %.o: %.c
-	@printf "\033[0;33mGenerating minishell objects... %-33.33s\r" $@
+	@printf "\033[0;30mGenerating minishell objects... %-33.33s\r" $@
 	@$ $(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJECTS)
 	@echo "\n"
 	@echo "\033[0;32mCompiling minishell..."
 	@ $(CC) $(OBJECTS) $(LDFLAGS) -o $(NAME) 
-	@echo "\n\033[0mDone !"
+	@echo "\n\033[0;32mDone !"
 
 clean:
 	$(RM) $(OBJECTS)

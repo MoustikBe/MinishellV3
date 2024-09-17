@@ -50,7 +50,7 @@ static void free_all(t_token *token, int len)
 }
 
 // Toute la memoire a été correctement liberer et une commande valide a été trouver // 
-t_token *token_main(char *cmd, t_token *token)
+t_token *token_main(char *cmd, t_token *token, t_shell *shell)
 {
 	int i;
 	int j;
@@ -58,7 +58,6 @@ t_token *token_main(char *cmd, t_token *token)
 
 	i = 0;
 	j = 0;
-	printf("alloc token -> %d\n", len_token(cmd));
 	token = malloc(sizeof(t_token) * len_token(cmd));
 //	if(!token)
 //		return(0);
@@ -72,14 +71,13 @@ t_token *token_main(char *cmd, t_token *token)
 //			return(0);
 		token_copy(token, cmd, i);
 		//printf("len_for_token -> %d\n", len_space);
-		printf("\033[0;31mtoken[i].str -> %s\033[00m\n", token[i].str);
+		//printf("\033[0;31mtoken[i].str -> %s\033[00m\n", token[i].str);
 		token_id(token, i);
-		printf("\033[0;33mtoken[i].id  -> %d\033[00m\n", token[i].id);
-		//printf("i++ -> %d\n", i);
-		//printf("len_token -> %d\n", len_token(cmd));
+		//printf("\033[0;33mtoken[i].id  -> %d\033[00m\n", token[i].id);
 		j = j + len_space + 1;
 		i++;
 	}
+	shell->len_token = len_token(cmd);
 	//free_all(token, len_token(cmd)); //-> IMPORTANT DE FOU, FIX DE LEAK
 	return(token);
 } 

@@ -40,10 +40,10 @@ void exec_bin(t_token *token, char *cmd, char **envp)
 
 }
 
-void exec_main(t_token *token, char *cmd, char **envp)
+void exec_main(t_token *token, char *cmd, char **envp, t_shell *shell)
 {
 	pid_t pid;
-	//printf("%d\n",token[0].id);
+	//printf("%d\n", shell->len_token);
 	if(token[0].id == 10)
 	{
 		pid = fork();

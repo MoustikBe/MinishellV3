@@ -8,6 +8,7 @@ int main(int argc, char **argv, char **envp)
 	int ret_val;
 
 	shell = malloc(sizeof(shell));
+	shell->len_token = 0;
     //token = malloc(sizeof(t_token));
     while (1)
     {
@@ -26,9 +27,9 @@ int main(int argc, char **argv, char **envp)
 		{
 			// PARSING VALIDER, la commande peut ce faire tokeniser, 
 			// AVANT il faut simplement être sure que toute la memoire allouer a été correctement liberer // 
-			token = token_main(shell->cmd, token);
+			token = token_main(shell->cmd, token, shell);
 			//break;
-			exec_main(token, shell->cmd, envp);
+			exec_main(token, shell->cmd, envp, shell);
 		}
 		else if(ret_val > 1)
 		{

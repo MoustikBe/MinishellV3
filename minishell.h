@@ -47,7 +47,7 @@ int try_char(char *cmd);
 
 // -- Token -- //
 // src/token/token_main.c //
-t_token *token_main(char *cmd, t_token *token);
+t_token *token_main(char *cmd, t_token *token, t_shell *shell);
 // src/token/token_set.c //
 void token_copy(t_token *token, char *cmd, int i);
 void token_id(t_token *token, int i);
@@ -62,7 +62,7 @@ int is_flag(t_token *token, int i);
 
 // -- Executer -- //
 // src/executer/exec_main.c //
-void exec_main(t_token *token, char *cmd, char **envp);
+void exec_main(t_token *token, char *cmd, char **envp, t_shell *shell);
 
 // -- Builins -- // 
 void echo(t_token);
