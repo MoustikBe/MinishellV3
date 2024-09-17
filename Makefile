@@ -13,30 +13,27 @@ SOURCES     = src/parsing/pars_cd.c src/parsing/pars_char.c src/parsing/pars_dol
 
 OBJECTS     = $(SOURCES:%.c=%.o)
 
-# Règle pour générer les fichiers objets
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	@printf "\033[0;33mGenerating minishell objects... %-33.33s\r" $@
+	@$ $(CC) $(CFLAGS) -c $< -o $@
 
-# Règle pour générer l'exécutable
 $(NAME): $(OBJECTS)
-	$(CC) $(OBJECTS) $(LDFLAGS) -o $(NAME)
-	@echo "\033[33;32mCompilation finish with no problem ✅"
+	@echo "\n"
+	@echo "\033[0;32mCompiling minishell..."
+	@ $(CC) $(OBJECTS) $(LDFLAGS) -o $(NAME) 
+	@echo "\n\033[0mDone !"
 
-# Règle pour nettoyer les fichiers objets
 clean:
 	$(RM) $(OBJECTS)
+	@echo "\033[33;36mClean ✅"
 
-# Règle pour nettoyer les fichiers objets et l'exécutable
 fclean: clean
-	$(RM) $(NAME)
 	@echo "\033[33;36mAll the file has been deleted correctly ✅"
+	@ $(RM) $(NAME)
 
-# Règle pour tout construire
 all: $(NAME)
 
-# Règle pour reconstruire le projet
 re: fclean all
 
 .PHONY: all clean fclean re
 
-.SILENT:

@@ -58,6 +58,7 @@ t_token *token_main(char *cmd, t_token *token)
 
 	i = 0;
 	j = 0;
+	printf("alloc token -> %d\n", len_token(cmd));
 	token = malloc(sizeof(t_token) * len_token(cmd));
 //	if(!token)
 //		return(0);
@@ -70,12 +71,12 @@ t_token *token_main(char *cmd, t_token *token)
 //		if(!token[i].str)
 //			return(0);
 		token_copy(token, cmd, i);
-		printf("len_for_token -> %d\n", len_space);
+		//printf("len_for_token -> %d\n", len_space);
 		printf("\033[0;31mtoken[i].str -> %s\033[00m\n", token[i].str);
 		token_id(token, i);
 		printf("\033[0;33mtoken[i].id  -> %d\033[00m\n", token[i].id);
-		printf("i++ -> %d\n", i);
-		printf("len_token -> %d\n", len_token(cmd));
+		//printf("i++ -> %d\n", i);
+		//printf("len_token -> %d\n", len_token(cmd));
 		j = j + len_space + 1;
 		i++;
 	}
