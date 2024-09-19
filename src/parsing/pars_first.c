@@ -1,6 +1,6 @@
 #include "../../minishell.h"
 
-static int check_char(char *cmd)
+int check_char(char *cmd)
 {
 	int i;
 
@@ -18,7 +18,7 @@ static int check_char(char *cmd)
 	return(0);
 }
 
-static int check_syntax(char *cmd)
+int check_syntax(char *cmd)
 {
 	if(cmd[0])
 	{
@@ -29,7 +29,7 @@ static int check_syntax(char *cmd)
 
 }
 
-static int check_dolar(char *cmd)
+int check_dolar(char *cmd)
 {
 	int i;
 
