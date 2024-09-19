@@ -24,12 +24,11 @@ $(NAME): $(OBJECTS)
 	@echo "\n\033[0;32mDone !"
 
 clean:
-	$(RM) $(OBJECTS)
-	@echo "\n"
+	@ $(RM) $(OBJECTS)
 	@echo "\033[33;36mClean ✅"
 
 fclean: clean
-	@echo "\033[33;36mAll the file has been deleted correctly ✅"
+	@echo "\n\033[33;36mFclean ✅\n"
 	@ $(RM) $(NAME)
 
 all: $(NAME)

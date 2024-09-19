@@ -4,6 +4,7 @@ int check_quotes(t_shell *shell)
 {
 	int i;
 
+	i = 0;
 	while(shell->cmd[i])
 	{
 		if(shell->cmd[i] == '"')
