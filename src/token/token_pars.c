@@ -1,4 +1,14 @@
 #include "../../minishell.h"
+/*
+static int menu_token_verif(t_token *token, int i)
+{
+	// RETURN 0 == probleme
+	if(token[i].id == 5)
+	{
+		// NEED TO DO A CUSTOM FUNCTION FOR SUB_PARSING //
+	}
+}
+*/
 
 void token_parser(t_token *token, t_shell *shell, int len)
 {
