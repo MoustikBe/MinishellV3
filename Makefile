@@ -1,7 +1,7 @@
 NAME        = minishell
 CC          = cc
 CFLAGS      = # -Wall -Werror -Wextra 
-LDFLAGS     = -lreadline 
+LDFLAGS     = -lreadline -g3 -fsanitize=address
 RM          = rm -rf
 
 SOURCES     = src/parsing/pars_cd.c src/parsing/pars_char.c src/parsing/pars_dolar.c src/parsing/pars_export.c src/parsing/pars_first.c src/parsing/pars_syntax.c src/parsing/pars_main.c \

@@ -11,7 +11,6 @@ static int len_array(char **pars_cmd)
 }
 
 
-
 static char *create_path(char **pars_cmd)
 {
 	char *tiny_path;
@@ -19,9 +18,9 @@ static char *create_path(char **pars_cmd)
 	int i;
 	int j;
 
+	i = 0;
 	j = 0;
-	len = len_array(pars_cmd);
-	if(len == 1)
+	if(pars_cmd[i][1] != '\0')
 	{
 		// Dans le cas ou c'est <main.c
 		i = 1;
@@ -37,12 +36,11 @@ static char *create_path(char **pars_cmd)
 	}
 	else
 	{
-		// Copy the last element
 		i = 0;
-		tiny_path = malloc(sizeof(char) * ft_strlen(pars_cmd[len - 1]) + 1);
-		while(pars_cmd[len - 1][i])
+		tiny_path = malloc(sizeof(char) * ft_strlen(pars_cmd[1]) + 1);
+		while(pars_cmd[1][i])
 		{
-			tiny_path[j] = pars_cmd[len - 1][i];
+			tiny_path[j] = pars_cmd[1][i];
 			j++;
 			i++;
 		}
@@ -77,6 +75,7 @@ int pars_syntax(char **pars_cmd)
 			free(tiny_path);
 		}
 	}
+	/*
 	if(len > 1)
 	{
 		i = 1;
@@ -85,5 +84,6 @@ int pars_syntax(char **pars_cmd)
 		if(access(pars_cmd[i], F_OK) < 0)
 			return(0);
 	}
+	*/
 	return(1);
 }
