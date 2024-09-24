@@ -30,6 +30,8 @@ t_token *token_main(char *cmd, t_token *token, t_shell *shell)
 		j = j + len_space + 1;
 		i++;
 	}
+	// TO_PARSER FOR THE TOKEN // 
+	
 	shell->len_token = len_token(cmd);
 	//free_all(token, len_token(cmd)); //-> IMPORTANT DE FOU, FIX DE LEAK
 	return(token);

@@ -18,7 +18,11 @@ int pars_dolar(char **pars_cmd)
 			if(first_element(pars_cmd[i]) == 0)
 			{
 				if(str_cmp(pars_cmd[i], "|") == 1)
+				{
+					if(i > 1 && str_cmp(pars_cmd[i - 1], "|") == 1) 
+						return(0);
 					i++;
+				}
 				else
 					return(0);
 			}
