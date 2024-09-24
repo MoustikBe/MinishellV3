@@ -1,23 +1,5 @@
 #include "../../minishell.h"
 
-int check_char(char *cmd)
-{
-	int i;
-
-	i = 0;
-	if(cmd[i] == '"')
-	{
-		i++;
-		while(cmd[i] != '"' && cmd[i] != '\0')
-			i++;
-	}
-	//printf("len -> %d\n", ft_strlen(cmd));
-	//printf("i -> %d\n", i);
-	if(ft_strlen(cmd) - 1 == i)
-		return(1);
-	return(0);
-}
-
 int check_syntax(char *cmd)
 {
 	if(cmd[0])
@@ -109,16 +91,14 @@ int first_element(char *cmd)
 		return(6);
 	else if(str_cmp(cmd, "env") == 1)
 		return(7);
-	else if(check_syntax(cmd) == 1)
+	else if(str_cmp(cmd, "exit") == 1)
 		return(8);
-	else if(check_dolar(cmd) == 1)
+	else if(check_syntax(cmd) == 1)
 		return(9);
+	else if(check_dolar(cmd) == 1)
+		return(10);
 	else if(check_bin(cmd) == 1)
 		return(1);
-	else if(check_char(cmd) == 1)
-		return(10);
-	else if(str_cmp(cmd, "exit") == 1)
-		return(11);
 	return(0);
 }
 

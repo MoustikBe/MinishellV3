@@ -2,9 +2,9 @@
 
 static int 	verify_access(char *pars_cmd)
 {
-	if(access(pars_cmd, F_OK) < 0)
+	if(opendir(pars_cmd) == NULL)
 	{
-		printf("\033[0;31mMinishell : no such file or directory \033[00m\n");
+		printf("\033[0;31mMinishell : no such directory \033[00m\n");
 		return(0);
 	}
 	return(1);
@@ -18,7 +18,9 @@ int pars_cd(char **pars_cmd)
 	i = 1;
 	while(pars_cmd[i])
 	{
-		if(i > 1)
+		if(i == 2 && str_cmp(pars_cmd[i], "|") == 1)
+			return(1);
+		else if(i > 2 || i == 2 && str_cmp(pars_cmd[i], "|") != 1)
 		{
 			printf("\033[0;31mMinishell : too many arguments \033[00m\n");
 			return(0);

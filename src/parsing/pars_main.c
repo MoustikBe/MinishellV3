@@ -54,12 +54,14 @@ int parsing_main(t_shell *shell)
 	}
 	else if(ret_val > 1)
     {
-		// Verifier les autres element // 
-		// echo -> pas besoin de parsing //
-		// pwd -> pas besoin de parsing // 
-		// unset -> pas besoin de parsing // 
-		// env -> pas besoin de parsing // 
+		// echo		-> pas besoin de parsing // -> pas sure, gerer les pipes
+		// pwd		-> pas besoin de parsing // 
+		// unset	-> pas besoin de parsing // 
+		// env		-> pas besoin de parsing // 
+		// bin		-> pas besoin de parsing //
+		// exit		-> pas besoin de parsing // -> pas sure 
 
+		//  -- Verifier les autres element -- // 
 		/*  -- Parsing de cd -- */
 		if(ret_val == 3)
 		{	
@@ -83,7 +85,7 @@ int parsing_main(t_shell *shell)
 			return(1);
 		}
 		/*  -- Parsing de syntax -- */
-		if(ret_val == 8)
+		if(ret_val == 9)
 		{	
 			if(pars_syntax(pars_cmd) == 0)
 			{
@@ -94,7 +96,7 @@ int parsing_main(t_shell *shell)
 			return(1);
 		}
 		/*  -- Parsing de dollar -- */
-		if(ret_val == 9)
+		if(ret_val == 10)
 		{	
 			if(pars_dolar(pars_cmd) == 0)
 			{

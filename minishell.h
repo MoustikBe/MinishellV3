@@ -9,6 +9,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/wait.h>
+# include <dirent.h>
 // -- End of include -- //
 // -------------------- //
 // # -- STRUCTURE -- # //
