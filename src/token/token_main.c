@@ -1,53 +1,6 @@
 #include "../../minishell.h"
 
-static int len_token(char *cmd)
-{
-	int space; 
-	int i;
 
-	space = 0;
-	i = 0;
-	while(cmd[i])
-	{
-		if(cmd[i] == ' ')
-		{	
-			while(cmd[i] == ' ')
-				i++;
-			space++;
-		}
-		else
-			i++;
-	}
-	return(space + 1);
-
-}
-
-static int len_for_token(char *cmd, int i)
-{
-	int j = 0;
-	while(cmd[i] == ' ')
-		i++;
-	while(cmd[i] && cmd[i] != ' ')
-	{
-		i++;
-		j++;
-	}
-	return(j);
-}
-
-static void free_all(t_token *token, int len)
-{
-	int i;
-
-	i = 0;
-	while(i < len)
-	{
-		free(token[i].str);
-		i++;
-	}
-	free(token);
-
-}
 
 // Toute la memoire a été correctement liberer et une commande valide a été trouver // 
 t_token *token_main(char *cmd, t_token *token, t_shell *shell)
