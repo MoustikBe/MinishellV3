@@ -4,7 +4,7 @@ CFLAGS      = # -Wall -Werror -Wextra
 LDFLAGS     = -lreadline -g3 -fsanitize=address
 RM          = rm -rf
 
-SOURCES     = src/parsing/pars_cd.c src/parsing/pars_char.c src/parsing/pars_dolar.c src/parsing/pars_export.c src/parsing/pars_first.c src/parsing/pars_syntax.c src/parsing/pars_main.c \
+SOURCES     = src/parsing/pars_cd.c src/parsing/pars_char.c src/parsing/pars_dolar.c src/parsing/pars_export.c src/parsing/pars_first.c src/parsing/pars_syntax.c src/parsing/pars_check.c src/parsing/pars_main.c \
               src/token/token_main.c src/token/token_id.c src/token/token_set.c \
               src/executer/exec_main.c \
 			  src/builtins/echo.c \

@@ -31,12 +31,14 @@ typedef struct t_token
 // -- Parsing -- //
 // src/parsing/parsing_main.c //
 int parsing_main(t_shell *shell);
-int first_element(char *cmd);
 // src/parsing/pars_first.c //
+int first_element(char *cmd);
+// src/parsing/pars_check.c //
+int check_quotes(t_shell *shell);
 int check_bin(char *command);
 int check_dolar(char *cmd);
 int check_syntax(char *cmd);
-int check_char(char *cmd);
+
 // src/parsing/pars_cd.c //
 int pars_cd(char **pars_cmd);
 // src/parsing/pars_export.c //

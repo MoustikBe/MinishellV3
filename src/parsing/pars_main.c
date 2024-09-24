@@ -1,18 +1,5 @@
 #include "../../minishell.h"
 
-int check_quotes(t_shell *shell)
-{
-	int i;
-
-	i = 0;
-	while(shell->cmd[i])
-	{
-		if(shell->cmd[i] == '"')
-			return(1);
-		i++;
-	}
-	return(0);
-}
 
 int pars_except(char *cmd)
 {
