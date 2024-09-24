@@ -17,6 +17,7 @@ typedef struct t_shell
 {
 	char *cmd;
 	int	len_token;
+	int error;
 }	t_shell;
 
 typedef struct t_token
@@ -70,6 +71,8 @@ void free_all(t_token *token, int len);
 int len_for_token(char *cmd, int i);
 int len_token(char *cmd);
 void token_copy(t_token *token, char *cmd, int i);
+// src/token/token_pars.c // 
+void token_parser(t_token *token, t_shell *shell, int len);
 
 // -- Executer -- //
 // src/executer/exec_main.c //

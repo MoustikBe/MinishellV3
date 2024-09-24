@@ -12,6 +12,7 @@ int main(int argc, char **argv, char **envp)
     //token = malloc(sizeof(t_token));
     while (1)
     {
+		shell->error = 0;
         shell->cmd = readline("\033[34;01mMinishell : \033[00m");
 		if(shell->cmd[0] == '\0')
 			ret_val = 0;
@@ -29,7 +30,10 @@ int main(int argc, char **argv, char **envp)
 			// AVANT il faut simplement être sure que toute la memoire allouer a été correctement liberer // 
 			token = token_main(shell->cmd, token, shell);
 			//break;
-			exec_main(token, shell->cmd, envp, shell);
+			if(shell->error == 1)
+				printf("\033[0;31mMinishell : command invalid \033[00m\n");
+			else
+				exec_main(token, shell->cmd, envp, shell);
 		}
 		else if(ret_val > 1)
 		{

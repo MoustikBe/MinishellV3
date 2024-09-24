@@ -1,7 +1,5 @@
 #include "../../minishell.h"
 
-
-
 // Toute la memoire a été correctement liberer et une commande valide a été trouver // 
 t_token *token_main(char *cmd, t_token *token, t_shell *shell)
 {
@@ -31,7 +29,7 @@ t_token *token_main(char *cmd, t_token *token, t_shell *shell)
 		i++;
 	}
 	// TO_PARSER FOR THE TOKEN // 
-	
+	token_parser(token, shell, len_token(cmd));
 	shell->len_token = len_token(cmd);
 	//free_all(token, len_token(cmd)); //-> IMPORTANT DE FOU, FIX DE LEAK
 	return(token);
