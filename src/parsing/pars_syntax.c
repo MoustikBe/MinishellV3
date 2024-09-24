@@ -75,15 +75,5 @@ int pars_syntax(char **pars_cmd)
 			free(tiny_path);
 		}
 	}
-	/*
-	if(len > 1)
-	{
-		i = 1;
-		while(access(pars_cmd[i], F_OK)  >= 0 && i > len)
-			i++;
-		if(access(pars_cmd[i], F_OK) < 0)
-			return(0);
-	}
-	*/
 	return(1);
 }

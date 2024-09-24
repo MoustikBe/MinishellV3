@@ -16,7 +16,12 @@ int pars_dolar(char **pars_cmd)
 		{
 			// Checker si il s'agit d'une commande dans l'index d'avant
 			if(first_element(pars_cmd[i]) == 0)
-				return(0);
+			{
+				if(str_cmp(pars_cmd[i], "|") == 1)
+					i++;
+				else
+					return(0);
+			}
 			else
 				i++;
 		}
@@ -24,7 +29,7 @@ int pars_dolar(char **pars_cmd)
 		{
 			while(pars_cmd[i][j])
 			{
-				if(pars_cmd[i][j] == '$')
+				if(pars_cmd[i][j] == '$' || pars_cmd[i][j] == '|')
 					j++;
 				else if(((pars_cmd[i][j] >= 48) && (pars_cmd[i][j] <= 57)) || ((pars_cmd[i][j] >= 65) && (pars_cmd[i][j] <= 90)) || ((pars_cmd[i][j] >= 97) && (pars_cmd[i][j] <= 122)) || pars_cmd[i][j] == '_')
 					j++;
