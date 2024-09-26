@@ -1,13 +1,13 @@
 #include "../../minishell.h"
 
-int check_quotes(t_shell *shell)
+int check_quotes(char *cmd)
 {
 	int i;
 
 	i = 0;
-	while(shell->cmd[i])
+	while(cmd[i])
 	{
-		if(shell->cmd[i] == '"')
+		if(cmd[i] == '"')
 			return(1);
 		i++;
 	}

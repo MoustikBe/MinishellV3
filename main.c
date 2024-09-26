@@ -30,6 +30,7 @@ int main(int argc, char **argv, char **envp)
 			// AVANT il faut simplement être sure que toute la memoire allouer a été correctement liberer // 
 			token = token_main(shell->cmd, token, shell);
 			//break;
+			printf("%s\n", shell->cmd);
 			if(shell->error == 1)
 				printf("\033[0;31mMinishell : command invalid \033[00m\n");
 			else
