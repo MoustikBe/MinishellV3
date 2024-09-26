@@ -8,7 +8,7 @@ SOURCES     = src/parsing/pars_cd.c src/parsing/pars_char.c src/parsing/pars_dol
               src/token/token_main.c src/token/token_id.c src/token/token_set.c src/token/token_utils.c src/token/token_pars.c \
               src/executer/exec_main.c \
 			  src/builtins/echo.c \
-              src/micro_lib/ft_split.c src/micro_lib/utils.c \
+              src/micro_lib/ft_split.c src/micro_lib/utils.c src/micro_lib/ft_strjoin.c \
               main.c
 
 OBJECTS     = $(SOURCES:%.c=%.o)

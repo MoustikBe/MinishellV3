@@ -6,7 +6,7 @@
 /*   By: misaac-c <misaac-c@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 20:58:23 by misaac-c          #+#    #+#             */
-/*   Updated: 2024/09/26 12:50:55 by misaac-c         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:14:36 by misaac-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,22 +96,14 @@ char	**ft_split(char *s, char c)
 	char	**split;
 
 	in_quotes = 0;
-	// A CHANGER compter un mot quand on est sur " hello world " et pas 3
-	// PARFAIT, -> changer // 
 	split = malloc((count_words(s, c) + 1) * sizeof(char *));
-	// p'tite vérif
 	if (!s || !split)
 		return (NULL);
 	i = -1;
 	j = 0;
-	// je capte pas pq -1 mais alz oslm
 	index = -1;
-	// On parcour chaque char
 	while (++i <= ft_strlen(s))
 	{
-		// Si le char s est different de espace, et index = -1, 
-		// C'est a dire dans la plupart des cas, alors index devient 0
-		
 		if (in_quotes == 2)
 		{
 			while(s[i] != ' ' && s[i] != '\0')
@@ -131,9 +123,6 @@ char	**ft_split(char *s, char c)
 			in_quotes = 2;
 		else if (s[i] != c && s[i] != '"' && index < 0)
 			index = i;
-		// Sinon si le char est egale a espace ou que i est le dernier char et
-		// que index est plus grand ou egal a 0, donc evite le cas ou le char s est egal a espace 
-		// Il faut alors split dans le cas aussi ou c'est un quotes 
 		else if ((s[i] == c && in_quotes == 0 || i == ft_strlen(s) || s[i] == '"' && in_quotes == 1 ) && index >= 0)
 		{
 			split[j++] = word_dup(s, index, i);
@@ -141,7 +130,6 @@ char	**ft_split(char *s, char c)
 				return (free_memory(split, j), NULL);
 			index = -1;
 		}	
-		printf("-----------------\nchar -> %c\n in -> %d\n i -> %zu\n index -> %d\n -----------------\n", s[i], in_quotes, i, index);
 	}
 	split[j] = NULL;
 	return (split);

@@ -17,7 +17,7 @@ int main(int argc, char **argv, char **envp)
 		if(shell->cmd[0] == '\0')
 			ret_val = 0;
 		else 
-			ret_val = parsing_main(shell); //parsing
+			ret_val = parsing_main(shell->cmd); //parsing
         if(ret_val == 0)
 		{
             printf("\033[0;31mMinishell : command not found -> %s\033[00m\n", shell->cmd);
@@ -30,7 +30,7 @@ int main(int argc, char **argv, char **envp)
 			// AVANT il faut simplement être sure que toute la memoire allouer a été correctement liberer // 
 			token = token_main(shell->cmd, token, shell);
 			//break;
-			printf("%s\n", shell->cmd);
+			//printf("%s\n", shell->cmd);
 			if(shell->error == 1)
 				printf("\033[0;31mMinishell : command invalid \033[00m\n");
 			else

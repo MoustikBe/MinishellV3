@@ -16,7 +16,7 @@ int pars_except(char *cmd)
 }
 
 
-int parsing_main(t_shell *shell)
+int parsing_main(char *cmd)
 {
 	// Savoir si il s'agit d'une commande écrite au début ou alors ou <, > ou <<, >> et $VARIABLE. Seul ses
 	char **pars_cmd;
@@ -28,15 +28,16 @@ int parsing_main(t_shell *shell)
 			return(0);
 	}
 	*/
-	if(pars_except(shell->cmd) == 0)
+	if(pars_except(cmd) == 0)
 		return(0);
-	pars_cmd = ft_split(shell->cmd, ' ');
-	
+	pars_cmd = ft_split(cmd, ' ');
+	//Effectuer une verif stricte sur la commande mnt 
+/*
 	int i = 0;
 	while(pars_cmd[i])
 		printf("pars_cmd -> %s\n", pars_cmd[i++]);
-
-	ret_val = first_element(pars_cmd[0]); 
+*/
+	ret_val = check_cmd_quotes(pars_cmd[0]); 
 	// Le parsing est seulement extremement important dans le cas des builtins. //
 	// Dans le cas d'un chemin binaire le parsing s'execute avec le excve //
     if(ret_val == 1)

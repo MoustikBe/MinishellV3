@@ -2,14 +2,21 @@
 
 int len_token(char *cmd)
 {
-	int space; 
+	// WORK IN PROGRESS //
+	int in_quotes;
+	int space;
 	int i;
 
+	in_quotes = 0;
 	space = 0;
 	i = 0;
 	while(cmd[i])
 	{
-		if(cmd[i] == ' ')
+		if(cmd[i] == '"' && in_quotes == 0)
+			in_quotes = 1;
+		else if(cmd[i] == '"' && in_quotes == 1)
+			in_quotes = 0;
+		if(cmd[i] == ' ' && in_quotes == 0)
 		{	
 			while(cmd[i] == ' ')
 				i++;
@@ -18,6 +25,7 @@ int len_token(char *cmd)
 		else
 			i++;
 	}
+	printf("val -> space %d\n", space);
 	return(space + 1);
 
 }

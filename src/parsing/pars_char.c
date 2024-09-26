@@ -91,33 +91,29 @@ char *cmd_rebuild(char *cmd, char *cmd_check, int flag)
 int check_cmd_quotes(char *cmd_check)
 {
 	if(str_cmp_quotes(cmd_check, "echo") == 1)
-		return(1);
+		return(2);
 	else if(str_cmp_quotes(cmd_check, "cd") == 1)
-		return(1);
+		return(3);
 	else if(str_cmp_quotes(cmd_check, "pwd") == 1)
-		return(1);
+		return(4);
 	else if(str_cmp_quotes(cmd_check, "export") == 1)
-		return(1);
+		return(5);
 	else if(str_cmp_quotes(cmd_check, "unset") == 1)
-		return(1);
+		return(6);
 	else if(str_cmp_quotes(cmd_check, "env") == 1)
-		return(1);
-	else if(check_bin_quotes(cmd_check) == 1)
-		return(1);
-	/*
-	else if(check_syntax(cmd_check) == 1)
-		return(8);
-	else if(check_dolar(cmd_check) == 1)
-		return(9);
-	else if(check_char(cmd_check) == 1)
-		return(10);
-	*/
+		return(7);
 	else if(str_cmp_quotes(cmd_check, "exit") == 1)
+		return(8);
+	else if(check_syntax(cmd_check) == 1)
+		return(9);
+	else if(check_dolar(cmd_check) == 1)
+		return(10);
+	else if(check_bin_quotes(cmd_check) == 1)
 		return(1);
 	return(0);
 }
 
-int quotes_mod(t_shell *shell)
+int quotes_mod(char *to_pars)
 {
 	int i;
 	int len;
@@ -129,11 +125,11 @@ int quotes_mod(t_shell *shell)
 	len = 0;
 	flag = 0;
 	quotes = 0;
-	while(shell->cmd[i] == ' ')
+	while(to_pars[i] == ' ')
 		i++;
-	while(shell->cmd[i])
+	while(to_pars[i])
 	{
-		if(shell->cmd[i] == '"')
+		if(to_pars[i] == '"')
 		{
 			if(flag == 0 || flag == 2)
 				flag = 1;
@@ -142,12 +138,12 @@ int quotes_mod(t_shell *shell)
 			quotes++;
 			i++;
 		}
-		else if(shell->cmd[i] == ' ' && flag == 1)
+		else if(to_pars[i] == ' ' && flag == 1)
 		{
 			len++;
 			i++;
 		}
-		else if(shell->cmd[i] == ' ' && flag == 0 || shell->cmd[i] == ' ' && flag == 2)
+		else if(to_pars[i] == ' ' && flag == 0 || to_pars[i] == ' ' && flag == 2)
 			break;
 		else
 		{ 
@@ -158,11 +154,11 @@ int quotes_mod(t_shell *shell)
 	new_cmd = malloc(sizeof(char) * len);
 	i = 0;
 	len = 0;
-	while(shell->cmd[i] == ' ')
+	while(to_pars[i] == ' ')
 		i++;
-	while(shell->cmd[i])
+	while(to_pars[i])
 	{
-		if(shell->cmd[i] == '"')
+		if(to_pars[i] == '"')
 		{
 			if(flag == 0 || flag == 2)
 				flag = 1;
@@ -170,17 +166,17 @@ int quotes_mod(t_shell *shell)
 				flag = 2;
 			i++;
 		}
-		else if(shell->cmd[i] == ' ' && flag == 1)
+		else if(to_pars[i] == ' ' && flag == 1)
 		{
-			new_cmd[len] = shell->cmd[i];
+			new_cmd[len] = to_pars[i];
 			len++;
 			i++;
 		}
-		else if(shell->cmd[i] == ' ' && flag == 0 || shell->cmd[i] == ' ' && flag == 2)
+		else if(to_pars[i] == ' ' && flag == 0 || to_pars[i] == ' ' && flag == 2)
 			break;
 		else
 		{
-			new_cmd[len] = shell->cmd[i];
+			new_cmd[len] = to_pars[i];
 			len++;
 			i++;
 		}
@@ -191,11 +187,9 @@ int quotes_mod(t_shell *shell)
 		free(new_cmd);
 		return(0);
 	}
-	shell->cmd = cmd_rebuild(shell->cmd, new_cmd, flag);
 	free(new_cmd);
 	return(1);;
 	// La on est caler sur le debut du mot qu'on va devoir copier
-
 }
 
 

@@ -31,7 +31,7 @@ typedef struct t_token
 
 // -- Parsing -- //
 // src/parsing/parsing_main.c //
-int parsing_main(t_shell *shell);
+int parsing_main(char *cmd);
 int pars_except(char *cmd);
 // src/parsing/pars_first.c //
 int first_element(char *cmd);
@@ -49,7 +49,7 @@ int pars_syntax(char **pars_cmd);
 // src/parsing/pars_dolar.c //
 int pars_dolar(char **pars_cmd);
 // src/parsing/pars_char.c //
-int quotes_mod(t_shell *shell);
+int quotes_mod(char *to_pars);
 int try_char(char *cmd);
 int check_cmd_quotes(char *cmd_check);
 
@@ -92,7 +92,7 @@ int	ft_isalnum(int alph);
 char	*ft_strdup(char *src);
 // src/micro_lib/ft_split.c //
 char	**ft_split(char *s, char c);
-
+char	*ft_strjoin(char *s1, char *s2);
 
 
 // -- End of declaration -- //

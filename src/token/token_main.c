@@ -7,6 +7,7 @@ t_token *token_main(char *cmd, t_token *token, t_shell *shell)
 	int j;
 	int len_space;
 
+	// WORK IN PROGRESS // 
 	i = 0;
 	j = 0;
 	token = malloc(sizeof(t_token) * len_token(cmd));
@@ -34,3 +35,4 @@ t_token *token_main(char *cmd, t_token *token, t_shell *shell)
 	//free_all(token, len_token(cmd)); //-> IMPORTANT DE FOU, FIX DE LEAK
 	return(token);
 } 
+
