@@ -28,6 +28,8 @@ int parsing_main(char *cmd)
 			return(0);
 	}
 	*/
+
+	// Il faut encore gerer le cas de /bin/ls directement //
 	if(pars_except(cmd) == 0)
 		return(0);
 	pars_cmd = ft_split(cmd, ' ');
