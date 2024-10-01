@@ -57,7 +57,6 @@ int check_cmd_quotes(char *cmd_check);
 // src/token/token_main.c //
 t_token *token_main(char *cmd, t_token *token, t_shell *shell);
 // src/token/token_set.c //
-void token_copy(t_token *token, char *cmd, int i);
 void token_id(t_token *token, int i);
 // src/token/token_id.c // 
 int is_var(t_token *token, int i);
@@ -71,7 +70,7 @@ int is_flag(t_token *token, int i);
 void free_all(t_token *token, int len);
 int len_for_token(char *cmd, int i);
 int len_token(char *cmd);
-void token_copy(t_token *token, char *cmd, int i);
+void token_copy(t_token *token, char *cmd, int i, int j);
 // src/token/token_pars.c // 
 void token_parser(t_token *token, t_shell *shell, int len);
 
