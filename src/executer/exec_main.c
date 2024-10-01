@@ -54,9 +54,11 @@ void exec_main(t_token *token, char *cmd, char **envp, t_shell *shell)
 	}
 	// Echo
 	else if(token[0].id == 11)
-	{
 		echo(token, shell);
-	}
+	else if(token[0].id == 12)
+		cd(token);
+	else if(token[0].id == 13)
+		pwd();
 	return ;
 }
 

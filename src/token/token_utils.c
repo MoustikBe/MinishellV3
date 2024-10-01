@@ -49,9 +49,6 @@ int len_for_token(char *cmd, int i)
 		i++;
 		j++;
 	}
-	// Ok, je sais pourquoi, c'est vus que ici la valeur retourner
-	// est une valeur sans les guillemets donc il renvois la valeur sans les guillemtes 
-
 	return(j);
 }
 // echo "hello WOLRD" H"e"llo wolrd

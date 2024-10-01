@@ -80,6 +80,8 @@ void exec_main(t_token *token, char *cmd, char **envp, t_shell *shell);
 
 // -- Builins -- // 
 void echo(t_token *token, t_shell *shell);
+void pwd(void);
+void cd(t_token *token);
 
 // -- Micro lib -- //
 // src/micro_lib/utils.c //
