@@ -16,9 +16,7 @@ t_token *token_main(char *cmd, t_token *token, t_shell *shell)
 	while(i < len_token(cmd))
 	{
 		token[i].id = 0;
-		printf("j -> %d\n", j);
 		len_space = len_for_token(cmd, j);
-		printf("len_space -> %d\n", len_space);
 		// alloc de la memoire pour le char de la strucute // 
 		token[i].str = malloc(sizeof(char) * len_space + 1);
 //		if(!token[i].str)
