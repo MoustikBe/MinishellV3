@@ -20,7 +20,7 @@ int main(int argc, char **argv, char **envp)
 		{
 			// CLEAN THE CMD IF ITS BINARY
 			if(direct_bin(shell->cmd) == 1)
-				cmd = clean_bin(shell->cmd);
+				shell->cmd = clean_bin(shell->cmd);
 			ret_val = parsing_main(shell->cmd); //parsing
 		}
 		if(ret_val == 0)
