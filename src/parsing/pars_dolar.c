@@ -15,7 +15,7 @@ int pars_dolar(char **pars_cmd)
 		if(pars_cmd[i][j] != '$')
 		{
 			// Checker si il s'agit d'une commande dans l'index d'avant
-			if(first_element(pars_cmd[i]) == 0)
+			if(check_cmd_quotes(pars_cmd[i]) == 0)
 			{
 				if(str_cmp(pars_cmd[i], "|") == 1)
 				{

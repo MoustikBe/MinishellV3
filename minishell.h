@@ -33,8 +33,6 @@ typedef struct t_token
 // src/parsing/parsing_main.c //
 int parsing_main(char *cmd);
 int pars_except(char *cmd);
-// src/parsing/pars_first.c //
-int first_element(char *cmd);
 // src/parsing/pars_bin.c //
 int direct_bin(char *cmd);
 // src/parsing/pars_check.c //
@@ -44,6 +42,8 @@ int check_dolar(char *cmd);
 int check_syntax(char *cmd);
 // src/parsing/pars_cd.c //
 int pars_cd(char **pars_cmd);
+// src/parsing/pars_cmd.c // 
+int check_cmd_quotes(char *cmd_check);
 // src/parsing/pars_export.c //
 int pars_export(char **pars_cmd);
 // src/parsing/pars_env.c //
@@ -51,9 +51,7 @@ int pars_syntax(char **pars_cmd);
 // src/parsing/pars_dolar.c //
 int pars_dolar(char **pars_cmd);
 // src/parsing/pars_char.c //
-int quotes_mod(char *to_pars);
-int try_char(char *cmd);
-int check_cmd_quotes(char *cmd_check);
+int check_bin_quotes(char *command);
 
 // -- Token -- //
 // src/token/token_main.c //

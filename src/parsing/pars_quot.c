@@ -47,6 +47,7 @@ int check_bin_quotes(char *command)
 	free(bin_path);
     return(0);
 }
+/*
 char *cmd_rebuild(char *cmd, char *cmd_check, int flag)
 {
 	char *cmd_rebuild;
@@ -86,33 +87,8 @@ char *cmd_rebuild(char *cmd, char *cmd_check, int flag)
 	cmd_rebuild[len] = '\0';
 	return(cmd_rebuild);
 }
-
-
-int check_cmd_quotes(char *cmd_check)
-{
-	if(str_cmp_quotes(cmd_check, "echo") == 1 || str_cmp_quotes(cmd_check, "/bin/echo") == 1)
-		return(2);
-	else if(str_cmp_quotes(cmd_check, "cd") == 1 || str_cmp_quotes(cmd_check, "/bin/cd") == 1)
-		return(3);
-	else if(str_cmp_quotes(cmd_check, "pwd") == 1 || str_cmp_quotes(cmd_check, "/bin/pwd") == 1)
-		return(4);
-	else if(str_cmp_quotes(cmd_check, "export") == 1 || str_cmp_quotes(cmd_check, "/bin/export") == 1)
-		return(5);
-	else if(str_cmp_quotes(cmd_check, "unset") == 1 || str_cmp_quotes(cmd_check, "/bin/unset") == 1)
-		return(6);
-	else if(str_cmp_quotes(cmd_check, "env") == 1 || str_cmp_quotes(cmd_check, "/bin/env") == 1)
-		return(7);
-	else if(str_cmp_quotes(cmd_check, "exit") == 1)
-		return(8);
-	else if(check_syntax(cmd_check) == 1)
-		return(9);
-	else if(check_dolar(cmd_check) == 1)
-		return(10);
-	else if(check_bin_quotes(cmd_check) == 1 || direct_bin(cmd_check) == 1)
-		return(1);
-	return(0);
-}
-
+*/
+/*
 int quotes_mod(char *to_pars)
 {
 	int i;
@@ -191,8 +167,9 @@ int quotes_mod(char *to_pars)
 	return(1);;
 	// La on est caler sur le debut du mot qu'on va devoir copier
 }
-
-
+*/
+// Useless // 
+/*
 int try_char(char *cmd)
 {
 	if(str_cmp(cmd, "echo") == 1)
@@ -213,6 +190,7 @@ int try_char(char *cmd)
 		return(1);
 	return(0);	
 }
-
-
+*/
+//int quotes_mod(char *to_pars); -> Useless // 
+//int try_char(char *cmd); -> Useless //
 
