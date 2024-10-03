@@ -17,6 +17,13 @@ int main(int argc, char **argv, char **envp)
 		if(shell->cmd[0] == '\0')
 			ret_val = 0;
 		else
+<<<<<<< HEAD
+=======
+		{
+			// CLEAN THE CMD IF ITS BINARY
+			if(direct_bin(shell->cmd) == 1)
+				clean_bin(shell);
+>>>>>>> 32f0ab7433d062b6785e72b9a215e7ef7acf41aa
 			ret_val = parsing_main(shell->cmd); //parsing
 		if(ret_val == 0)
 		{
