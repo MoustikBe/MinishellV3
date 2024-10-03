@@ -8,6 +8,8 @@ char *make_path(char *token)
 	int i = 0;
 	int j = 0;
 
+	if(direct_bin(token))
+		return(token);
 	path = malloc(sizeof(char) * ft_strlen(bin) + ft_strlen(token) + 1);
 	if(!path)
 		return(NULL);

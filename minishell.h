@@ -35,6 +35,8 @@ int parsing_main(char *cmd);
 int pars_except(char *cmd);
 // src/parsing/pars_first.c //
 int first_element(char *cmd);
+// src/parsing/pars_bin.c //
+int direct_bin(char *cmd);
 // src/parsing/pars_check.c //
 int check_quotes(char *cmd);
 int check_bin(char *command);

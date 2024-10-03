@@ -23,9 +23,9 @@ t_token *token_main(char *cmd, t_token *token, t_shell *shell)
 //			return(0);
 		token_copy(token, cmd, i, j);
 		//printf("len_for_token -> %d\n", len_space);
-		//printf("\033[0;31mtoken[i].str -> %s\033[00m\n", token[i].str);
+		printf("\033[0;31mtoken[i].str -> %s\033[00m\n", token[i].str);
 		token_id(token, i);
-		//printf("\033[0;33mtoken[i].id  -> %d\033[00m\n", token[i].id);
+		printf("\033[0;33mtoken[i].id  -> %d\033[00m\n", token[i].id);
 		j = j + len_space + 1;
 		i++;
 	}

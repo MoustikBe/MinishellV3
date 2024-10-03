@@ -17,12 +17,7 @@ int main(int argc, char **argv, char **envp)
 		if(shell->cmd[0] == '\0')
 			ret_val = 0;
 		else
-		{
-			// CLEAN THE CMD IF ITS BINARY
-			if(direct_bin(shell->cmd) == 1)
-				cmd = clean_bin(shell->cmd);
 			ret_val = parsing_main(shell->cmd); //parsing
-		}
 		if(ret_val == 0)
 		{
             printf("\033[0;31mMinishell : command not found -> %s\033[00m\n", shell->cmd);
