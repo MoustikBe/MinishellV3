@@ -42,10 +42,29 @@ void exec_bin(t_token *token, char *cmd, char **envp)
 
 }
 
+int check_pipe(t_token *token)
+{
+	int i;
+
+	while(token[i].str)
+	{
+		if(token[i].id == 6)
+			return(1);
+		i++;
+	}
+	return(0);
+}
+
+
 void exec_main(t_token *token, char *cmd, char **envp, t_shell *shell)
 {
 	pid_t pid;
+	// FIRST check if there is a pipe in all the command //
+	// Pipe -> autre direction d'execution // 
+	//if(check_pipe(token))
+	//	pipex();
 	//printf("%d\n", shell->len_token);
+	// Execution d'une commande // 
 	if(token[0].id == 10)
 	{
 		pid = fork();
