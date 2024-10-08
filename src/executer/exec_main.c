@@ -46,6 +46,7 @@ int check_pipe(t_token *token)
 {
 	int i;
 
+	i = 0;
 	while(token[i].str)
 	{
 		if(token[i].id == 6)
