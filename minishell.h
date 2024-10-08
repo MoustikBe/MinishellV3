@@ -77,6 +77,8 @@ void token_parser(t_token *token, t_shell *shell, int len);
 // -- Executer -- //
 // src/executer/exec_main.c //
 void exec_main(t_token *token, char *cmd, char **envp, t_shell *shell);
+// src/executer/exec_pipe.c //
+void pipex(t_token *token);
 
 // -- Builins -- // 
 void echo(t_token *token, t_shell *shell);

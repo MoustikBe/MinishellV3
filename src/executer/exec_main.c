@@ -62,25 +62,27 @@ void exec_main(t_token *token, char *cmd, char **envp, t_shell *shell)
 	pid_t pid;
 	// FIRST check if there is a pipe in all the command //
 	// Pipe -> autre direction d'execution // 
-	//if(check_pipe(token))
-	//	pipex();
-	//printf("%d\n", shell->len_token);
-	// Execution d'une commande // 
-	if(token[0].id == 10)
+	if(check_pipe(token))
+		pipex(token);
+	else 
 	{
-		pid = fork();
-		if(pid == 0)
-			exec_bin(token, cmd, envp);
-		else
-			wait(0);
+	// Execution d'une commande // 
+		if(token[0].id == 10)
+		{
+			pid = fork();
+			if(pid == 0)
+				exec_bin(token, cmd, envp);
+			else
+				wait(0);
+		}
+		// Echo
+		else if(token[0].id == 11)
+			echo(token, shell);
+		else if(token[0].id == 12)
+			cd(token);
+		else if(token[0].id == 13)
+			pwd();
 	}
-	// Echo
-	else if(token[0].id == 11)
-		echo(token, shell);
-	else if(token[0].id == 12)
-		cd(token);
-	else if(token[0].id == 13)
-		pwd();
 	return ;
 }
 
