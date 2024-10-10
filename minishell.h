@@ -94,6 +94,7 @@ int str_cmp_quotes(char *cmd, char *cmp_cmd);
 void free_array(char **arr);
 int	ft_isalnum(int alph);
 char	*ft_strdup(char *src);
+char *clean_name(char *src);
 // src/micro_lib/ft_split.c //
 char	**ft_split(char *s, char c);
 char	*ft_strjoin(char *s1, char *s2);

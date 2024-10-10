@@ -86,3 +86,50 @@ char	*ft_strdup(char *src)
 	dest[count] = '\0';
 	return (dest);
 }
+
+static int detect_synt(char *src)
+{
+	int i;
+	int count;
+
+	i = 0;
+	count = 0;
+	while (src[i])
+	{
+		if(src[i] == '>' || src[i] == '<')
+			count++;
+		i++;
+	}
+	return(count);
+}
+
+char *clean_name(char *src)
+{
+	char	*dest;
+	int		length;
+	int		count;
+	int		i;
+
+	length = ft_strlen(src);
+	count = 1;
+	i = 0;
+	if(detect_synt(src))
+		dest = malloc((length) + 1 - detect_synt(src) * sizeof(char));
+	else
+		dest = malloc((length) + 1* sizeof(char));
+	if (dest == NULL)
+		return (NULL);
+	while (src[count] != '\0')
+	{
+		if(src[count] == '>' || src[count] == '<')
+			count++;
+		else 
+		{
+			dest[i] = src[count];
+			count++;
+			i++;
+		}
+	}
+	dest[i] = '\0';
+	return (dest);
+}

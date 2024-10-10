@@ -76,10 +76,11 @@ void pipex_simple(t_token *token, t_shell *shell)
 	i = 0;
 	while(token[i].str)
 	{
+		// Problem ici avec le nom il faut tej > et <  avant le nom
 		if(token[i].id == 5)
-			fd_in = ft_strdup(token[i].str);
+			fd_in = clean_name(token[i].str);
 		else if(token[i].id == 4)
-			fd_out = ft_strdup(token[i].str);
+			fd_out = clean_name(token[i].str);
 		i++;
 	}
 
