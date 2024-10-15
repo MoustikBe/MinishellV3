@@ -98,7 +98,8 @@ char *clean_name(char *src);
 // src/micro_lib/ft_split.c //
 char	**ft_split(char *s, char c);
 char	*ft_strjoin(char *s1, char *s2);
-
+// src/micro_lib/split_basic.c //
+char	**ft_split_basic(char *s, char c);
 
 // -- End of declaration -- //
 #endif

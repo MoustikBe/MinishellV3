@@ -36,7 +36,7 @@ void parent_process(int fd[2], char *parent_cmd, char *file_out)
     int fileout;
 	char **cmd_exec;
 	char *path;
-
+	
     wait(0);
     // Duplication de l'entrée du pipe vers stdin
     dup2(fd[0], STDIN_FILENO);
@@ -52,6 +52,13 @@ void parent_process(int fd[2], char *parent_cmd, char *file_out)
         close(fileout);
     }
 	cmd_exec = ft_split(parent_cmd, ' ');
+	// FAIRE une verif, soit il s'agit d'un builtin soit il s'agit 
+	// d'une commande binaire faire la diff avnt de continuer.
+	//if(is_buitlin(cmd_exec[0]) == 1) // SI il y'a un resultat exec le builtin a la place
+	//{
+
+	//}
+	// FAIRE UNE VERIF AVANT L'EXEC REGLE LE PROB  DE <main.c | pwd
 	path = make_path(cmd_exec[0]);
     // Exécution de la commande
     execve(path, cmd_exec, NULL);
@@ -68,6 +75,7 @@ void pipex_simple(t_token *token, t_shell *shell)
 	char *fd_in;
 	char *fd_out;
 	pid_t pid;
+	int id_exec;
 	int fd[2];
 	int i;
 
@@ -85,16 +93,24 @@ void pipex_simple(t_token *token, t_shell *shell)
 	}
 
 	pipe(fd);
-	cmd_split = ft_split(shell->cmd, '|');
+	cmd_split = ft_split_basic(shell->cmd, '|');
 	pid = fork();
 	if(pid == -1)
-		return ; // ERREUR 
+		return ; // ERREUR
+	// AJOUTER UN CODE D'EXECUTION quand on execute la commande child et parent
+	// afin de differencier les builtins des /bin
+	
 	else if(pid == 0)
 		child_process(fd, cmd_split[0], fd_in);
 	else
 		parent_process(fd, cmd_split[1], fd_out);
 		// Parent process	
 	
+	// Petit probleme d'execution avec le quotes, quand on fait par exemple
+	// -> cat main.c | grep "dwadwwad" Il croit que dwadwwad est une commande a cause de quotes mod
+	// POSSIBLE SOLUTION, utiliser le split de base et pas le split modifier juste pour cette partie de code
+	// FIX, mais maintenant il faut encore FIX le probleme de l'execution ne soit pas une execution sur le binaire 
+	// Mais que si il y'a une execution de echo ou autre builtin que sa soit l'execution de notre echo qui soit executer
 
 	// la on sait que il y'a que un pipe // 
 

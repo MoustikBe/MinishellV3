@@ -131,5 +131,6 @@ char *clean_name(char *src)
 		}
 	}
 	dest[i] = '\0';
+	printf("CALL -> %s\n", dest);
 	return (dest);
 }

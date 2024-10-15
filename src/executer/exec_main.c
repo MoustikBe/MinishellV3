@@ -76,6 +76,7 @@ void exec_main(t_token *token, char *cmd, char **envp, t_shell *shell)
 		else
 			wait(0);
 	}
+	// AVOIR FINIS 100% du normal avant de faire celui la. 
 	//else if(check_pipe(token) == 2)
 	//	pipex_multi(token);
 	
