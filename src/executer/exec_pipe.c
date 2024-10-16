@@ -82,6 +82,7 @@ void pipex_simple(t_token *token, t_shell *shell)
 	fd_in = NULL;
 	fd_out = NULL;
 	i = 0;
+
 	while(token[i].str)
 	{
 		// Problem ici avec le nom il faut tej > et <  avant le nom
@@ -91,9 +92,16 @@ void pipex_simple(t_token *token, t_shell *shell)
 			fd_out = clean_name(token[i].str);
 		i++;
 	}
-
 	pipe(fd);
+	// Le probleme vient du faite que je fais un split du shell->cmd et pas de token
 	cmd_split = ft_split_basic(shell->cmd, '|');
+	i = 0;
+	while(cmd_split[i])
+	{
+		// Problem ici avec le nom il faut tej > et <  avant le nom
+		cmd_split[i] = clean_name(cmd_split[i]);
+		i++;
+	}
 	pid = fork();
 	if(pid == -1)
 		return ; // ERREUR

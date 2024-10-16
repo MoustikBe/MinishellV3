@@ -111,12 +111,12 @@ char *clean_name(char *src)
 	int		i;
 
 	length = ft_strlen(src);
-	count = 1;
+	count = 0;
 	i = 0;
 	if(detect_synt(src))
 		dest = malloc((length) + 1 - detect_synt(src) * sizeof(char));
 	else
-		dest = malloc((length) + 1* sizeof(char));
+		dest = malloc((length) + 1 * sizeof(char));
 	if (dest == NULL)
 		return (NULL);
 	while (src[count] != '\0')
