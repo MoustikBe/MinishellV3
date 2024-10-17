@@ -62,6 +62,11 @@ int is_infile(t_token *token, int i)
 		token[i].id = 5;
 	else if(token[i].str[0] == '<' && token[i].str[1] != '<')
 		token[i].id = 5;
+	if(token[i].id == 5)
+	{
+		token[i].str = clean_name(token[i].str);
+		return(1);
+	}
 	// Il manque a gerer un cas, le cas ou il y'a une commande coller au reste exemple : cat<main.c
 	return(0);
 }
@@ -93,13 +98,13 @@ int is_outfile(t_token *token, int i)
 		}
 	}
 	// 4 cas, echo hello ">>" test.txt -> pas conciderer comme un outfile
-	/*
+	
 	if(token[i].id == 4)
 	{
 		token[i].str = clean_name(token[i].str);
 		return(1);
 	}
-	*/
+	
 	return(0);
 }
 

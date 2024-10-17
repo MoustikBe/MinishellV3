@@ -82,7 +82,7 @@ char *make_path(char *token);
 void pipex_simple(t_token *token, t_shell *shell);
 
 // -- Builins -- // 
-void echo(t_token *token, t_shell *shell);
+void echo(t_token *token, int j);
 void pwd(void);
 void cd(t_token *token);
 

@@ -2,12 +2,20 @@
 
 // -- Work in progress -- // 
 
-void child_process(int fd[2], char *child_cmd, char *file_in) 
+
+
+// -- Work in progress -- //
+
+
+void child_process(int fd[2], t_token *token, char *file_in) 
 {
     int fd_in;
 	char **cmd_exec;
 	char *path;
+	char *cmd_join;
+	int i;
 
+	i = 0;
     if (file_in) 
 	{
         fd_in = open(file_in, O_RDONLY);
@@ -23,9 +31,27 @@ void child_process(int fd[2], char *child_cmd, char *file_in)
     dup2(fd[1], STDOUT_FILENO);
     close(fd[0]);
     close(fd[1]);
-	cmd_exec = ft_split(child_cmd, ' ');
+	i = 0;
+	cmd_join = calloc(1, 1);
+	while(token[i].id != 6)
+	{	
+		cmd_join = ft_strjoin(cmd_join, token[i].str);
+		cmd_join = ft_strjoin(cmd_join, " ");
+		i++;
+	}
+	cmd_exec = ft_split(cmd_join, ' ');
 	path = make_path(cmd_exec[0]);
-    // Exécution de la commande
+    
+	/* Work in progress, 17/10 : -> Implementation de la verification et execution d'un builtin*/
+	if(check_cmd_quotes(cmd_exec[0]) > 1)
+	{
+		//printf("BUILTIN DETECTED\n");
+		if(check_cmd_quotes(cmd_exec[0]) == 2)
+		{
+			echo(token, i);
+		}
+		exit(0);
+	}
     execve(path, cmd_exec, NULL);
 }
 
@@ -42,9 +68,11 @@ void parent_process(int fd[2], char *parent_cmd, char *file_out)
     dup2(fd[0], STDIN_FILENO);
     close(fd[1]);
     close(fd[0]);
-    if (file_out) {
+    if (file_out) 
+	{
         fileout = open(file_out, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-        if (fileout == -1) {
+        if (fileout == -1) 
+		{
             perror("open");
             exit(EXIT_FAILURE);
         }
@@ -67,6 +95,13 @@ void parent_process(int fd[2], char *parent_cmd, char *file_out)
 
 void pipex_simple(t_token *token, t_shell *shell)
 {
+	/* IDEE DU  
+	
+	
+	*/
+
+
+
 	// il y'a que un pipe -> echo test | pwd  
 	// On fait un split avec | comme delimiter. 
 	// Apres il suffit de refaire un split  sur le split si la commande est dans le  /bin
@@ -87,14 +122,17 @@ void pipex_simple(t_token *token, t_shell *shell)
 	{
 		// Problem ici avec le nom il faut tej > et <  avant le nom
 		if(token[i].id == 5)
-			fd_in = clean_name(token[i].str);
+			fd_in = ft_strdup(token[i].str);
 		else if(token[i].id == 4)
-			fd_out = clean_name(token[i].str);
+			fd_out = ft_strdup(token[i].str);
 		i++;
 	}
 	pipe(fd);
 	// Le probleme vient du faite que je fais un split du shell->cmd et pas de token
+	// TRY something,
+	
 	cmd_split = ft_split_basic(shell->cmd, '|');
+	
 	i = 0;
 	while(cmd_split[i])
 	{
@@ -102,6 +140,8 @@ void pipex_simple(t_token *token, t_shell *shell)
 		cmd_split[i] = clean_name(cmd_split[i]);
 		i++;
 	}
+	
+	
 	pid = fork();
 	if(pid == -1)
 		return ; // ERREUR
@@ -109,7 +149,7 @@ void pipex_simple(t_token *token, t_shell *shell)
 	// afin de differencier les builtins des /bin
 	
 	else if(pid == 0)
-		child_process(fd, cmd_split[0], fd_in);
+		child_process(fd, token, fd_in);
 	else
 		parent_process(fd, cmd_split[1], fd_out);
 		// Parent process	
@@ -119,6 +159,8 @@ void pipex_simple(t_token *token, t_shell *shell)
 	// POSSIBLE SOLUTION, utiliser le split de base et pas le split modifier juste pour cette partie de code
 	// FIX, mais maintenant il faut encore FIX le probleme de l'execution ne soit pas une execution sur le binaire 
 	// Mais que si il y'a une execution de echo ou autre builtin que sa soit l'execution de notre echo qui soit executer
+	// AUTRE CHOSES A FIX les INFILES et OUTFILES
+
 
 	// la on sait que il y'a que un pipe // 
 

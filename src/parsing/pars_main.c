@@ -34,11 +34,11 @@ int parsing_main(char *cmd)
 		return(0);
 	pars_cmd = ft_split(cmd, ' ');
 	//Effectuer une verif stricte sur la commande mnt 
-/*
-	int i = 0;
-	while(pars_cmd[i])
-		printf("pars_cmd -> %s\n", pars_cmd[i++]);
-*/
+
+	//int i = 0;
+	//while(pars_cmd[i])
+	//	printf("pars_cmd -> |%s|\n", pars_cmd[i++]);
+
 	ret_val = check_cmd_quotes(pars_cmd[0]); 
 	// Le parsing est seulement extremement important dans le cas des builtins. //
 	// Dans le cas d'un chemin binaire le parsing s'execute avec le excve //

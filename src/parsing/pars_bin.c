@@ -5,6 +5,7 @@ int direct_bin(char *cmd)
     int len;
     int flag_acces;
 
+	//printf("|%s|\n", cmd);
     len = ft_strlen(cmd);
     if(len > 4)
     {

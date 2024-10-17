@@ -35,9 +35,17 @@ void exec_bin(t_token *token, char *cmd, char **envp)
 {
 	char *path;
 	char **command;
+	int i;
 
 	path = make_path(token[0].str);
 	command = ft_split(cmd, ' ');
+	i = 0;
+	while(command[i])
+	{
+		// Problem ici avec le nom il faut tej > et <  avant le nom
+		command[i] = clean_name(command[i]);
+		i++;
+	}
 	execve(path, command, envp);
 
 }
@@ -93,7 +101,7 @@ void exec_main(t_token *token, char *cmd, char **envp, t_shell *shell)
 		}
 		// Echo
 		else if(token[0].id == 11)
-			echo(token, shell);
+			echo(token, shell->len_token);
 		else if(token[0].id == 12)
 			cd(token);
 		else if(token[0].id == 13)
