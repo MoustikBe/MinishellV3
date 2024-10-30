@@ -34,13 +34,13 @@ int main(int argc, char **argv, char **envp)
 				printf("\033[0;31mMinishell : command invalid \033[00m\n");
 			else
 				exec_main(token, shell->cmd, envp, shell);
-			//free_all(token, len_token(cmd)); //-> IMPORTANT DE FOU, FIX DE LEAK
+			free_all(token, len_token(cmd)); //-> IMPORTANT DE FOU, FIX DE LEAK
 			//break ;
 		}
 		else if(ret_val > 1)
 		{
 			printf("\033[0;31mMinishell : command invalid \033[00m\n");
-        	free_all(token, len_token(cmd)); //-> IMPORTANT DE FOU, FIX DE LEAK
+			free_all(token, len_token(cmd)); //-> IMPORTANT DE FOU, FIX DE LEAK
 			//break ; // Quand je test mes leaks //
 		}
         add_history(shell->cmd);

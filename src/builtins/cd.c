@@ -1,9 +1,9 @@
 #include "../../minishell.h"
 
-void cd(t_token *token)
+void cd(char *path)
 {
 	int return_val;
-	return_val = chdir(token[1].str);
+	return_val = chdir(path);
 	if(return_val < 0)
 		printf("ERROR :/ \n");
 	return;

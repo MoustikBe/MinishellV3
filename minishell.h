@@ -84,7 +84,7 @@ void pipex_simple(t_token *token, t_shell *shell);
 // -- Builins -- // 
 void echo(t_token *token, int j);
 void pwd(void);
-void cd(t_token *token);
+void cd(char *path);
 
 // -- Micro lib -- //
 // src/micro_lib/utils.c //
