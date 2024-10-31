@@ -35,14 +35,18 @@ int parsing_main(char *cmd)
 	pars_cmd = ft_split(cmd, ' ');
 	//Effectuer une verif stricte sur la commande mnt 
 
-	//int i = 0;
-	//while(pars_cmd[i])
-	//	printf("pars_cmd -> |%s|\n", pars_cmd[i++]);
-
+	/*
+	int i = 0;
+	while(pars_cmd[i])
+	{
+		printf("pars_cmd %d -> |%s|\n", i, pars_cmd[i]);
+		i++;
+	}
+	*/
 	ret_val = check_cmd_quotes(pars_cmd[0]); 
 	// Le parsing est seulement extremement important dans le cas des builtins. //
 	// Dans le cas d'un chemin binaire le parsing s'execute avec le excve //
-    if(ret_val == 1)
+	if(ret_val == 1)
 	{
 		// /bin/cmd -> pas besoin de + de parsing // 
 		free_array(pars_cmd);
@@ -112,3 +116,7 @@ int parsing_main(char *cmd)
 	free_array(pars_cmd);
 	return(0);
 }
+
+
+// REMODIFIER LE SPLIT POUR QUE UNE FOIS DANS LE CAS OU ON A cmd|cmd //  
+// Il doit considerer le pipe comme un separateur de mot //

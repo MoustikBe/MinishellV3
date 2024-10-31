@@ -1,5 +1,64 @@
 #include "minishell.h"
 
+void pipe_cleaner(t_shell *shell)
+{
+	int i; 
+	int mem;
+	int j;
+	char *pipe_cmd;
+
+
+	i = 0;
+	j = 0;
+	mem = 0;
+	// RECONNAITRE SI LA COMMANDE EST pwd| pwd pour transfo en pwd | pwd
+	// OU ENCORE SI C'EST pwd|pwd pour transfo en pwd | pwd
+
+	// RECOPIER LA COMMANDE A L'IDENTIQUE ET A CHAQUE FOIS QUE UN PIPE EST DETECTER 
+	// AJOUTER UN ESPACE DEVANT ET UN DERRIERE
+	// DONC POUR CHAQUE PIPE FAIRE + 2 EN ALLOC DE MEMOIRE.
+
+	while(shell->cmd[i])
+	{
+		if(shell->cmd[i] == '|')
+			mem = mem + 2;
+		i++;
+		mem++;
+	}
+	pipe_cmd = malloc(sizeof(char) * mem + 1);
+	i = 0; 
+	while(shell->cmd[i])
+	{
+		if(shell->cmd[i] == '|')
+		{
+			if(shell->cmd[i  - 1] == ' ')
+			{
+				pipe_cmd[j] = '|';
+				j++;
+			}
+			else
+			{
+				pipe_cmd[j] = ' ';
+				pipe_cmd[j + 1] = '|';
+				j = j + 2;
+			}
+			i++;
+		}
+		else
+		{
+			pipe_cmd[j] = shell->cmd[i];
+			i++;
+			j++;
+		}
+	}
+	pipe_cmd[j] = '\0';
+	printf("%s\n", pipe_cmd);
+	shell->cmd = ft_strdup(pipe_cmd);
+	printf("%s\n", shell->cmd);
+}
+
+
+
 int main(int argc, char **argv, char **envp)
 {
     char *cmd;
@@ -17,7 +76,10 @@ int main(int argc, char **argv, char **envp)
 		if(shell->cmd[0] == '\0')
 			ret_val = 0;
 		else
+		{
+			pipe_cleaner(shell);
 			ret_val = parsing_main(shell->cmd); //parsing
+		}
 		if(ret_val == 0)
 		{
             printf("\033[0;31mMinishell : command not found -> %s\033[00m\n", shell->cmd);
