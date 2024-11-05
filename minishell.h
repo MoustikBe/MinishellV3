@@ -83,7 +83,7 @@ char *make_path(char *token);
 // src/executer/exec_pipe.c //
 void pipex_simple(t_token *token, t_shell *shell);
 // src/executer/exec_pipe_multi.c //
-void pipe_mutli(t_token *token, t_shell *shell);
+void pipex_multi(t_token *token, t_shell *shell);
 
 // -- Builins -- // 
 void echo(t_token *token, int j);

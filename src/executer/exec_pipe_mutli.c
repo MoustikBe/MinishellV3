@@ -49,7 +49,7 @@ void	to_nb_cmd(t_shell *shell)
 	pipe(shell->fd);
 }
 
-void pipe_mutli(t_token *token, t_shell *shell)
+void pipex_multi(t_token *token, t_shell *shell)
 {
 	int len;
 	int i;
