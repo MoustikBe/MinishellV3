@@ -16,6 +16,8 @@
 typedef struct t_shell
 {
 	char *cmd;
+	int fd[2];
+	int fd_temp;
 	int	len_token;
 	int error;
 }	t_shell;
@@ -80,6 +82,8 @@ void exec_main(t_token *token, char *cmd, char **envp, t_shell *shell);
 char *make_path(char *token);
 // src/executer/exec_pipe.c //
 void pipex_simple(t_token *token, t_shell *shell);
+// src/executer/exec_pipe_multi.c //
+void pipe_mutli(t_token *token, t_shell *shell);
 
 // -- Builins -- // 
 void echo(t_token *token, int j);

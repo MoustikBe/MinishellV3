@@ -21,9 +21,19 @@ void pipe_cleaner(t_shell *shell)
 	while(shell->cmd[i])
 	{
 		if(shell->cmd[i] == '|')
-			mem = mem + 2;
-		i++;
-		mem++;
+		{
+			if(shell->cmd[i  - 1] != ' ')
+				mem++;
+			if(shell->cmd[i + 1] != ' ')
+				mem++;
+			mem++;
+			i++;
+		}
+		else
+		{
+			i++;
+			mem++;
+		}
 	}
 	pipe_cmd = malloc(sizeof(char) * mem + 1);
 	i = 0; 
@@ -36,11 +46,16 @@ void pipe_cleaner(t_shell *shell)
 				pipe_cmd[j] = '|';
 				j++;
 			}
-			else
+			else 
 			{
 				pipe_cmd[j] = ' ';
 				pipe_cmd[j + 1] = '|';
 				j = j + 2;
+			}
+			if(shell->cmd[i + 1] != ' ')
+			{
+				pipe_cmd[j] = ' ';
+				j++;
 			}
 			i++;
 		}
@@ -52,10 +67,9 @@ void pipe_cleaner(t_shell *shell)
 		}
 	}
 	pipe_cmd[j] = '\0';
-	printf("%s\n", pipe_cmd);
 	shell->cmd = ft_strdup(pipe_cmd);
-	printf("%s\n", shell->cmd);
 }
+
 
 
 
