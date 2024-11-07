@@ -34,10 +34,15 @@ void child_process(int fd[2], t_token *token, char *file_in)
 	i = 0;
 	cmd_join = calloc(1, 1);
 	while(token[i].id != 6)
-	{	
-		cmd_join = ft_strjoin(cmd_join, token[i].str);
-		cmd_join = ft_strjoin(cmd_join, " ");
-		i++;
+	{
+		if(token[i].id == 4 || token[i].id == 5)
+			i++;
+		else
+		{
+			cmd_join = ft_strjoin(cmd_join, token[i].str);
+			cmd_join = ft_strjoin(cmd_join, " ");
+			i++;
+		}
 	}
 	cmd_exec = ft_split(cmd_join, ' ');
 
@@ -93,9 +98,14 @@ void parent_process(int fd[2], t_token *token, char *file_out)
 	i++;
 	while(token[i].str)
 	{
-		cmd_join = ft_strjoin(cmd_join, token[i].str);
-		cmd_join = ft_strjoin(cmd_join, " ");
-		i++;
+		if(token[i].id == 4 || token[i].id == 5)
+			i++;
+		else
+		{
+			cmd_join = ft_strjoin(cmd_join, token[i].str);
+			cmd_join = ft_strjoin(cmd_join, " ");
+			i++;
+		}
 	}
 
 	cmd_exec = ft_split(cmd_join, ' ');
@@ -166,7 +176,6 @@ void pipex_simple(t_token *token, t_shell *shell)
 		cmd_split[i] = clean_name(cmd_split[i]);
 		i++;
 	}
-	
 	
 	pid = fork();
 	if(pid == -1)
