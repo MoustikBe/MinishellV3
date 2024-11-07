@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-void pipe_cleaner(t_shell *shell)
+void cmd_cleaner(t_shell *shell)
 {
 	int i; 
 	int mem;
@@ -20,7 +20,16 @@ void pipe_cleaner(t_shell *shell)
 
 	while(shell->cmd[i])
 	{
-		if(shell->cmd[i] == '|')
+		if(shell->cmd[i] == '<' && shell->cmd[i + 1] == ' ' || shell->cmd[i] == '>' && shell->cmd[i + 1] == ' ')
+		{
+			i++;
+			while(shell->cmd[i] == ' ')
+			{
+				i++;
+				mem--;
+			}
+		}
+		else if(shell->cmd[i] == '|')
 		{
 			if(shell->cmd[i  - 1] != ' ')
 				mem++;
@@ -39,7 +48,13 @@ void pipe_cleaner(t_shell *shell)
 	i = 0; 
 	while(shell->cmd[i])
 	{
-		if(shell->cmd[i] == '|')
+		if(shell->cmd[i] == '<' && shell->cmd[i + 1] == ' ' || shell->cmd[i] == '>' && shell->cmd[i + 1] == ' ')
+		{
+			pipe_cmd[j] = shell->cmd[i];
+			j++;
+			while(shell->cmd[++i] == ' ');
+		}
+		else if(shell->cmd[i] == '|')
 		{
 			if(shell->cmd[i  - 1] == ' ')
 			{
@@ -67,6 +82,7 @@ void pipe_cleaner(t_shell *shell)
 		}
 	}
 	pipe_cmd[j] = '\0';
+	//printf("%s\n", pipe_cmd);
 	shell->cmd = ft_strdup(pipe_cmd);
 }
 
@@ -91,7 +107,7 @@ int main(int argc, char **argv, char **envp)
 			ret_val = 0;
 		else
 		{
-			pipe_cleaner(shell);
+			cmd_cleaner(shell);
 			ret_val = parsing_main(shell->cmd); //parsing
 		}
 		if(ret_val == 0)

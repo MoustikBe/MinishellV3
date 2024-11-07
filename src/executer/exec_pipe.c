@@ -35,14 +35,9 @@ void child_process(int fd[2], t_token *token, char *file_in)
 	cmd_join = calloc(1, 1);
 	while(token[i].id != 6)
 	{
-		if(token[i].id == 4 || token[i].id == 5)
-			i++;
-		else
-		{
-			cmd_join = ft_strjoin(cmd_join, token[i].str);
-			cmd_join = ft_strjoin(cmd_join, " ");
-			i++;
-		}
+		cmd_join = ft_strjoin(cmd_join, token[i].str);
+		cmd_join = ft_strjoin(cmd_join, " ");
+		i++;
 	}
 	cmd_exec = ft_split(cmd_join, ' ');
 
@@ -98,6 +93,7 @@ void parent_process(int fd[2], t_token *token, char *file_out)
 	i++;
 	while(token[i].str)
 	{
+		//fprintf(stderr, "%d\n", token[i].id);
 		if(token[i].id == 4 || token[i].id == 5)
 			i++;
 		else
@@ -167,6 +163,7 @@ void pipex_simple(t_token *token, t_shell *shell)
 	
 	// Bizzare je ne sais pas si il ne va pas falloir changer quelques choses ici 
 	// On est fasse a deux fois ou on fait le meme code. About the function clean name 
+	/*
 	cmd_split = ft_split_basic(shell->cmd, '|');
 	
 	i = 0;
@@ -176,7 +173,7 @@ void pipex_simple(t_token *token, t_shell *shell)
 		cmd_split[i] = clean_name(cmd_split[i]);
 		i++;
 	}
-	
+	*/
 	pid = fork();
 	if(pid == -1)
 		return ; // ERREUR
