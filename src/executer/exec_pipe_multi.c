@@ -7,9 +7,9 @@ void	step_1(pid_t pid, t_token *token, t_shell *shell)
 	char *path;
 	char *cmd_join;
 	char **cmd_exec;
-
 	if (pid == 0)
 	{
+		//fprintf(stderr,"TEST_STEP_1\n");
 		dup2(shell->fd[1], STDOUT_FILENO);
    		close(shell->fd[0]);
     	close(shell->fd[1]);
@@ -22,10 +22,8 @@ void	step_1(pid_t pid, t_token *token, t_shell *shell)
 			cmd_join = ft_strjoin(cmd_join, " ");
 			shell->index++;
 		}
-
-		///fprintf(stderr, "-> %s\n", path);
 		cmd_exec = ft_split(cmd_join, ' ');
-		//fprintf(stderr, "cmd_exec -> %s, path -> %s\n", cmd_exec[0], path);
+		fprintf(stderr, "step 1 | cmd_exec -> %s\n", cmd_exec[0]);
 		if(check_cmd_quotes(cmd_exec[0]) > 1)
 		{
 			//printf("BUILTIN DETECTED\n");
@@ -38,6 +36,7 @@ void	step_1(pid_t pid, t_token *token, t_shell *shell)
 			exit(0);
 		}
 		path = make_path(cmd_exec[0]);
+		fprintf(stderr, "step 1 | path -> %s\n", path);
     	execve(path, cmd_exec, NULL);
 	}
 }
@@ -56,13 +55,14 @@ void	command_execution(t_token *token, t_shell *shell)
 	char **cmd_exec;
 
 	cmd_join = calloc(1, 1);
-	while(token[shell->index].id != 6)
+	while(token[shell->index].id != 6 && token[shell->index].id)
 	{	
 		cmd_join = ft_strjoin(cmd_join, token[shell->index].str);
 		cmd_join = ft_strjoin(cmd_join, " ");
 		shell->index++;
 	}
 	cmd_exec = ft_split(cmd_join, ' ');
+	fprintf(stderr, "mid step | cmd_exec -> %s\n", cmd_exec[0]);
 	if(check_cmd_quotes(cmd_exec[0]) > 1)
 	{
 		//printf("BUILTIN DETECTED\n");
@@ -191,3 +191,19 @@ void pipex_multi(t_token *token, t_shell *shell)
     wait_execution(shell->nb_cmd + 3);
     close(shell->fd_temp); // Fermez l'extrémité temporaire
 }
+
+
+
+
+/*
+void	last_step(pid_t pid, t_shell *shell, t_token *token)
+{
+	if (pid == 0)
+	{
+		dup2(shell->fd_temp, STDIN_FILENO);
+		close(shell->fd_temp);
+		command_execution(token, shell);
+	}
+	close(shell->fd[0]);
+}
+*/

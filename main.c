@@ -44,7 +44,7 @@ void cmd_cleaner(t_shell *shell)
 			mem++;
 		}
 	}
-	pipe_cmd = malloc(sizeof(char) * mem + 1);
+	pipe_cmd = malloc(sizeof(char) * mem + 2);
 	i = 0; 
 	while(shell->cmd[i])
 	{
@@ -81,7 +81,8 @@ void cmd_cleaner(t_shell *shell)
 			j++;
 		}
 	}
-	pipe_cmd[j] = '\0';
+	pipe_cmd[j] = ' ';
+	pipe_cmd[j + 1] = '\0';
 	//printf("%s\n", pipe_cmd);
 	shell->cmd = ft_strdup(pipe_cmd);
 }
@@ -152,3 +153,6 @@ int main(int argc, char **argv, char **envp)
     // -> env       (with no options or arguments) parsing -> X token -> X
     // -> exit      (with no options) parsing -> X token -> X
 		
+
+// !! TEMPORAL FIX, 11/11/2024 -> Add of a space at the end of the line in the case of 
+// a command without space, because was blocking the correct execution of the pipe in certain case
