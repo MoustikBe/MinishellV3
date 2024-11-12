@@ -44,7 +44,9 @@ void cmd_cleaner(t_shell *shell)
 			mem++;
 		}
 	}
-	pipe_cmd = malloc(sizeof(char) * mem + 2);
+	if(shell->cmd[i - 1] != ' ')
+		mem++;
+	pipe_cmd = malloc(sizeof(char) * mem + 1);
 	i = 0; 
 	while(shell->cmd[i])
 	{
@@ -81,8 +83,12 @@ void cmd_cleaner(t_shell *shell)
 			j++;
 		}
 	}
-	pipe_cmd[j] = ' ';
-	pipe_cmd[j + 1] = '\0';
+	if(shell->cmd[i - 1] != ' ')
+	{
+		pipe_cmd[j] = ' ';
+		j++;
+	}
+	pipe_cmd[j] = '\0';
 	//printf("%s\n", pipe_cmd);
 	shell->cmd = ft_strdup(pipe_cmd);
 }
