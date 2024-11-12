@@ -85,9 +85,18 @@ void exec_main(t_token *token, char *cmd, char **envp, t_shell *shell)
 			wait(0);
 	}
 	// AVOIR FINIS 100% du normal avant de faire celui la. 
+	// A DEPLACER DANS LE MAIN DANS LE CAS OU D'AVANTAGES DE PROB //
 	else if(check_pipe(token) == 2)
-		pipex_multi(token, shell);
-	
+	{
+		pid = fork();
+		if(pid == 0)
+		{
+			pipex_multi(token, shell);
+			exit(0);
+		}
+		else
+			wait(0);
+	}
 	else 
 	{
 		// Execution d'une commande // 
