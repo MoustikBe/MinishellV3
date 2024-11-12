@@ -7,7 +7,7 @@
 // -- Work in progress -- //
 
 
-void child_process(int fd[2], t_token *token, char *file_in) 
+void child_process(int fd[2], t_token *token, char *file_in, t_shell *shell) 
 {
     int fd_in;
 	char **cmd_exec;
@@ -52,6 +52,8 @@ void child_process(int fd[2], t_token *token, char *file_in)
 			cd(token[1].str);
 		else if(check_cmd_quotes(cmd_exec[0]) == 4)
 			pwd();
+		else if(check_cmd_quotes(cmd_exec[0]) == 7)
+			env(shell);
 		exit(0);
 	}
 	path = make_path(cmd_exec[0]);
@@ -60,7 +62,7 @@ void child_process(int fd[2], t_token *token, char *file_in)
 
 
 // Processus parent pour la deuxième commande
-void parent_process(int fd[2], t_token *token, char *file_out) 
+void parent_process(int fd[2], t_token *token, char *file_out, t_shell *shell) 
 {
     int fileout;
 	char **cmd_exec;
@@ -114,6 +116,8 @@ void parent_process(int fd[2], t_token *token, char *file_out)
 			cd(token[1].str);
 		else if(check_cmd_quotes(cmd_exec[0]) == 4)
 			pwd();
+		else if(check_cmd_quotes(cmd_exec[0]) == 7)
+			env(shell);
 		free(cmd_join);
 		exit(0);
 	}
@@ -181,9 +185,9 @@ void pipex_simple(t_token *token, t_shell *shell)
 	// afin de differencier les builtins des /bin
 	
 	else if(pid == 0)
-		child_process(fd, token, fd_in);
+		child_process(fd, token, fd_in, shell);
 	else
-		parent_process(fd, token, fd_out);
+		parent_process(fd, token, fd_out, shell);
 	
 	// l'un des derniers probleme est que quand on a un infile, si c'est 
 	// cat < main.c | grep "if" -> SEGFAULT

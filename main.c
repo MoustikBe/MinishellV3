@@ -115,6 +115,7 @@ int main(int argc, char **argv, char **envp)
 		else
 		{
 			cmd_cleaner(shell);
+			copy_env(envp, shell);
 			ret_val = parsing_main(shell->cmd); //parsing
 		}
 		if(ret_val == 0)

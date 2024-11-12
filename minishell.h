@@ -13,17 +13,29 @@
 // -- End of include -- //
 // -------------------- //
 // # -- STRUCTURE -- # //
+typedef struct t_env
+{
+	char *env_var;
+	struct t_env *next;
+}	t_env;
+
 typedef struct t_shell
 {
 	char *cmd;
+
 	/* IN TEST */
 	int fd[2];
 	int fd_temp;
 	int nb_cmd;
 	int index;
 	/* IN TEST */
+	
 	int	len_token;
 	int error;
+
+	/* IN TEST */
+	t_env *env;
+	/* IN TEST */
 }	t_shell;
 
 typedef struct t_token
@@ -59,6 +71,10 @@ int pars_dolar(char **pars_cmd);
 // src/parsing/pars_char.c //
 int check_bin_quotes(char *command);
 
+// -- Env -- // 
+// src/env/env_main.c //
+void copy_env(char **envp, t_shell *shell);
+
 // -- Token -- //
 // src/token/token_main.c //
 t_token *token_main(char *cmd, t_token *token, t_shell *shell);
@@ -93,6 +109,7 @@ void pipex_multi(t_token *token, t_shell *shell);
 void echo(t_token *token, int j);
 void pwd(void);
 void cd(char *path);
+void env(t_shell *shell);
 
 // -- Micro lib -- //
 // src/micro_lib/utils.c //
