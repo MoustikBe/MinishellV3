@@ -117,6 +117,8 @@ void exec_main(t_token *token, char *cmd, char **envp, t_shell *shell)
 			pwd();
 		else if(token[0].id == 14)
 			export(shell, token, 0);
+		else if(token[0].id == 14)
+			unset(shell, token, 0);
 		else if(token[0].id == 16)
 			env(shell);
 	}

@@ -7,6 +7,7 @@ void	step_1(pid_t pid, t_token *token, t_shell *shell)
 	char *path;
 	char *cmd_join;
 	char **cmd_exec;
+
 	if (pid == 0)
 	{
 		//fprintf(stderr,"TEST_STEP_1\n");
@@ -28,11 +29,17 @@ void	step_1(pid_t pid, t_token *token, t_shell *shell)
 		{
 			//printf("BUILTIN DETECTED\n");
 			if(check_cmd_quotes(cmd_exec[0]) == 2)
-				echo(token, shell->index);
+			echo(token, 0);
 			else if(check_cmd_quotes(cmd_exec[0]) == 3)
 				cd(token[1].str);
 			else if(check_cmd_quotes(cmd_exec[0]) == 4)
 				pwd();
+			else if(check_cmd_quotes(cmd_exec[0]) == 5)
+				export(shell, token, 0);
+			else if(check_cmd_quotes(cmd_exec[0]) == 6)
+				unset(shell, token, 0);
+			else if(check_cmd_quotes(cmd_exec[0]) == 7)
+				env(shell);
 			exit(0);
 		}
 		path = make_path(cmd_exec[0]);
@@ -53,8 +60,10 @@ void	command_execution(t_token *token, t_shell *shell)
 	char *cmd_join;
 	char *path;
 	char **cmd_exec;
+	int i_copy;
 
 	cmd_join = calloc(1, 1);
+	i_copy = shell->index;
 	while(token[shell->index].id != 6 && token[shell->index].id)
 	{	
 		cmd_join = ft_strjoin(cmd_join, token[shell->index].str);
@@ -67,11 +76,17 @@ void	command_execution(t_token *token, t_shell *shell)
 	{
 		//printf("BUILTIN DETECTED\n");
 		if(check_cmd_quotes(cmd_exec[0]) == 2)
-			echo(token, shell->index);
+			echo(token, i_copy);
 		else if(check_cmd_quotes(cmd_exec[0]) == 3)
 			cd(token[1].str);
 		else if(check_cmd_quotes(cmd_exec[0]) == 4)
 			pwd();
+		else if(check_cmd_quotes(cmd_exec[0]) == 5)
+			export(shell, token, i_copy);
+		else if(check_cmd_quotes(cmd_exec[0]) == 6)
+			unset(shell, token, i_copy);
+		else if(check_cmd_quotes(cmd_exec[0]) == 7)
+			env(shell);
 		exit(0);
 	}
 	path = make_path(cmd_exec[0]);
