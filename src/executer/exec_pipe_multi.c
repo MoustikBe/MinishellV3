@@ -185,8 +185,11 @@ void pipex_multi(t_token *token, t_shell *shell)
     i = 0;
     split_cmd = ft_split(shell->cmd, '|');
     while (split_cmd[i])
+	{
+		printf("cmd -> %s\n", split_cmd[i]);
         i++;
-    shell->nb_cmd = i - 2;
+    }
+	shell->nb_cmd = i - 2;
     pipe(shell->fd);
     pid = fork();
     if (pid == -1)
@@ -225,3 +228,5 @@ void	last_step(pid_t pid, t_shell *shell, t_token *token)
 	close(shell->fd[0]);
 }
 */
+
+// PROBLEME AVEC GREP 

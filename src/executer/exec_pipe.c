@@ -14,7 +14,6 @@ void child_process(int fd[2], t_token *token, char *file_in, t_shell *shell)
 	char *path;
 	char *cmd_join;
 	int i;
-	int i_copy;
 
 	i = 0;
     if (file_in) 
@@ -40,7 +39,6 @@ void child_process(int fd[2], t_token *token, char *file_in, t_shell *shell)
 		cmd_join = ft_strjoin(cmd_join, " ");
 		i++;
 	}
-	i_copy = i;
 	cmd_exec = ft_split(cmd_join, ' ');
 
     
@@ -49,13 +47,15 @@ void child_process(int fd[2], t_token *token, char *file_in, t_shell *shell)
 	{
 		//printf("BUILTIN DETECTED\n");
 		if(check_cmd_quotes(cmd_exec[0]) == 2)
-			echo(token, i_copy);
+			echo(token, 0);
 		else if(check_cmd_quotes(cmd_exec[0]) == 3)
 			cd(token[1].str);
 		else if(check_cmd_quotes(cmd_exec[0]) == 4)
 			pwd();
 		else if(check_cmd_quotes(cmd_exec[0]) == 5)
-			export(shell, token, i_copy);
+			export(shell, token, 0);
+		else if(check_cmd_quotes(cmd_exec[0]) == 6)
+			unset(shell, token, 0);
 		else if(check_cmd_quotes(cmd_exec[0]) == 7)
 			env(shell);
 		exit(0);
@@ -124,6 +124,8 @@ void parent_process(int fd[2], t_token *token, char *file_out, t_shell *shell)
 			pwd();
 		else if(check_cmd_quotes(cmd_exec[0]) == 5)
 			export(shell, token, i_copy);
+		else if(check_cmd_quotes(cmd_exec[0]) == 6)
+			unset(shell, token, i_copy);
 		else if(check_cmd_quotes(cmd_exec[0]) == 7)
 			env(shell);
 		free(cmd_join);
