@@ -12,7 +12,7 @@ int check_cmd(char *str)
 	i = 0;
 	while (str[i] && str[i] != '=')
 		i++;
-	if(str[i] != '=')
+	 if (str[i] != '=' || i == 0 || str[i + 1] == '\0')
 		return(0);
 	return(1);
 }
@@ -27,6 +27,8 @@ void add_to_env(t_shell *shell, char *str)
 		return ;
 	env_v = shell->env;
 	new = malloc(sizeof(t_env));
+	if(!new)
+		return ;
 	new->env_var = ft_strdup(str);
 	new->next = NULL;
 	while (env_v->next)
@@ -66,13 +68,14 @@ void export(t_shell *shell, t_token *token, int j)
 {
 
 	j++;
-	while(token[j].id != 6 && token[j].str)
+	while(token[j].str && token[j].id != 6)
 	{
 		// ADDING IN THE ENV // 
 		//printf("Adding -> %s\n", token[j].str);
 		add_to_env(shell, token[j].str);
 		j++;
 	}
+	return ;
 }
 
 // Faire un parsing correcte sur le export !! 

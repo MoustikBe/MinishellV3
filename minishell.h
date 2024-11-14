@@ -10,6 +10,7 @@
 # include <readline/history.h>
 # include <sys/wait.h>
 # include <dirent.h>
+#include <signal.h>
 // -- End of include -- //
 // -------------------- //
 // # -- STRUCTURE -- # //
@@ -32,6 +33,10 @@ typedef struct t_shell
 	
 	int	len_token;
 	int error;
+
+	/* IN TEST */
+	char *env_cmd;
+	/* IN TEST */
 
 	/* IN TEST */
 	t_env *env;
@@ -74,6 +79,8 @@ int check_bin_quotes(char *command);
 // -- Env -- // 
 // src/env/env_main.c //
 void copy_env(char **envp, t_shell *shell);
+// src/env/env_expansion.c //
+void expansion(t_shell *shell);
 
 // -- Token -- //
 // src/token/token_main.c //
@@ -112,6 +119,7 @@ void cd(char *path);
 void export(t_shell *shell, t_token *token, int j);
 void env(t_shell *shell);
 void unset(t_shell *shell, t_token *token, int j);
+char *build_cmp(char *str);
 
 // -- Micro lib -- //
 // src/micro_lib/utils.c //

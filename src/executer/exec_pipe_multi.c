@@ -186,7 +186,7 @@ void pipex_multi(t_token *token, t_shell *shell)
     split_cmd = ft_split(shell->cmd, '|');
     while (split_cmd[i])
 	{
-		printf("cmd -> %s\n", split_cmd[i]);
+	//	printf("cmd -> %s\n", split_cmd[i]);
         i++;
     }
 	shell->nb_cmd = i - 2;
