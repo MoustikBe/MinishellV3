@@ -109,7 +109,7 @@ void pipex_multi(t_token *token, t_shell *shell);
 void echo(t_token *token, int j);
 void pwd(void);
 void cd(char *path);
-void export(t_shell *shell);
+void export(t_shell *shell, t_token *token, int j);
 void env(t_shell *shell);
 
 // -- Micro lib -- //

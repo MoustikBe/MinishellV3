@@ -10,6 +10,7 @@ void copy_env(char **envp, t_shell *shell)
 	t_env *new;
 	int i;
 
+	shell->env = NULL;
 	env_v = shell->env;
 	i = 0;
 	// TANT QUE envp a du contenu // 

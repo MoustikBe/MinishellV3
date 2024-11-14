@@ -104,6 +104,7 @@ int main(int argc, char **argv, char **envp)
 	int ret_val;
 
 	shell = malloc(sizeof(t_shell));
+	copy_env(envp, shell);
 	shell->len_token = 0;
     //token = malloc(sizeof(t_token));
     while (1)
@@ -115,7 +116,6 @@ int main(int argc, char **argv, char **envp)
 		else
 		{
 			cmd_cleaner(shell);
-			copy_env(envp, shell);
 			ret_val = parsing_main(shell->cmd); //parsing
 		}
 		if(ret_val == 0)
@@ -152,13 +152,13 @@ int main(int argc, char **argv, char **envp)
     return 0;
 }
     // HAVE TO MANAGE //
-    // -> echo      (with option -n) parsing -> V token -> X
-    // -> cd        (with only a relative or absolute path) parsing -> V token -> X
-    // -> pwd       (with no options) parsing -> V token -> X
-    // -> export    (with no options) parsing -> V token -> X
-    // -> unset     (with no options) parsing -> X token -> X
-    // -> env       (with no options or arguments) parsing -> X token -> X
-    // -> exit      (with no options) parsing -> X token -> X
+    // -> echo      (with option -n) parsing -> V token -> V -> exec -> X
+    // -> cd        (with only a relative or absolute path) parsing -> V token -> V -> exec -> V
+    // -> pwd       (with no options) parsing -> V token -> V -> exec -> V
+    // -> export    (with no options) parsing -> V token -> V -> exec -> V
+    // -> unset     (with no options) parsing -> V token -> V -> exec -> X
+    // -> env       (with no options or arguments) parsing -> V token -> V -> exec -> V
+    // -> exit      (with no options) parsing -> V token -> V -> exec -> X
 		
 
 // !! TEMPORAL FIX, 11/11/2024 -> Add of a space at the end of the line in the case of 
