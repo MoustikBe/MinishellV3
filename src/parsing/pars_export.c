@@ -4,17 +4,37 @@ int pars_export(char **pars_cmd)
 {
 	int i;
 	int j;
+	int j_copy = 0;
+	int equal = 0;
+	int flag = 0;
 
 	i = 1;
 	while(pars_cmd[i])
 	{
 		j = 0;
-		while(pars_cmd[i][j] != '=' && pars_cmd[i][j] != '\0')
+		equal = 0;
+		flag = 0;
+		while(pars_cmd[i][j])
 		{
-			if(ft_isalnum(pars_cmd[i][j]) == 0 && pars_cmd[i][j] != '|' || pars_cmd[i][j] == '|' && pars_cmd[i][j - 1] == '|')
-			{	
-				printf("\033[0;31mNot a valid identifier \033[00m");
-				return(0);
+			if(pars_cmd[i][j] == '=' && equal == 0)
+			{
+				equal = 1;
+				if(pars_cmd[i][j - 1] == ' ' || !pars_cmd[i][j - 1] || pars_cmd[i][j + 1] == ' ' || !pars_cmd[i][j + 1])
+					return(0);
+			}
+			if(equal == 1 && flag == 0)
+			{
+				j_copy = j - 1;
+				while (pars_cmd[i][j_copy])
+				{
+					if(ft_isalnum(pars_cmd[i][j_copy]) == 0)
+					{
+						//printf("char -> %c, index -> %d\n", pars_cmd[i][j_copy], j_copy);
+						return(0);
+					}
+					j_copy--;	
+				}
+				flag = 1;
 			}
 			j++;
 		}
@@ -22,3 +42,4 @@ int pars_export(char **pars_cmd)
 	}
 	return(1);
 }
+// Probablement un parsing pas complet, mais ok pour le moment.

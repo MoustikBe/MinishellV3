@@ -69,6 +69,7 @@ void parent_process(int fd[2], t_token *token, char *file_out, t_shell *shell)
 	char *path;
 	char *cmd_join;
 	int i;
+	int i_copy;
 	
 
 	cmd_join = calloc(1, 1);
@@ -93,6 +94,7 @@ void parent_process(int fd[2], t_token *token, char *file_out, t_shell *shell)
 	while(token[i].id != 6)
 		i++;
 	i++;
+	i_copy = i;
 	while(token[i].str)
 	{
 		//fprintf(stderr, "%d\n", token[i].id);
@@ -111,7 +113,7 @@ void parent_process(int fd[2], t_token *token, char *file_out, t_shell *shell)
 	{
 		//printf("BUILTIN DETECTED\n");
 		if(check_cmd_quotes(cmd_exec[0]) == 2)
-			echo(token, i);
+			echo(token, i_copy);
 		else if(check_cmd_quotes(cmd_exec[0]) == 3)
 			cd(token[1].str);
 		else if(check_cmd_quotes(cmd_exec[0]) == 4)

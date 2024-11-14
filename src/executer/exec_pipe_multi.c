@@ -137,15 +137,15 @@ void last_step(t_shell *shell, t_token *token, pid_t pid)
 {
     if (pid == 0)
     {
-		fprintf(stderr, "STARFOULA_3\n");
+		//fprintf(stderr, "STARFOULA_3\n");
         dup2(shell->fd[0], STDIN_FILENO);
         close(shell->fd[1]);
         close(shell->fd[0]); // Fermez après duplication pour éviter les fuites
-		fprintf(stderr, "STARFOULA_4\n");
+		//fprintf(stderr, "STARFOULA_4\n");
         command_execution(token, shell);
         exit(0);
     }
-	fprintf(stderr, "STARFOULA_5\n");
+	//fprintf(stderr, "STARFOULA_5\n");
     close(shell->fd[0]); // Fermez l'extrémité lecture dans le parent
 }
 
@@ -178,17 +178,17 @@ void pipex_multi(t_token *token, t_shell *shell)
         printf("ERROR\n");
 
     step_1(pid, token, shell);
-	fprintf(stderr, "step1 -> shell.index %d | token.str -> %s\n", shell->index, token[shell->index].str);
+	//fprintf(stderr, "step1 -> shell.index %d | token.str -> %s\n", shell->index, token[shell->index].str);
 	close(shell->fd[1]);  // Fermez l'extrémité écriture après step_1 dans le parent
     to_nb_cmd(shell);
     sub_process(shell, token, pid);
-	fprintf(stderr, "sub_process -> shell.index %d | token.str -> %s\n", shell->index, token[shell->index].str);
+	//fprintf(stderr, "sub_process -> shell.index %d | token.str -> %s\n", shell->index, token[shell->index].str);
     from_nb_cmd(shell);
-	fprintf(stderr, "STARFOULA_1\n");
+	//fprintf(stderr, "STARFOULA_1\n");
     pid = fork();
     if (pid == -1)
         exit(2);
-	fprintf(stderr, "STARFOULA_2\n");
+	//fprintf(stderr, "STARFOULA_2\n");
     last_step(shell, token, pid);
     wait_execution(shell->nb_cmd + 3);
     close(shell->fd_temp);  // Fermez l'extrémité temporaire
