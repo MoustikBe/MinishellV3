@@ -25,12 +25,12 @@ void add_to_env(t_shell *shell, char *str)
 
 	if(check_cmd(str) == 0)
 		return ;
-	env_v = shell->env;
 	new = malloc(sizeof(t_env));
 	if(!new)
 		return ;
 	new->env_var = ft_strdup(str);
 	new->next = NULL;
+		env_v = shell->env;
 	while (env_v->next)
 		env_v = env_v->next;
 	env_v->next = new;
@@ -71,9 +71,14 @@ void export(t_shell *shell, t_token *token, int j)
 	while(token[j].str && token[j].id != 6)
 	{
 		// ADDING IN THE ENV // 
-		//printf("Adding -> %s\n", token[j].str);
-		add_to_env(shell, token[j].str);
-		j++;
+		//printf("Adding -> %d\n", token[j].str);
+		if(str_cmp(token[j].str, " ") == 1)
+			j++;
+		else
+		{
+			add_to_env(shell, token[j].str);
+			j++;
+		}
 	}
 	return ;
 }
