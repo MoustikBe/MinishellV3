@@ -34,7 +34,7 @@ int check_dolar(char *cmd)
 		i++;
 	else 
 		return(0);
-	while(((cmd[i] >= 48) && (cmd[i] <= 57)) || ((cmd[i] >= 65) && (cmd[i] <= 90)) || ((cmd[i] >= 97) && (cmd[i] <= 122)) || cmd[i] == '_')
+	while(((cmd[i] >= 48) && (cmd[i] <= 57)) || ((cmd[i] >= 65) && (cmd[i] <= 90)) || ((cmd[i] >= 97) && (cmd[i] <= 122)) || cmd[i] == '_' || cmd[i] == '?')
 		i++;
 	if(i == ft_strlen(cmd))
 		return(1);

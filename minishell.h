@@ -39,6 +39,11 @@ typedef struct t_shell
 	/* IN TEST */
 
 	/* IN TEST */
+	int status;
+	int last_exit_status;
+	/* IN TEST */
+
+	/* IN TEST */
 	t_env *env;
 	/* IN TEST */
 }	t_shell;
@@ -96,7 +101,7 @@ int is_outfile(t_token *token, int i);
 int is_cmd(t_token *token, int i);
 int is_flag(t_token *token, int i);
 // src/token/token_utils.c //
-void free_all(t_token *token, int len);
+void free_all_token(t_token *token, int len);
 int len_for_token(char *cmd, int i);
 int len_token(char *cmd);
 void token_copy(t_token *token, char *cmd, int i, int j);
@@ -135,6 +140,9 @@ char	**ft_split(char *s, char c);
 char	*ft_strjoin(char *s1, char *s2);
 // src/micro_lib/split_basic.c //
 char	**ft_split_basic(char *s, char c);
+// src/micro_lib/get_next_line.c //
+char	*get_next_line(int fd);
+
 
 // -- End of declaration -- //
 #endif

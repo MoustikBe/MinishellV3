@@ -108,6 +108,101 @@ void cmd_cleaner(t_shell *shell)
 	shell->cmd = ft_strdup(pipe_cmd);
 }
 
+void exec_herdoc(t_shell *shell)
+{
+	// Stocker le delimiter
+	char *gnl_val;
+	char *delemiter;
+	int i;
+	int l;
+	int temp_fd;
+
+	i = 0;
+	l = 0;
+	while (shell->cmd[i])
+	{
+		if(shell->cmd[i] == '<' && shell->cmd[i + 1] == '<')
+		{
+			i = i + 2;
+			while (shell->cmd[i] && shell->cmd[i] != ' ')
+			{
+				l++;
+				i++;
+			}
+			break;
+		}
+		i++;
+	}
+	
+	delemiter = malloc(sizeof(char) * l + 2);
+	i = 0;
+	l = 0;
+	while (shell->cmd[i])
+	{
+		if(shell->cmd[i] == '<' && shell->cmd[i + 1] == '<')
+		{
+			i = i + 2;
+			while (shell->cmd[i] && shell->cmd[i] != ' ')
+			{
+				delemiter[l] = shell->cmd[i];
+				l++;
+				i++;
+			}
+			break;
+		}
+		i++;
+	}
+	delemiter[l] = '\n';
+	delemiter[l + 1] = '\0';
+	//printf("Delimitator -> %s\n", delemiter); //Done V //
+	// Comparer la valeur transmise avec la valeur du delimiter
+	temp_fd = open(".here_doc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+    if (temp_fd < 0)
+	{
+        perror("open");
+        exit(EXIT_FAILURE);
+    }
+	write(0, "> ", 2);
+	while (1)
+	{
+		gnl_val = get_next_line(0);
+		if (gnl_val == NULL) //IRIS I used NULL instead of \0 because "cmd[0]" produces a SEGFAULT
+		{
+			printf("exit\n");
+			break;
+		}
+		// SI valeur == -> STOP
+		if(str_cmp(gnl_val, delemiter) == 1)
+			break;
+		write(temp_fd, gnl_val, ft_strlen(gnl_val));
+		write(0, "> ", 2);
+		// SI valeur differentes -> sauvegarder et continuer
+		free(gnl_val);
+	}
+	//free(delemiter);
+	//free(gnl_val);
+	/*
+	
+	*/
+	unlink(".here_doc_tmp");
+
+	// UTILISER GNL sur le fd0
+	
+}
+
+void here_doc(t_shell *shell)
+{
+	int i; 
+
+	i = 0;
+	while(shell->cmd[i])
+	{
+		if(shell->cmd[i] == '<' && shell->cmd[i + 1] == '<' && shell->cmd[i + 2] != '\0' && shell->cmd[i + 2] != '<')
+			exec_herdoc(shell);
+		i++;
+	}
+
+}
 
 
 
@@ -121,6 +216,7 @@ int main(int argc, char **argv, char **envp)
 	shell = malloc(sizeof(t_shell));
 	copy_env(envp, shell);
 	shell->len_token = 0;
+	shell->last_exit_status = 0;
     //token = malloc(sizeof(t_token));
     while (1)
     {
@@ -136,6 +232,7 @@ int main(int argc, char **argv, char **envp)
 			ret_val = 0;
 		else
 		{
+			here_doc(shell);
 			cmd_cleaner(shell);
 			expansion(shell);
 			ret_val = parsing_main(shell->cmd); //parsing
@@ -156,13 +253,13 @@ int main(int argc, char **argv, char **envp)
 				printf("\033[0;31mMinishell : command invalid \033[00m\n");
 			else
 				exec_main(token, shell->cmd, envp, shell);
-			//free_all(token, len_token(cmd)); //-> IMPORTANT DE FOU, FIX DE LEAK
+			//free_all_token(token, len_token(cmd)); //-> IMPORTANT DE FOU, FIX DE LEAK
 			//break ;
 		}
 		else if(ret_val > 1)
 		{
 			printf("\033[0;31mMinishell : command invalid \033[00m\n");
-			//free_all(token, len_token(cmd)); //-> IMPORTANT DE FOU, FIX DE LEAK
+			//free_all_token(token, len_token(cmd)); //-> IMPORTANT DE FOU, FIX DE LEAK
 			//break ; // Quand je test mes leaks //
 		}
         add_history(shell->cmd);

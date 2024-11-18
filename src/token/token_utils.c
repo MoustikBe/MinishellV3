@@ -53,7 +53,7 @@ int len_for_token(char *cmd, int i)
 }
 // echo "hello WOLRD" H"e"llo wolrd
 
-void free_all(t_token *token, int len)
+void free_all_token(t_token *token, int len)
 {
 	int i;
 

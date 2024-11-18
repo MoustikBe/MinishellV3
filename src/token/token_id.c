@@ -2,6 +2,11 @@
 
 int is_var(t_token *token, int i)
 {
+	if(str_cmp("$?", token[i].str) == 1)
+	{
+		token[i].id = 9;
+		return(1);
+	}
 	if(token[i].str[0] == '$')
 	{
 		token[i].id = 8;

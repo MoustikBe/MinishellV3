@@ -108,7 +108,8 @@ void exec_main(t_token *token, char *cmd, char **envp, t_shell *shell)
 			else
 				wait(0);
 		}
-		// Echo
+		else if(token[0].id == 9)
+			printf("The exit status is %i\n", shell->last_exit_status);
 		else if(token[0].id == 11)
 			echo(token, 0);
 		else if(token[0].id == 12)
@@ -151,3 +152,13 @@ copy(line depuis start a len token dans token)
 
 */
 
+/*
+
+if (WIFEXITED(status)) //IRIS added lastexitstatus
+	{
+		last_exit_status = WEXITSTATUS(status);
+		printf("The exit status is %i\n", last_exit_status);
+	}
+
+
+*/

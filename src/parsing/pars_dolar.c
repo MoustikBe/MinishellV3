@@ -35,7 +35,7 @@ int pars_dolar(char **pars_cmd)
 			{
 				if(pars_cmd[i][j] == '$' || pars_cmd[i][j] == '|')
 					j++;
-				else if(((pars_cmd[i][j] >= 48) && (pars_cmd[i][j] <= 57)) || ((pars_cmd[i][j] >= 65) && (pars_cmd[i][j] <= 90)) || ((pars_cmd[i][j] >= 97) && (pars_cmd[i][j] <= 122)) || pars_cmd[i][j] == '_')
+				else if(((pars_cmd[i][j] >= 48) && (pars_cmd[i][j] <= 57)) || ((pars_cmd[i][j] >= 65) && (pars_cmd[i][j] <= 90)) || ((pars_cmd[i][j] >= 97) && (pars_cmd[i][j] <= 122)) || pars_cmd[i][j] == '_' || pars_cmd[i][j] == '?')
 					j++;
 				else
 					return(0);    

@@ -137,8 +137,11 @@ void expansion(t_shell *shell)
 	// CONNAITRE la len de la nouvelle commande. donc
 	while (shell->cmd[i])
 	{
+		// TROUVER UN MOYEN DE SAVOIR SI IL S'AGIT DE $?
 		if(shell->cmd[i] == '$')
 		{
+			if(shell->cmd[i + 1] == '?' && shell->cmd[i + 2] == ' ')
+				return ;
 			flag = 1;
 			i++;
 			i_copy = i;

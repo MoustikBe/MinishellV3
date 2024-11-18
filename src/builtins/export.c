@@ -84,3 +84,7 @@ void export(t_shell *shell, t_token *token, int j)
 }
 
 // Faire un parsing correcte sur le export !! 
+
+// Petit bug sur l'export, il faut ajouter que SI
+// Il y'a deja l'identifiant de la valeur changer seulement la valeur,
+// Et garder l'identifiant mais en changer la valeur 
