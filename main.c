@@ -124,6 +124,8 @@ void exec_herdoc(t_shell *shell)
 		if(shell->cmd[i] == '<' && shell->cmd[i + 1] == '<')
 		{
 			i = i + 2;
+			while (shell->cmd[i] == ' ')
+				i++;
 			while (shell->cmd[i] && shell->cmd[i] != ' ')
 			{
 				l++;
@@ -142,6 +144,8 @@ void exec_herdoc(t_shell *shell)
 		if(shell->cmd[i] == '<' && shell->cmd[i + 1] == '<')
 		{
 			i = i + 2;
+			while (shell->cmd[i] == ' ')
+				i++;
 			while (shell->cmd[i] && shell->cmd[i] != ' ')
 			{
 				delemiter[l] = shell->cmd[i];
@@ -156,7 +160,7 @@ void exec_herdoc(t_shell *shell)
 	delemiter[l + 1] = '\0';
 	//printf("Delimitator -> %s\n", delemiter); //Done V //
 	// Comparer la valeur transmise avec la valeur du delimiter
-	temp_fd = open(".here_doc_tmp", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	temp_fd = open("/tmp/.heredoc", O_CREAT | O_WRONLY | O_TRUNC, 0644);
     if (temp_fd < 0)
 	{
         perror("open");
@@ -172,6 +176,7 @@ void exec_herdoc(t_shell *shell)
 			break;
 		}
 		// SI valeur == -> STOP
+		/* FAIRE UNE SORTE DE MINI EXPANSION DE VARIABLE AFIN DE CHANGER LES VALEUR */
 		if(str_cmp(gnl_val, delemiter) == 1)
 			break;
 		write(temp_fd, gnl_val, ft_strlen(gnl_val));
@@ -179,12 +184,13 @@ void exec_herdoc(t_shell *shell)
 		// SI valeur differentes -> sauvegarder et continuer
 		free(gnl_val);
 	}
+
 	//free(delemiter);
 	//free(gnl_val);
 	/*
 	
 	*/
-	unlink(".here_doc_tmp");
+	
 
 	// UTILISER GNL sur le fd0
 	
@@ -265,6 +271,7 @@ int main(int argc, char **argv, char **envp)
         add_history(shell->cmd);
         free(shell->cmd);
     }
+	unlink("/tmp/.heredoc");
     free(shell->cmd);
 	free(shell);
     //free(token);
