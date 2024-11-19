@@ -23,29 +23,20 @@ typedef struct t_env
 typedef struct t_shell
 {
 	char *cmd;
-
-	/* IN TEST */
 	int fd[2];
 	int fd_temp;
 	int nb_cmd;
 	int index;
-	/* IN TEST */
-	
 	int	len_token;
 	int error;
-
-	/* IN TEST */
 	char *env_cmd;
-	/* IN TEST */
 
 	/* IN TEST */
 	int status;
 	int last_exit_status;
 	/* IN TEST */
 
-	/* IN TEST */
 	t_env *env;
-	/* IN TEST */
 }	t_shell;
 
 typedef struct t_token

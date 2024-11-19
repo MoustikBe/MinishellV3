@@ -66,34 +66,18 @@ void child_process(int fd[2], t_token *token, char *file_in, t_shell *shell)
 
 
 // Processus parent pour la deuxième commande
-void parent_process(int fd[2], t_token *token, char *file_out, t_shell *shell) 
+void parent_process(int fd[2], t_token *token, t_shell *shell) 
 {
-    int fileout;
+    int file;
 	char **cmd_exec;
 	char *path;
 	char *cmd_join;
+	char *fd_mngt;
 	int i;
 	int i_copy;
 	
 
 	cmd_join = calloc(1, 1);
-    wait(0);
-    // Duplication de l'entrée du pipe vers stdin
-    dup2(fd[0], STDIN_FILENO);
-    close(fd[1]);
-    close(fd[0]);
-    if (file_out) 
-	{
-        fileout = open(file_out, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-        if (fileout == -1) 
-		{
-            perror("open");
-            exit(EXIT_FAILURE);
-        }
-        dup2(fileout, STDOUT_FILENO);
-        close(fileout);
-    }
-	
 	i = 0;
 	while(token[i].id != 6)
 		i++;
@@ -102,15 +86,48 @@ void parent_process(int fd[2], t_token *token, char *file_out, t_shell *shell)
 	while(token[i].str)
 	{
 		//fprintf(stderr, "%d\n", token[i].id);
-		if(token[i].id == 4 || token[i].id == 5)
+		if(token[i].id == 4)
 			i++;
-		else
-		{
-			cmd_join = ft_strjoin(cmd_join, token[i].str);
-			cmd_join = ft_strjoin(cmd_join, " ");
-			i++;
-		}
+		cmd_join = ft_strjoin(cmd_join, token[i].str);
+		cmd_join = ft_strjoin(cmd_join, " ");
+		i++;
 	}
+    wait(0);
+    // Duplication de l'entrée du pipe vers stdin
+    dup2(fd[0], STDIN_FILENO);
+    close(fd[1]);
+    close(fd[0]);
+	i = i_copy;
+    while (token[i].str)
+	{
+		if(token[i].id == 4)
+		{
+			fd_mngt = ft_strdup(token[i].str);
+			file = open(fd_mngt, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+        	if (file == -1) 
+			{
+        	    perror("open");
+        	    exit(EXIT_FAILURE);
+        	}
+        	dup2(file, STDOUT_FILENO);
+        	close(file);
+			free(fd_mngt);
+		}
+		else if(token[i].id == 5)
+		{
+			fd_mngt = ft_strdup(token[i].str);
+			file = open(fd_mngt, O_RDONLY);
+        	if (file == -1) 
+			{
+        	    perror("open");
+        	    exit(EXIT_FAILURE);
+        	}
+			free(fd_mngt);
+		}
+		i++;
+	}
+	
+	
 
 	cmd_exec = ft_split(cmd_join, ' ');
 	if(check_cmd_quotes(cmd_exec[0]) > 1)
@@ -197,7 +214,7 @@ void pipex_simple(t_token *token, t_shell *shell)
 	else if(pid == 0)
 		child_process(fd, token, fd_in, shell);
 	else
-		parent_process(fd, token, fd_out, shell);
+		parent_process(fd, token, shell);
 	
 	// l'un des derniers probleme est que quand on a un infile, si c'est 
 	// cat < main.c | grep "if" -> SEGFAULT
