@@ -108,6 +108,109 @@ void cmd_cleaner(t_shell *shell)
 	shell->cmd = ft_strdup(pipe_cmd);
 }
 
+
+int search_in_env_writed(t_shell *shell, char *cmp_cmd, int temp_fd)
+{
+	t_env *env_v;
+	char *cmp_cmd_2;
+	int i = 0;
+
+	env_v = shell->env;
+	while (env_v)
+	{
+		cmp_cmd_2 = build_cmp(env_v->env_var);
+		//printf("cmp_1 -> %s cmp_2 -> %s\n", cmp_cmd, cmp_cmd_2);
+		if(str_cmp(cmp_cmd, cmp_cmd_2) == 1)
+		{
+			while (env_v->env_var[i] != '=')
+				i++;
+			i++;
+			while (env_v->env_var[i])
+			{
+			
+				ft_putchar_fd(env_v->env_var[i], temp_fd);
+				i++;
+			}
+			return(ft_strlen(env_v->env_var) - ft_strlen(cmp_cmd_2));
+		}
+		free(cmp_cmd_2);
+		env_v = env_v->next;
+	}
+	return(0);
+}
+
+void heredoc_expansion(t_shell *shell, char *gnl_val, int temp_fd)
+{
+	// IL FAUT PARCOURIR LA shell->cmd ET detecter si jamais il y'a une variable d'env.
+	// SA detecte les dolars si on envois un char * -> check_cmd_quotes();
+	// FAIRE UN SPLIT de la cmd. Si la fonction renvois 10. -> il faut changer la commande. 
+	
+	// TENTATIVE // 
+	int i = 0;
+	int i_copy = 0;
+	int j = 0;
+	int len = 0;
+	int ret_val = 0;
+	int flag = 0;
+	char *cmp_cmd;
+
+	// CONNAITRE la len de la nouvelle commande. donc
+	while (gnl_val[i])
+	{
+		// TROUVER UN MOYEN DE SAVOIR SI IL S'AGIT DE $?
+		if(gnl_val[i] == '$')
+		{
+			if(gnl_val[i + 1] == '?' && gnl_val[i + 2] == ' ')
+				return ;
+			flag = 1;
+			i++;
+			i_copy = i;
+			while (gnl_val[i] && gnl_val[i] != ' ' && gnl_val[i_copy] != '\n')
+			{
+				i++;
+				j++;
+			}
+			cmp_cmd = malloc(sizeof(char) * j + 1);
+			j = 0;
+			while (gnl_val[i_copy] && gnl_val[i_copy] != ' ' && gnl_val[i_copy] != '\n')  
+			{
+				cmp_cmd[j] = gnl_val[i_copy];
+				j++;
+				i_copy++;
+			}
+			cmp_cmd[j] = '\0';
+			// PARFAITE CMP_CMD DECOUPER 
+			// MNT essaye de trouver une correspondance et si il y'a une correspondance 
+			// RENVOYER 1 SI PAS 0
+			//printf("cmp_cmd -> %s\n", cmp_cmd);
+			len = len + search_in_env_writed(shell, cmp_cmd, temp_fd);
+			//printf(" len_search -> %d\n", search_in_env(shell, cmp_cmd));
+		}
+		else
+		{
+		//	printf("char -> %c\n", shell->cmd[i]);
+			ft_putchar_fd(gnl_val[i], temp_fd);
+			len++;
+			i++;
+		}
+	}
+	ft_putchar_fd('\n', temp_fd);
+}
+
+int check_env_var(char *str)
+{
+	int i;
+
+	while (str[i])
+	{
+		if(str[i] == '$')
+			return(1);
+		i++;
+	}
+	return(0);
+}
+
+
 void exec_herdoc(t_shell *shell)
 {
 	// Stocker le delimiter
@@ -179,12 +282,23 @@ void exec_herdoc(t_shell *shell)
 		/* FAIRE UNE SORTE DE MINI EXPANSION DE VARIABLE AFIN DE CHANGER LES VALEUR */
 		if(str_cmp(gnl_val, delemiter) == 1)
 			break;
-		write(temp_fd, gnl_val, ft_strlen(gnl_val));
-		write(0, "> ", 2);
+		// Il faut expand la variable d'env si il y'en a 
+		// Fonction qui detecte si il y'en a 
+		if(check_env_var(gnl_val) == 1)
+		{
+			heredoc_expansion(shell, gnl_val, temp_fd);
+			write(0, "> ", 2);
+		}
+		//	gnl_val = expand_var(shell, gnl_val);
+		// Fonction qui change la valeur de gnl_val -> pour gnl_val modifier avec la var
+		else
+		{
+			write(temp_fd, gnl_val, ft_strlen(gnl_val));
+			write(0, "> ", 2);
+		}
 		// SI valeur differentes -> sauvegarder et continuer
 		free(gnl_val);
 	}
-
 	//free(delemiter);
 	//free(gnl_val);
 	/*
@@ -215,6 +329,7 @@ void here_doc(t_shell *shell)
 int main(int argc, char **argv, char **envp)
 {
     char *cmd;
+	char *cpy_cmd;
     t_token *token;
     t_shell *shell;
 	int ret_val;
@@ -238,6 +353,7 @@ int main(int argc, char **argv, char **envp)
 			ret_val = 0;
 		else
 		{
+			//cpy_cmd = ft_strdup(shell->cmd);
 			here_doc(shell);
 			cmd_cleaner(shell);
 			expansion(shell);
@@ -270,9 +386,11 @@ int main(int argc, char **argv, char **envp)
 		}
         add_history(shell->cmd);
         free(shell->cmd);
+		//free(cpy_cmd);
     }
 	unlink("/tmp/.heredoc");
     free(shell->cmd);
+	//free(cpy_cmd);
 	free(shell);
     //free(token);
     return 0;

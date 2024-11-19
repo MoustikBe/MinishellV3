@@ -134,3 +134,8 @@ char *clean_name(char *src)
 	//printf("CALL -> %s\n", dest);
 	return (dest);
 }
+
+void	ft_putchar_fd(char c, int fd)
+{
+	write (fd, &c, 1);
+}

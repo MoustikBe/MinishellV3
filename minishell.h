@@ -86,6 +86,7 @@ int check_bin_quotes(char *command);
 void copy_env(char **envp, t_shell *shell);
 // src/env/env_expansion.c //
 void expansion(t_shell *shell);
+int search_in_env(t_shell *shell, char *cmp_cmd);
 
 // -- Token -- //
 // src/token/token_main.c //
@@ -135,6 +136,7 @@ void free_array(char **arr);
 int	ft_isalnum(int alph);
 char	*ft_strdup(char *src);
 char *clean_name(char *src);
+void	ft_putchar_fd(char c, int fd);
 // src/micro_lib/ft_split.c //
 char	**ft_split(char *s, char c);
 char	*ft_strjoin(char *s1, char *s2);
