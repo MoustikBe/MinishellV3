@@ -310,6 +310,67 @@ void exec_herdoc(t_shell *shell)
 	
 }
 
+void replace_heredoc(t_shell *shell)
+{
+	int i = 0;
+	int j = 0;
+	int len = 0;
+	char *new_cmd;
+	char *tmp_file;
+
+	tmp_file = ft_strdup("/tmp/.heredoc");
+	while (shell->cmd[i])
+	{
+		if(shell->cmd[i] == '<')
+		{
+			i = i + 2;
+			// ICI je dois faire gaffe que tant que c'est egal a un truc different de espace 
+			if(shell->cmd[i] == ' ')
+				i++;
+			while (shell->cmd[i] != ' ')
+				i++;
+			//printf("char -> %c\n", shell->cmd[i]);
+		}	
+		else
+		{
+			len++;
+			i++;
+		}
+	}
+
+	new_cmd = malloc(sizeof(char) * len + ft_strlen("/tmp/.heredoc") + 1); 
+	len = 0;
+	i = 0;
+	while (shell->cmd[i])
+	{
+		if(shell->cmd[i] == '<')
+		{
+			new_cmd[len] = shell->cmd[i];
+			len++;
+			i = i + 2;
+			// ICI je dois faire gaffe que tant que c'est egal a un truc different de espace 
+			if(shell->cmd[i] == ' ')
+				i++;
+			while (shell->cmd[i] != ' ')
+				i++;
+			while (tmp_file[j])
+			{
+				new_cmd[len] = tmp_file[j];
+				len++;
+				j++;
+			}
+		}	
+		else
+		{
+			new_cmd[len] = shell->cmd[i];
+			len++;
+			i++;
+		}
+	}
+	new_cmd[len] = '\0';
+	shell->cmd = ft_strdup(new_cmd);
+}
+
 void here_doc(t_shell *shell)
 {
 	int i; 
@@ -318,7 +379,10 @@ void here_doc(t_shell *shell)
 	while(shell->cmd[i])
 	{
 		if(shell->cmd[i] == '<' && shell->cmd[i + 1] == '<' && shell->cmd[i + 2] != '\0' && shell->cmd[i + 2] != '<')
+		{
 			exec_herdoc(shell);
+			replace_heredoc(shell);
+		}
 		i++;
 	}
 
@@ -354,9 +418,9 @@ int main(int argc, char **argv, char **envp)
 		else
 		{
 			//cpy_cmd = ft_strdup(shell->cmd);
-			here_doc(shell);
 			cmd_cleaner(shell);
 			expansion(shell);
+			here_doc(shell);
 			ret_val = parsing_main(shell->cmd); //parsing
 		}
 		if(ret_val == 0)
