@@ -6,6 +6,8 @@ void token_id(t_token *token, int i)
 		return ;
 	else if(is_flag(token, i) == 1)
 		return ;
+	else if(is_outfile_append(token, i) == 1)
+		return ;
 	else if(is_outfile(token, i) == 1)
 		return ;
 	else if(is_infile(token, i) == 1)

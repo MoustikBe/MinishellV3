@@ -1,4 +1,0 @@
-int main(int argc, char **argv, char **envp)
-			ret_val = parsing_main(shell->cmd); //parsing
-			token = token_main(shell->cmd, token, shell);
-				exec_main(token, shell->cmd, envp, shell);

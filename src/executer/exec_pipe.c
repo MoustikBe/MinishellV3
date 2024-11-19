@@ -86,7 +86,7 @@ void parent_process(int fd[2], t_token *token, t_shell *shell)
 	while(token[i].str)
 	{
 		//fprintf(stderr, "%d\n", token[i].id);
-		if(token[i].id == 4)
+		if(token[i].id == 4 || token[i].id == 40)
 			i++;
 		cmd_join = ft_strjoin(cmd_join, token[i].str);
 		cmd_join = ft_strjoin(cmd_join, " ");
@@ -110,6 +110,20 @@ void parent_process(int fd[2], t_token *token, t_shell *shell)
         	    exit(EXIT_FAILURE);
         	}
         	dup2(file, STDOUT_FILENO);
+        	close(file);
+			free(fd_mngt);
+		}
+		// APPEN MODE // 
+		else if(token[i].id == 40)
+		{
+			fd_mngt = ft_strdup(token[i].str);
+			//file = open(fd_mngt, );
+        	if (file == -1) 
+			{
+        	    perror("open");
+        	    exit(EXIT_FAILURE);
+        	}
+			dup2(file, STDOUT_FILENO);
         	close(file);
 			free(fd_mngt);
 		}
@@ -152,6 +166,7 @@ void parent_process(int fd[2], t_token *token, t_shell *shell)
     // Exécution de la commande
     execve(path, cmd_exec, NULL);
 }
+
 
 
 void pipex_simple(t_token *token, t_shell *shell)

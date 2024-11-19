@@ -76,15 +76,52 @@ int is_infile(t_token *token, int i)
 	return(0);
 }
 
+int is_outfile_append(t_token *token, int i)
+{
+	int j = 0;
+	// 1 cas, echo hello >> test.txt 
+    if(i > 0 && token[i - 1].str[0] == '>' && token[i - 1].str[1] == '>')
+		token[i].id = 40;
+	// 2 cas, echo hello >>test.txt
+	else if(token[i].str[0] == '>' && token[i].str[1] == '>')
+		token[i].id = 40;
+	// 3 cas, echo hello>>test.txt
+	else if(token[i].str[j])
+	{
+		while(token[i].str[j])
+		{
+			if(j > 0)
+			{
+				if(token[i].str[j - 1] != '"' && token[i].str[j - 1] != '\'' && token[i].str[j] == '>' && token[i].str[j + 1] == '>')
+				{
+					token[i].id = 40;
+					return(1);
+				}
+			}
+			j++;
+		}
+	}
+	// 4 cas, echo hello ">>" test.txt -> pas conciderer comme un outfile
+	
+	if(token[i].id == 40)
+	{
+		token[i].str = clean_name(token[i].str);
+		return(1);
+	}
+	
+	return(0);
+}
+
+
 
 int is_outfile(t_token *token, int i)
 {
 	int j = 0;
 	// 1 cas, echo hello >> test.txt 
-    if(i > 0 && token[i - 1].str[0] == '>')
+    if(i > 0 && token[i - 1].str[0] == '>' && token[i - 1].str[1] != '>')
 		token[i].id = 4;
 	// 2 cas, echo hello >>test.txt
-	else if(token[i].str[0] == '>')
+	else if(token[i].str[0] == '>' && token[i].str[1] != '>')
 		token[i].id = 4;
 	// 3 cas, echo hello>>test.txt
 	else if(token[i].str[j])
@@ -93,7 +130,7 @@ int is_outfile(t_token *token, int i)
 		{
 			if(j > 0)
 			{
-				if(token[i].str[j - 1] != '"' && token[i].str[j - 1] != '\'' && token[i].str[j] == '>')
+				if(token[i].str[j - 1] != '"' && token[i].str[j - 1] != '\'' && token[i].str[j] == '>' && token[i].str[j + 1] != '>')
 				{
 					token[i].id = 4;
 					return(1);

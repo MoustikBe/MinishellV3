@@ -66,6 +66,8 @@ void	command_execution(t_token *token, t_shell *shell)
 	i_copy = shell->index;
 	while(token[shell->index].id != 6 && token[shell->index].id)
 	{	
+		if(token[shell->index].id == 4 || token[shell->index].id == 40)
+			shell->index++;
 		cmd_join = ft_strjoin(cmd_join, token[shell->index].str);
 		cmd_join = ft_strjoin(cmd_join, " ");
 		shell->index++;
@@ -150,12 +152,34 @@ void	from_nb_cmd(t_shell *shell)
 
 void last_step(t_shell *shell, t_token *token, pid_t pid)
 {
+	int i;
+	int file;
+	char *fd_mngt;
+
+	i = shell->index;
     if (pid == 0)
     {
 		//fprintf(stderr, "STARFOULA_3\n");
         dup2(shell->fd[0], STDIN_FILENO);
         close(shell->fd[1]);
         close(shell->fd[0]); // Fermez après duplication pour éviter les fuites
+		while (token[i].str)
+		{
+			if(token[i].id == 4)
+			{
+				fd_mngt = ft_strdup(token[i].str);
+				file = open(fd_mngt, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+        		if (file == -1) 
+				{
+        		    perror("open");
+        		    exit(EXIT_FAILURE);
+        		}
+        		dup2(file, STDOUT_FILENO);
+        		close(file);
+				free(fd_mngt);
+			}
+			i++;
+		}
 		//fprintf(stderr, "STARFOULA_4\n");
         command_execution(token, shell);
         exit(0);
