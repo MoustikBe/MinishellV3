@@ -118,6 +118,7 @@ void export(t_shell *shell, t_token *token, int j);
 void env(t_shell *shell);
 void unset(t_shell *shell, t_token *token, int j);
 char *build_cmp(char *str);
+int in_out(t_token *token, int j);
 
 // -- Micro lib -- //
 // src/micro_lib/utils.c //

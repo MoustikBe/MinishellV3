@@ -74,6 +74,9 @@ int check_pipe(t_token *token)
 void exec_main(t_token *token, char *cmd, char **envp, t_shell *shell)
 {
 	pid_t pid;
+	int terminal;
+
+	terminal = 0;
 	// FIRST check if there is a pipe in all the command //
 	// Pipe -> autre direction d'execution // 
 	if(check_pipe(token) == 1)
@@ -99,6 +102,7 @@ void exec_main(t_token *token, char *cmd, char **envp, t_shell *shell)
 	}
 	else 
 	{
+		terminal = in_out(token, 0);
 		// Execution d'une commande // 
 		if(token[0].id == 10)
 		{
@@ -122,6 +126,8 @@ void exec_main(t_token *token, char *cmd, char **envp, t_shell *shell)
 			unset(shell, token, 0);
 		else if(token[0].id == 16)
 			env(shell);
+		if(terminal)
+			dup2(terminal, STDOUT_FILENO);		
 	}
 	return ;
 }
