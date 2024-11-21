@@ -42,9 +42,13 @@ void exec_bin(t_token *token, char *cmd, char **envp)
 	i = 0;
 	while(command[i])
 	{
-		// Problem ici avec le nom il faut tej > et <  avant le nom
-		command[i] = clean_name(command[i]);
-		i++;
+		if(command[i][0] == '>')
+			i++;
+		else
+		{
+			command[i] = clean_name(command[i]);
+			i++;
+		}
 	}
 	execve(path, command, envp);
 
