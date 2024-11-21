@@ -1,0 +1,8 @@
+main.c
+main.o
+Makefile
+minishell
+minishell.h
+out.txt
+src
+test

@@ -2,7 +2,7 @@
 // ont a besoin du nombre de i dans l'array de struct 
 void	echo(t_token *token, int j)
 {
-
+	int i;
 	/*	LES REGLES DU BULTIN ECHO */
 	// ECHO peut recevoir n'importe quoi en parametre, 
 	// premiere choses a faire est de voir si il y'a un flag au debut 
@@ -17,10 +17,26 @@ void	echo(t_token *token, int j)
 
 	// Echo is identify now we go direct to the second part of the commmand
 	j++;
+	if(token[j].id == 2)
+	{
+		// CHECKER SI LE FLAG est bien -n 
+		i = 0;
+		if(token[j].str[0] == '-')
+		{
+
+		}
+
+	}
 	//fprintf(stderr, "j -> %d\n", j);
 	while(token[j].id != 6 && token[j].str)
 	{
-		printf("%s ", token[j].str);
+		i = 0;
+		while (token[j].str[i])
+		{
+			ft_putchar_fd(token[j].str[i], 1);
+			i++;
+		}
+		ft_putchar_fd(' ', 1);
 		j++;
 	}
 	printf("\n");

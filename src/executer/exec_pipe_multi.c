@@ -64,8 +64,9 @@ void	command_execution(t_token *token, t_shell *shell)
 
 	cmd_join = calloc(1, 1);
 	i_copy = shell->index;
-	while(token[shell->index].id != 6 && token[shell->index].id)
+	while(token[shell->index].id != 6 && token[shell->index].str)
 	{	
+		//fprintf(stderr, "cmd join -> %s\n", token[shell->index].str);
 		if(token[shell->index].id == 4 || token[shell->index].id == 40)
 			shell->index++;
 		cmd_join = ft_strjoin(cmd_join, token[shell->index].str);
@@ -73,6 +74,16 @@ void	command_execution(t_token *token, t_shell *shell)
 		shell->index++;
 	}
 	cmd_exec = ft_split(cmd_join, ' ');
+	//fprintf(stderr, "cmd join 2.0 -> %s\n", token[shell->index].str);
+	/*
+	int count = 0;
+	while (cmd_exec[count])
+	{
+		fprintf(stderr, "cmd_exec -> %s\n", cmd_exec[count]);
+		count++;
+	}
+	fprintf(stderr, "FIN D'UNE EXEC\n");
+	*/
 	//fprintf(stderr, "mid step | cmd_exec -> %s\n", cmd_exec[0]);
 	if(check_cmd_quotes(cmd_exec[0]) > 1)
 	{
