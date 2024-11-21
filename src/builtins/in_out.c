@@ -12,7 +12,6 @@ int in_out(t_token *token, int j)
 		if(token[j].id == 4 || token[j].id == 40 || token[j].id == 5)
 		{
 			// OUTFILE
-			
 			if(token[j].id == 4)
 			{
 				fd_mngt = ft_strdup(token[j].str);
@@ -26,6 +25,7 @@ int in_out(t_token *token, int j)
 				close(file);
 				free(fd_mngt);
 			}
+			// OUTFILE -> APPEND
 			else if(token[j].id == 40)
 			{
 				fd_mngt = ft_strdup(token[j].str);

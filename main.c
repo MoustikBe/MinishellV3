@@ -398,6 +398,7 @@ int main(int argc, char **argv, char **envp)
     t_shell *shell;
 	int ret_val;
 
+	cpy_cmd = NULL;
 	shell = malloc(sizeof(t_shell));
 	copy_env(envp, shell);
 	shell->len_token = 0;
@@ -417,12 +418,13 @@ int main(int argc, char **argv, char **envp)
 			ret_val = 0;
 		else
 		{
-			//cpy_cmd = ft_strdup(shell->cmd);
+			cpy_cmd = ft_strdup(shell->cmd);
 			cmd_cleaner(shell);
 			expansion(shell);
 			here_doc(shell);
 			ret_val = parsing_main(shell->cmd); //parsing
 		}
+		
 		if(ret_val == 0)
 		{
             printf("\033[0;31mMinishell : command not found -> %s\033[00m\n", shell->cmd);
@@ -448,13 +450,14 @@ int main(int argc, char **argv, char **envp)
 			//free_all_token(token, len_token(cmd)); //-> IMPORTANT DE FOU, FIX DE LEAK
 			//break ; // Quand je test mes leaks //
 		}
-        add_history(shell->cmd);
+        add_history(cpy_cmd);
         free(shell->cmd);
-		//free(cpy_cmd);
+		//free(cpy_cmd);*/
     }
 	unlink("/tmp/.heredoc");
     free(shell->cmd);
-	//free(cpy_cmd);
+	if(cpy_cmd)
+		free(cpy_cmd);
 	free(shell);
     //free(token);
     return 0;
