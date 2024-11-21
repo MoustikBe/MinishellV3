@@ -30,15 +30,61 @@ char *make_path(char *token)
 	return(path);
 }
 
+char *new_cmd(char *str)
+{
+	int i;
+	int j;
+	char *new_cmd;
+
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if(str[i] == '>')
+		{
+			i++;
+			while (str[i] != ' ' && str[i])
+				i++;
+		}
+		else
+		{
+			i++;
+			j++;
+		}
+	}
+	i = 0;
+	new_cmd = malloc(sizeof(char) * j + 1);
+	j = 0;
+	while (str[i])
+	{
+		if(str[i] == '>')
+		{
+			i++;
+			while (str[i] != ' ' && str[i])
+				i++;
+		}
+		else
+		{
+			new_cmd[j] = str[i];
+			i++;
+			j++;
+		}
+	}
+	new_cmd[j] = '\0';
+	return(new_cmd);
+}
+
 
 void exec_bin(t_token *token, char *cmd, char **envp)
 {
 	char *path;
+	char *cmd_new;
 	char **command;
 	int i;
 
+	cmd_new = new_cmd(cmd);
 	path = make_path(token[0].str);
-	command = ft_split(cmd, ' ');
+	command = ft_split(cmd_new, ' ');
 	i = 0;
 	while(command[i])
 	{
