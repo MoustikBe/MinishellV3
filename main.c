@@ -427,7 +427,7 @@ int main(int argc, char **argv, char **envp)
 		
 		if(ret_val == 0)
 		{
-            printf("\033[0;31mMinishell : command not found -> %s\033[00m\n", shell->cmd);
+            printf("\033[0;31mMinishell : command invalid \033[00m\n");
 			//
 			//break ; // Quand je test mes leaks //
 		}

@@ -189,6 +189,19 @@ void last_step(t_shell *shell, t_token *token, pid_t pid)
         		close(file);
 				free(fd_mngt);
 			}
+			else if(token[i].id == 40)
+			{
+				fd_mngt = ft_strdup(token[i].str);
+				file = open(fd_mngt, O_WRONLY | O_APPEND | O_CREAT, 0644);
+        		if (file == -1) 
+				{
+        		    perror("open");
+        		    exit(EXIT_FAILURE);
+        		}
+        		dup2(file, STDOUT_FILENO);
+        		close(file);
+				free(fd_mngt);
+			}
 			i++;
 		}
 		//fprintf(stderr, "STARFOULA_4\n");

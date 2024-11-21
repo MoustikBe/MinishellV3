@@ -42,8 +42,13 @@ void	echo(t_token *token, int j)
 			i = 0;
 			while (token[j].str[i])
 			{
-				ft_putchar_fd(token[j].str[i], 1);
-				i++;
+				if(token[j].str[i] == '\'')
+					i++;
+				else
+				{
+					ft_putchar_fd(token[j].str[i], 1);
+					i++;
+				}
 			}
 			ft_putchar_fd(' ', 1);
 			j++;

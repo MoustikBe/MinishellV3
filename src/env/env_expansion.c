@@ -140,6 +140,8 @@ void expansion(t_shell *shell)
 		// TROUVER UN MOYEN DE SAVOIR SI IL S'AGIT DE $?
 		if(shell->cmd[i] == '$')
 		{
+			if(i > 0 && shell->cmd[i] == '$' && shell->cmd[i - 1] == '\'')
+				return ;
 			if(shell->cmd[i + 1] == '?' && shell->cmd[i + 2] == ' ')
 				return ;
 			flag = 1;

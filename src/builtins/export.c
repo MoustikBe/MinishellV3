@@ -68,6 +68,18 @@ void export(t_shell *shell, t_token *token, int j)
 {
 
 	j++;
+	if(!token[j + 1].str)
+	{
+		t_env *env;
+
+		env = shell->env;
+		while (env != NULL)
+		{
+			printf("declare -x ");
+			printf("%s\n", env->env_var);
+			env = env->next;
+		}
+	}
 	while(token[j].str && token[j].id != 6)
 	{
 		// ADDING IN THE ENV // 
