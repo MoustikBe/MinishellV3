@@ -35,6 +35,8 @@ void	echo(t_token *token, int j)
 	//fprintf(stderr, "j -> %d\n", j);
 	while(token[j].id != 6 && token[j].str)
 	{
+		if(str_cmp(token[j].str, " ") == 1)
+			j++;
 		if(token[j].id == 4 || token[j].id == 40 || token[j].id == 5)
 			j++;
 		else

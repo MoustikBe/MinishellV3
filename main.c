@@ -39,10 +39,7 @@ void cmd_cleaner(t_shell *shell)
 		{
 			i++;
 			while(shell->cmd[i] == ' ')
-			{
 				i++;
-				mem--;
-			}
 		}
 		else if(shell->cmd[i] == '|')
 		{
@@ -390,6 +387,30 @@ void here_doc(t_shell *shell)
 
 
 
+int verif_quotes(char *cmd)
+{
+	int i;
+	int quote_s;
+	int quote_d;
+
+	quote_s = 0;
+	quote_d = 0;
+	i = 0;
+	while (cmd[i])
+	{
+		
+		if(cmd[i] == '"')
+			quote_d++;
+		else if(cmd[i] == '\'')
+			quote_s++; 
+		i++;
+
+	}
+	if(quote_d % 2 == 0 || quote_s % 2 == 0)
+		return(0);
+	return(1);
+}
+
 int main(int argc, char **argv, char **envp)
 {
     char *cmd;
@@ -416,6 +437,8 @@ int main(int argc, char **argv, char **envp)
 		}
 		if(shell->cmd[0] == '\0')
 			ret_val = 0;
+		///else if(verif_quotes(shell->cmd))
+		//	ret_val = 0;
 		else
 		{
 			cpy_cmd = ft_strdup(shell->cmd);
