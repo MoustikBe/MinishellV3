@@ -406,7 +406,8 @@ int verif_quotes(char *cmd)
 		i++;
 
 	}
-	if(quote_d % 2 == 0 || quote_s % 2 == 0)
+	//printf("quote_d -> %d\nquote_s -> %d\n", quote_d, quote_s);
+	if(quote_d % 2 == 0 && quote_s % 2 == 0)
 		return(0);
 	return(1);
 }
@@ -435,10 +436,11 @@ int main(int argc, char **argv, char **envp)
 			printf("exit\n");
 			break;
 		}
-		if(shell->cmd[0] == '\0')
+		if(shell->cmd[0] == '\0' || verif_quotes(shell->cmd))
+		{
+			cpy_cmd = ft_strdup(shell->cmd);
 			ret_val = 0;
-		///else if(verif_quotes(shell->cmd))
-		//	ret_val = 0;
+		}
 		else
 		{
 			cpy_cmd = ft_strdup(shell->cmd);
