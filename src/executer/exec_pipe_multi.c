@@ -42,7 +42,7 @@ void	step_1(pid_t pid, t_token *token, t_shell *shell)
 				env(shell);
 			exit(0);
 		}
-		path = make_path(cmd_exec[0]);
+		path = make_path(cmd_exec[0], shell);
 		//fprintf(stderr, "step 1 | path -> %s\n", path);
     	execve(path, cmd_exec, NULL);
 	}
@@ -102,7 +102,7 @@ void	command_execution(t_token *token, t_shell *shell)
 			env(shell);
 		exit(0);
 	}
-	path = make_path(cmd_exec[0]);
+	path = make_path(cmd_exec[0], shell);
 	execve(path, cmd_exec, NULL);
 	// On pourrait donner un index dans la structure, 
 	// Une fois a cette index, on dit que jusque au prochain pipe on avance et join les mots 

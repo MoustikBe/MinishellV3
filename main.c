@@ -466,6 +466,8 @@ int main(int argc, char **argv, char **envp)
 				printf("\033[0;31mMinishell : command invalid \033[00m\n");
 			else
 				exec_main(token, shell->cmd, envp, shell);
+			//if(shell->error == 1)
+			//	printf("\033[0;31mMinishell : command invalid \033[00m\n");
 			//free_all_token(token, len_token(cmd)); //-> IMPORTANT DE FOU, FIX DE LEAK
 			//break ;
 		}

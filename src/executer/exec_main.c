@@ -1,13 +1,32 @@
 #include "../../minishell.h"
 
-
-char *make_path(char *token)
+int check_path(t_shell *shell)
 {
+	t_env *env;
+	env = shell->env;
+	while (env)
+	{
+		if(env->env_var[0] == 'P' && env->env_var[1] == 'A' && env->env_var[2] == 'T' && env->env_var[3] == 'H')
+			return(1);
+		env = env->next;
+	}
+	return(0);
+}
+
+
+char *make_path(char *token, t_shell *shell)
+{
+
+	if(check_path(shell) == 0 && direct_bin(token) ==  0)
+	{
+		printf("\033[0;31mMinishell : bad environement \033[00m\n");
+		exit(0);
+	}
 	char *bin = "/usr/bin/";
 	char *path;
 	int i = 0;
 	int j = 0;
-
+	printf("non");
 	if(direct_bin(token))
 		return(token);
 	path = malloc(sizeof(char) * ft_strlen(bin) + ft_strlen(token) + 1);
@@ -75,7 +94,7 @@ char *new_cmd(char *str)
 }
 
 
-void exec_bin(t_token *token, char *cmd, char **envp)
+void exec_bin(t_token *token, char *cmd, char **envp, t_shell *shell)
 {
 	char *path;
 	char *cmd_new;
@@ -83,7 +102,9 @@ void exec_bin(t_token *token, char *cmd, char **envp)
 	int i;
 
 	cmd_new = new_cmd(cmd);
-	path = make_path(token[0].str);
+	path = make_path(token[0].str, shell);
+	if(!path)
+		return ;
 	command = ft_split(cmd_new, ' ');
 	i = 0;
 	while(command[i])
@@ -158,7 +179,7 @@ void exec_main(t_token *token, char *cmd, char **envp, t_shell *shell)
 		{
 			pid = fork();
 			if(pid == 0)
-				exec_bin(token, cmd, envp);
+				exec_bin(token, cmd, envp, shell);
 			else
 				wait(0);
 		}

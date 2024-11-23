@@ -60,7 +60,7 @@ void child_process(int fd[2], t_token *token, char *file_in, t_shell *shell)
 			env(shell);
 		exit(0);
 	}
-	path = make_path(cmd_exec[0]);
+	path = make_path(cmd_exec[0], shell);
     execve(path, cmd_exec, NULL);
 }
 
@@ -162,7 +162,7 @@ void parent_process(int fd[2], t_token *token, t_shell *shell)
 		free(cmd_join);
 		exit(0);
 	}
-	path = make_path(cmd_exec[0]);
+	path = make_path(cmd_exec[0], shell);
     // Exécution de la commande
     execve(path, cmd_exec, NULL);
 }
