@@ -71,7 +71,7 @@ int copy_env_cmd(int i, t_shell *shell)
 	{
 		//BUILDING OTHER
 		j = i;
-		while (shell->cmd[i] && shell->cmd[i] != ' ')
+		while (shell->cmd[i] && shell->cmd[i] != ' ' && shell->cmd[i] != '"')
 		{
 			len++;
 			i++;
@@ -80,7 +80,7 @@ int copy_env_cmd(int i, t_shell *shell)
 		len = 0;
 		cmp_cmd_1 = malloc(sizeof(char) * len + 1);
 		i++;
-		while (shell->cmd[i] && shell->cmd[i] != ' ')
+		while (shell->cmd[i] && shell->cmd[i] != ' ' && shell->cmd[i] != '"')
 		{
 			cmp_cmd_1[len] = shell->cmd[i];
 			len++;
@@ -188,7 +188,7 @@ void expansion(t_shell *shell)
 		if(shell->cmd[i] == '$')
 		{
 			i_copy = i;
-			while (shell->cmd[i] && shell->cmd[i] != ' ')
+			while (shell->cmd[i] && shell->cmd[i] != ' ' && shell->cmd[i] != '"')
 				i++;
 			j = j + copy_env_cmd(i_copy, shell);
 

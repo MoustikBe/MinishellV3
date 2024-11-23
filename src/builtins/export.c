@@ -30,7 +30,7 @@ void add_to_env(t_shell *shell, char *str)
 		return ;
 	new->env_var = ft_strdup(str);
 	new->next = NULL;
-		env_v = shell->env;
+	env_v = shell->env;
 	while (env_v->next)
 		env_v = env_v->next;
 	env_v->next = new;
@@ -64,8 +64,35 @@ void add_to_env(t_shell *shell, char *str)
 
 */
 
+char *equal_cmd(char *str)
+{
+	int i;
+	int j;
+	char *equal;
+
+	i = 0;
+	j = 0;
+	while (str[i] && str[i] != '=')
+		i++;
+	equal = malloc(sizeof(char) * i + 1);
+	i = 0;
+	while (str[i] && str[i] != '=')
+	{
+		equal[j] = str[i];
+		i++;
+		j++;
+	}
+	equal[j] = '\0';
+	//printf("Equal -> %s\n", equal);
+	return(equal);
+}
+
+
+
+
 void export(t_shell *shell, t_token *token, int j)
 {
+	char *equal;
 
 	j++;
 	if(!token[j + 1].str)
@@ -82,10 +109,20 @@ void export(t_shell *shell, t_token *token, int j)
 	}
 	while(token[j].str && token[j].id != 6)
 	{
+		
 		// ADDING IN THE ENV // 
 		//printf("Adding -> %d\n", token[j].str);
 		if(str_cmp(token[j].str, " ") == 1)
 			j++;
+		else if(search_in_env(shell, equal_cmd(token[j].str)))
+		{
+			// ADD THE VALUE AT THE END OF THE LIST
+			add_to_env(shell, token[j].str);
+			// REMOVE  THE OLDER VAL
+			token[j].str = ft_strdup(equal_cmd(token[j].str));
+			unset(shell, token, j - 1);
+			j++;
+		}
 		else
 		{
 			add_to_env(shell, token[j].str);
