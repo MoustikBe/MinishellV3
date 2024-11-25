@@ -45,7 +45,7 @@ int len_for_token(char *cmd, int i)
 			in_quotes = 1;
 		else if(cmd[i] == '"' && in_quotes == 1)
 			in_quotes = 0;
-
+	
 		i++;
 		j++;
 	}

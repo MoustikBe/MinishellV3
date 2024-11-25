@@ -112,8 +112,8 @@ void export(t_shell *shell, t_token *token, int j)
 		
 		// ADDING IN THE ENV // 
 		//printf("Adding -> %d\n", token[j].str);
-		if(str_cmp(token[j].str, " ") == 1)
-			j++;
+		if(token[j].str[0] == 0)
+			break;
 		else if(search_in_env(shell, equal_cmd(token[j].str)))
 		{
 			// ADD THE VALUE AT THE END OF THE LIST

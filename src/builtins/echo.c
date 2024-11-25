@@ -35,8 +35,19 @@ void	echo(t_token *token, int j)
 	//fprintf(stderr, "j -> %d\n", j);
 	while(token[j].id != 6 && token[j].str)
 	{
+		if(token[j].str[0] == 0)
+			break;
+		/*
+		printf("looping, %d\n",token[j].str[k]);
+		while (token[j].str[k])
+		{
+			printf("char -> %c\n", token[j].str[k]);
+			k++;
+		}
+		
 		if(str_cmp(token[j].str, " ") == 1)
 			j++;
+		*/
 		if(token[j].id == 4 || token[j].id == 40 || token[j].id == 5)
 			j++;
 		else
