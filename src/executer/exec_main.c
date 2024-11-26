@@ -26,7 +26,7 @@ char *make_path(char *token, t_shell *shell)
 	char *path;
 	int i = 0;
 	int j = 0;
-	printf("non");
+	//printf("non");
 	if(direct_bin(token))
 		return(token);
 	path = malloc(sizeof(char) * ft_strlen(bin) + ft_strlen(token) + 1);

@@ -116,6 +116,7 @@ void export(t_shell *shell, t_token *token, int j)
 			break;
 		else if(search_in_env(shell, equal_cmd(token[j].str)))
 		{
+			// THE MOST STRANGE BUG, when I debug with g3 fsanitize, export replace dont work more // 
 			// ADD THE VALUE AT THE END OF THE LIST
 			add_to_env(shell, token[j].str);
 			// REMOVE  THE OLDER VAL
