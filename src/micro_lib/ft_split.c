@@ -39,7 +39,7 @@ static int	count_words(char *s, char c)
 			word++;
 		}
 		// Sinon si le char S est egal a espace check devient 0
-		else if ((s[count] == c && in_quotes == 0) || (s[count] == c && in_quote == 0))
+		else if ((s[count] == c && in_quotes == 0 && in_quote == 0) || (s[count] == c && in_quote == 0 && in_quotes == 0))
 			check = 0;
 		// Sinon on conitnue a parcourir dans tous les cas 
 		count++;
@@ -112,7 +112,7 @@ char	**ft_split(char *s, char c)
 				i++;
 			in_quote = 0;
 		}
-		if(s[i] == '"' && in_quotes == 0 && s[i])
+		if(s[i] == '"' && in_quotes == 0 && s[i] && in_quote == 0)
 		{
 			if(i > 0)
 			{
@@ -121,7 +121,7 @@ char	**ft_split(char *s, char c)
 			}
 			in_quotes = 1;
 		}
-		else if(s[i] == '\'' && in_quote == 0 && s[i])
+		else if(s[i] == '\'' && in_quote == 0 && s[i] && in_quotes == 0)
 		{
 			if(i > 0)
 			{
@@ -136,7 +136,7 @@ char	**ft_split(char *s, char c)
 			in_quote = 2;
 		else if ((s[i] != c && s[i] != '"' && index < 0) || (s[i] != c && s[i] != '\'' && index < 0))
 			index = i;
-		else if (((s[i] == c && in_quotes == 0 || i == ft_strlen(s) || s[i] == '"' && in_quotes == 1 ) && index >= 0) || ((s[i] == c && in_quote == 0 || i == ft_strlen(s) || s[i] == '\'' && in_quote == 1 ) && index >= 0))
+		else if (((s[i] == c && in_quotes == 0 || i == ft_strlen(s) || s[i] == '"' && in_quotes == 1 ) && index >= 0 && in_quote == 0) || ((s[i] == c && in_quote == 0 || i == ft_strlen(s) || s[i] == '\'' && in_quote == 1 ) && index >= 0 && in_quotes == 0))
 		{
 			split[j++] = word_dup(s, index, i);
 			if (!split[j - 1])
@@ -145,5 +145,21 @@ char	**ft_split(char *s, char c)
 		}	
 	}
 	split[j] = NULL;
+	/*
+	int i_c = 0;
+	int j_c;
+	while (split[i_c])
+	{
+		j_c = 0;
+		while (split[i_c][j_c])
+		{
+			printf("char -> %c | ", split[i_c][j_c]);
+			j_c++;
+		}
+		
+		printf("\n");
+		i_c++;
+	}
+	*/
 	return (split);
 }
