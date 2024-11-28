@@ -7,9 +7,9 @@ RM          = rm -rf
 SOURCES     = src/parsing/pars_bin.c src/parsing/pars_cd.c src/parsing/pars_quot.c src/parsing/pars_dolar.c src/parsing/pars_export.c src/parsing/pars_cmd.c src/parsing/pars_syntax.c src/parsing/pars_check.c src/parsing/pars_main.c \
               src/token/token_main.c src/token/token_id.c src/token/token_set.c src/token/token_utils.c src/token/token_pars.c \
               src/executer/exec_main.c src/executer/exec_pipe.c src/executer/exec_pipe_multi.c \
-			  src/builtins/echo.c src/builtins/pwd.c src/builtins/cd.c src/builtins/env.c src/builtins/export.c src/builtins/unset.c src/builtins/in_out.c \
+			  src/builtins/echo.c src/builtins/pwd.c src/builtins/cd.c src/builtins/env.c src/builtins/export.c src/builtins/unset.c src/builtins/in_out.c src/builtins/exit.c \
 			  src/env/env_main.c src/env/env_expansion.c \
-              src/micro_lib/ft_split.c src/micro_lib/utils.c src/micro_lib/ft_strjoin.c src/micro_lib/split_basic.c src/micro_lib/get_next_line.c src/micro_lib/get_next_line_utils.c \
+              src/micro_lib/ft_split.c src/micro_lib/utils.c src/micro_lib/ft_strjoin.c src/micro_lib/split_basic.c src/micro_lib/get_next_line.c src/micro_lib/get_next_line_utils.c src/micro_lib/put_nbr.c \
               main.c
 
 OBJECTS     = $(SOURCES:%.c=%.o)

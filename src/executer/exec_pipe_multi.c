@@ -29,7 +29,7 @@ void	step_1(pid_t pid, t_token *token, t_shell *shell)
 		{
 			//printf("BUILTIN DETECTED\n");
 			if(check_cmd_quotes(cmd_exec[0]) == 2)
-			echo(token, 0);
+			echo(token, shell, 0);
 			else if(check_cmd_quotes(cmd_exec[0]) == 3)
 				cd(token[1].str);
 			else if(check_cmd_quotes(cmd_exec[0]) == 4)
@@ -40,6 +40,8 @@ void	step_1(pid_t pid, t_token *token, t_shell *shell)
 				unset(shell, token, 0);
 			else if(check_cmd_quotes(cmd_exec[0]) == 7)
 				env(shell);
+			else if(check_cmd_quotes(cmd_exec[0]) == 8)
+				ft_exit();
 			exit(0);
 		}
 		path = make_path(cmd_exec[0], shell);
@@ -89,7 +91,7 @@ void	command_execution(t_token *token, t_shell *shell)
 	{
 		//printf("BUILTIN DETECTED\n");
 		if(check_cmd_quotes(cmd_exec[0]) == 2)
-			echo(token, i_copy);
+			echo(token, shell, i_copy);
 		else if(check_cmd_quotes(cmd_exec[0]) == 3)
 			cd(token[1].str);
 		else if(check_cmd_quotes(cmd_exec[0]) == 4)
@@ -100,6 +102,8 @@ void	command_execution(t_token *token, t_shell *shell)
 			unset(shell, token, i_copy);
 		else if(check_cmd_quotes(cmd_exec[0]) == 7)
 			env(shell);
+		else if(check_cmd_quotes(cmd_exec[0]) == 8)
+			ft_exit();
 		exit(0);
 	}
 	path = make_path(cmd_exec[0], shell);

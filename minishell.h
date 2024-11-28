@@ -111,7 +111,7 @@ void pipex_simple(t_token *token, t_shell *shell);
 void pipex_multi(t_token *token, t_shell *shell);
 
 // -- Builins -- // 
-void echo(t_token *token, int j);
+void echo(t_token *token, t_shell *shell, int j);
 void pwd(void);
 void cd(char *path);
 void export(t_shell *shell, t_token *token, int j);
@@ -138,6 +138,8 @@ char	*ft_strjoin(char *s1, char *s2);
 char	**ft_split_basic(char *s, char c);
 // src/micro_lib/get_next_line.c //
 char	*get_next_line(int fd);
+// src/micro_lib/put_nbr.c 
+void	ft_putnbr(int n);
 
 
 // -- End of declaration -- //

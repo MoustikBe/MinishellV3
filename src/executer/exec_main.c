@@ -3,11 +3,23 @@
 int check_path(t_shell *shell)
 {
 	t_env *env;
+	char **split_path;
+	int i = 0;
+
 	env = shell->env;
 	while (env)
 	{
 		if(env->env_var[0] == 'P' && env->env_var[1] == 'A' && env->env_var[2] == 'T' && env->env_var[3] == 'H')
-			return(1);
+		{
+			split_path = ft_split(env->env_var, ':');
+			while (split_path[i])
+			{
+				if(str_cmp(split_path[i], "/usr/local/bin") == 1)
+					return(1);
+				free(split_path[i]);
+				i++;
+			}
+		}
 		env = env->next;
 	}
 	return(0);
@@ -186,7 +198,7 @@ void exec_main(t_token *token, char *cmd, char **envp, t_shell *shell)
 		else if(token[0].id == 9)
 			printf("The exit status is %i\n", shell->last_exit_status);
 		else if(token[0].id == 11)
-			echo(token, 0);
+			echo(token, shell, 0);
 		else if(token[0].id == 12)
 			cd(token[1].str);
 		else if(token[0].id == 13)
@@ -197,6 +209,8 @@ void exec_main(t_token *token, char *cmd, char **envp, t_shell *shell)
 			unset(shell, token, 0);
 		else if(token[0].id == 16)
 			env(shell);
+		else if(token[0].id == 17)
+			ft_exit();
 		if(terminal)
 			dup2(terminal, STDOUT_FILENO);		
 	}

@@ -1,6 +1,6 @@
 #include "../../minishell.h"
 // ont a besoin du nombre de i dans l'array de struct 
-void	echo(t_token *token, int j)
+void	echo(t_token *token, t_shell *shell, int j)
 {
 	int i;
 	int flag = 0;
@@ -50,6 +50,11 @@ void	echo(t_token *token, int j)
 		*/
 		if(token[j].id == 4 || token[j].id == 40 || token[j].id == 5)
 			j++;
+		else if(str_cmp(token[j].str, "$?"))
+		{
+			ft_putnbr(shell->last_exit_status);
+			j++;
+		}
 		else
 		{
 			i = 0;
