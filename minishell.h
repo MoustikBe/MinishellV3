@@ -72,12 +72,34 @@ int pars_dolar(char **pars_cmd);
 // src/parsing/pars_char.c //
 int check_bin_quotes(char *command);
 
+// -- Herdoc -- //
+// src/heredoc/herdoc_exec.c //
+void exec_herdoc(t_shell *shell);
+void replace_heredoc(t_shell *shell);
+int check_env_var(char *str);
+// src/heredoc/herdoc_expansion.c //
+void heredoc_expansion(t_shell *shell, char *gnl_val, int temp_fd);
+// src/herdoc/hereedoc_main.c //
+void here_doc(t_shell *shell);
+
+// -- Signals -- //
+void    sigint_handler(int sig);
+void    manage_signals(void);
+
+// -- Organizer -- //
+void cmd_cleaner(t_shell *shell);
+int verif_quotes(char *cmd);
+
+
 // -- Env -- // 
 // src/env/env_main.c //
 void copy_env(char **envp, t_shell *shell);
 // src/env/env_expansion.c //
 void expansion(t_shell *shell);
 int search_in_env(t_shell *shell, char *cmp_cmd);
+// src/env/env_utils.c //
+int search_in_env_writed(t_shell *shell, char *cmp_cmd, int temp_fd);
+
 
 // -- Token -- //
 // src/token/token_main.c //
