@@ -470,7 +470,6 @@ int main(int argc, char **argv, char **envp)
 			}
 			else
 				exec_main(token, shell->cmd, envp, shell);
-			shell->last_exit_status = 0;
 			//if(shell->error == 1)
 			//	printf("\033[0;31mMinishell : command invalid \033[00m\n");
 			//free_all_token(token, len_token(cmd)); //-> IMPORTANT DE FOU, FIX DE LEAK

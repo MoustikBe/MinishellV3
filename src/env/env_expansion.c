@@ -158,10 +158,8 @@ void expansion(t_shell *shell)
 	{
 		//printf("Crossing this char -> %c\n", shell->cmd[i]);
 		// TROUVER UN MOYEN DE SAVOIR SI IL S'AGIT DE $?
-		if(shell->cmd[i] == '$')
+		if(shell->cmd[i] == '$' && shell->cmd[i -1] != '\'')
 		{
-			if(i > 0 && shell->cmd[i] == '$' && shell->cmd[i - 1] == '\'')
-				return ;
 			flag = 1;
 			i++;
 			i_copy = i;
@@ -206,7 +204,7 @@ void expansion(t_shell *shell)
 	j = 0;
 	while (shell->cmd[i])
 	{
-		if(shell->cmd[i] == '$')
+		if(shell->cmd[i] == '$' && shell->cmd[i - 1] != '\'')
 		{
 			i_copy = i;
 			j_copy = j;

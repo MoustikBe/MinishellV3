@@ -158,6 +158,7 @@ void exec_main(t_token *token, char *cmd, char **envp, t_shell *shell)
 {
 	pid_t pid;
 	int terminal;
+	int status;
 
 	terminal = 0;
 	// FIRST check if there is a pipe in all the command //
@@ -168,7 +169,10 @@ void exec_main(t_token *token, char *cmd, char **envp, t_shell *shell)
 		if(pid == 0)
 			pipex_simple(token, shell);
 		else
-			wait(0);
+		{	
+			waitpid(pid, &status, 0);
+			shell->last_exit_status = status;
+		}
 	}
 	// AVOIR FINIS 100% du normal avant de faire celui la. 
 	// A DEPLACER DANS LE MAIN DANS LE CAS OU D'AVANTAGES DE PROB //
@@ -181,7 +185,10 @@ void exec_main(t_token *token, char *cmd, char **envp, t_shell *shell)
 			exit(0);
 		}
 		else
-			wait(0);
+		{	
+			waitpid(pid, &status, 0);
+			shell->last_exit_status = status;
+		}
 	}
 	else 
 	{
@@ -193,7 +200,10 @@ void exec_main(t_token *token, char *cmd, char **envp, t_shell *shell)
 			if(pid == 0)
 				exec_bin(token, cmd, envp, shell);
 			else
-				wait(0);
+			{	
+				waitpid(pid, &status, 0);
+				shell->last_exit_status = status;
+			}
 		}
 		//else if(token[0].id == 9)
 		//	printf("The exit status is %i\n", shell->last_exit_status);
@@ -212,7 +222,9 @@ void exec_main(t_token *token, char *cmd, char **envp, t_shell *shell)
 		else if(token[0].id == 17)
 			ft_exit();
 		if(terminal)
-			dup2(terminal, STDOUT_FILENO);		
+			dup2(terminal, STDOUT_FILENO);
+		if(token[0].id > 10)
+			shell->last_exit_status = status;
 	}
 	return ;
 }
