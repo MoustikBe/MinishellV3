@@ -1,7 +1,7 @@
 NAME        = minishell
 CC          = cc
 CFLAGS      = # -Wall -Werror -Wextra 
-LDFLAGS     = -lreadline #-g3 -fsanitize=address
+LDFLAGS     = -lreadline -g3 # -fsanitize=address
 RM          = rm -rf
 
 SOURCES     = src/parsing/pars_bin.c src/parsing/pars_cd.c src/parsing/pars_quot.c src/parsing/pars_dolar.c src/parsing/pars_export.c src/parsing/pars_cmd.c src/parsing/pars_syntax.c src/parsing/pars_check.c src/parsing/pars_main.c \
@@ -19,7 +19,7 @@ OBJECTS     = $(SOURCES:%.c=%.o)
 
 %.o: %.c
 	@printf "\033[0;30mGenerating minishell objects... %-33.33s\r" $@
-	@$ $(CC) $(CFLAGS) -c $< -o $@
+	@$ $(CC) $(CFLAGS) -c -g3 $< -o $@
 
 $(NAME): $(OBJECTS)
 	@echo "\n"

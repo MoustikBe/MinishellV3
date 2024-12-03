@@ -26,10 +26,9 @@ t_token *token_main(char *cmd, t_token *token, t_shell *shell)
 		//printf("\033[0;31mtoken[i].str -> %s\033[00m\n", token[i].str);
 		token_id(token, i);
 		//printf("\033[0;33mtoken[i].id  -> %d\033[00m\n", token[i].id);
-		j = j + len_space + 1;
-		while(cmd[j] == ' ')
+		j = j + len_space; // valgrind -> avant = j = j + len_space + 1; Depassement de 1 byte 
+		while(cmd[j] != '\0' && cmd[j] == ' ')
 			j++;
-		//printf("%c -> %d\n", cmd[j], j);
 		i++;
 	}
 	// TO_PARSER FOR THE TOKEN // 
