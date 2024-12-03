@@ -30,6 +30,8 @@ void unset(t_shell *shell, t_token *token, int j)
 	j++;
     while (token[j].str)
     {
+		if(token[j].str[0] == 0)
+			break;
 		env_v = shell->env;
 		prev = NULL;
 		// CHANGER LA VALEUR DE env_v->env_var -> puis la  //

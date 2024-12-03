@@ -195,8 +195,8 @@ void exec_main(t_token *token, char *cmd, char **envp, t_shell *shell)
 			else
 				wait(0);
 		}
-		else if(token[0].id == 9)
-			printf("The exit status is %i\n", shell->last_exit_status);
+		//else if(token[0].id == 9)
+		//	printf("The exit status is %i\n", shell->last_exit_status);
 		else if(token[0].id == 11)
 			echo(token, shell, 0);
 		else if(token[0].id == 12)

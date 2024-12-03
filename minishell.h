@@ -140,6 +140,8 @@ char	**ft_split_basic(char *s, char c);
 char	*get_next_line(int fd);
 // src/micro_lib/put_nbr.c 
 void	ft_putnbr(int n);
+// src/micro_lib/ft_itoa.c // 
+char	*ft_itoa(int n);
 
 
 // -- End of declaration -- //

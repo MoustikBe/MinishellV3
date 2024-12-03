@@ -58,14 +58,33 @@ int search_in_env(t_shell *shell, char *cmp_cmd)
 	return(0);
 }
 
-int copy_env_cmd(int i, t_shell *shell)
+int copy_env_cmd(int j_copy, int i, t_shell *shell)
 {
+	//printf("i -> %d\n", i);
 	t_env *env_v;
+	char *exit_val;
 	char *cmp_cmd_1;
 	char *cmp_cmd_2;
 	int j = 0;
+	int i_exit = 0;
 	int len = 0;
 
+	if(shell->cmd[i + 1] == '?' && shell->cmd[i + 2] == ' ')
+	{
+		// RETURN LA LEN DE L'ITOA DE LAST_EXIT_VALUE
+		// SHELL->env_cmd = copier dans l'index correcte la valeur de l'ITOA DE LAST_EXIT_VALUE  
+		exit_val = ft_itoa(shell->last_exit_status);
+		//printf("%s\n", exit_val);
+		while(exit_val[i_exit])
+		{
+			shell->env_cmd[j_copy] = exit_val[i_exit];
+			//printf("cmd env_cmd... |%c| index -> %d\n", shell->env_cmd[j_copy], j_copy);
+			j_copy++;
+			i_exit++;
+			//printf("looping\n");
+		}
+		return(i_exit);
+	}
 	env_v = shell->env;
 	while (env_v)
 	{
@@ -100,10 +119,9 @@ int copy_env_cmd(int i, t_shell *shell)
 				len++;
 			len++;
 			while (env_v->env_var[len])
-			{
-				//printf("COPIE EN COURS \n");
-				shell->env_cmd[i] = env_v->env_var[len];
-				i++;
+			{	
+				shell->env_cmd[j_copy] = env_v->env_var[len];
+				j_copy++;
 				j++;
 				len++;
 			}
@@ -132,17 +150,17 @@ void expansion(t_shell *shell)
 	int len = 0;
 	int ret_val = 0;
 	int flag = 0;
+	int j_copy;
 	char *cmp_cmd;
 
 	// CONNAITRE la len de la nouvelle commande. donc
 	while (shell->cmd[i])
 	{
+		//printf("Crossing this char -> %c\n", shell->cmd[i]);
 		// TROUVER UN MOYEN DE SAVOIR SI IL S'AGIT DE $?
 		if(shell->cmd[i] == '$')
 		{
 			if(i > 0 && shell->cmd[i] == '$' && shell->cmd[i - 1] == '\'')
-				return ;
-			if(shell->cmd[i + 1] == '?' && shell->cmd[i + 2] == ' ')
 				return ;
 			flag = 1;
 			i++;
@@ -164,7 +182,10 @@ void expansion(t_shell *shell)
 			// PARFAITE CMP_CMD DECOUPER 
 			// MNT essaye de trouver une correspondance et si il y'a une correspondance 
 			// RENVOYER 1 SI PAS 0
-			len = len + search_in_env(shell, cmp_cmd);
+			if(str_cmp(cmp_cmd, "?") == 1)
+				len = len + ft_strlen(ft_itoa(shell->last_exit_status));
+			else 
+				len = len + search_in_env(shell, cmp_cmd);
 			//printf(" len_search -> %d\n", search_in_env(shell, cmp_cmd));
 		}
 		else
@@ -188,13 +209,15 @@ void expansion(t_shell *shell)
 		if(shell->cmd[i] == '$')
 		{
 			i_copy = i;
+			j_copy = j;
 			while (shell->cmd[i] && shell->cmd[i] != ' ' && shell->cmd[i] != '"')
 				i++;
-			j = j + copy_env_cmd(i_copy, shell);
-
+			j = j + copy_env_cmd(j_copy, i_copy, shell);
+		//	printf("cmd var... |%c| index -> %d\n", shell->cmd[i], i);
 		}
 		else
 		{
+		//	printf("cmd normal... |%c| index -> %d\n", shell->cmd[i], i);
 			shell->env_cmd[j] = shell->cmd[i];
 			j++;
 			i++;
@@ -203,7 +226,5 @@ void expansion(t_shell *shell)
 	shell->env_cmd[j] = '\0';
 	free(shell->cmd);
 	shell->cmd = ft_strdup(shell->env_cmd);
-	//printf("shell cmd -> %s\n", shell->cmd);
 	free(shell->env_cmd);
 }
-
