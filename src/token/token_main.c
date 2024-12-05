@@ -10,10 +10,11 @@ t_token *token_main(char *cmd, t_token *token, t_shell *shell)
 	// WORK IN PROGRESS // 
 	i = 0;
 	j = 0;
+	//printf("Valeur d'allocation -> %d\n", len_token(cmd));
 	token = malloc(sizeof(t_token) * len_token(cmd));
 //	if(!token)
 //		return(0);
-	while(i < len_token(cmd))
+	while(i < len_token(cmd) - 1) // VUS QUE LES VERITABLES AFFECTATION VONT DE 0 a -> len_token - 1 car len_token = NULL CORRECTION VALGRIND BTW.
 	{
 		token[i].id = 0;
 		len_space = len_for_token(cmd, j);
@@ -31,6 +32,8 @@ t_token *token_main(char *cmd, t_token *token, t_shell *shell)
 			j++;
 		i++;
 	}
+	token[i].str = NULL; // AJOUT D'UNE VALEUR NULL POUR IDENTIFIER LA FIN DE LA LIST.
+	token[i].id = 0; // AJOUT D'UNE VALEUR DE 0 POUR NE PAS DECLENCHER D'OPERATION DANS L'EXECUTEUR.
 	// TO_PARSER FOR THE TOKEN // 
 	token_parser(token, shell, len_token(cmd));
 	shell->len_token = len_token(cmd);
