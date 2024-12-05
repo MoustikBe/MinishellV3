@@ -224,7 +224,7 @@ void exec_main(t_token *token, char *cmd, char **envp, t_shell *shell)
 		if(terminal)
 			dup2(terminal, STDOUT_FILENO);
 		if(token[0].id > 10)
-			shell->last_exit_status = status;
+			shell->last_exit_status = 0;
 	}
 	return ;
 }
