@@ -95,7 +95,7 @@ void export(t_shell *shell, t_token *token, int j)
 	char *equal;
 
 	j++;
-	if(!token[j + 1].str)
+	if(!token[j].str)
 	{
 		t_env *env;
 
