@@ -75,17 +75,17 @@ int main(int argc, char **argv, char **envp)
 			}
 			else
 				exec_main(token, shell->cmd, envp, shell);
+			free_all_token(token);
 			//if(shell->error == 1)
 			//	printf("\033[0;31mMinishell : command invalid \033[00m\n");
-			free_all_token(token); //-> IMPORTANT DE FOU, FIX DE LEAK
-			//break ;
+			//free_all_token(token); //-> IMPORTANT DE FOU, FIX DE LEAK
 		}
 		else if(ret_val > 1)
 		{
 			printf("\033[0;31mMinishell : command invalid \033[00m\n");
 			shell->last_exit_status = 127;
-			//free_all_token(token, len_token(cmd)); //-> IMPORTANT DE FOU, FIX DE LEAK
-			//break ; // Quand je test mes leaks //
+			free_all_token(token);
+			//free_all_token(token); //-> IMPORTANT DE FOU, FIX DE LEAK
 		}
         free(shell->cmd);
 		//free(cpy_cmd);*/
@@ -96,17 +96,16 @@ int main(int argc, char **argv, char **envp)
 	if(cpy_cmd)
 		free(cpy_cmd);
 	free(shell);
-    //free(token);
     return 0;
 }
     // HAVE TO MANAGE //
-    // -> echo      (with option -n) parsing -> V token -> V -> exec -> X
+    // -> echo      (with option -n) parsing -> V token -> V -> exec -> V
     // -> cd        (with only a relative or absolute path) parsing -> V token -> V -> exec -> V
     // -> pwd       (with no options) parsing -> V token -> V -> exec -> V
     // -> export    (with no options) parsing -> V token -> V -> exec -> V
-    // -> unset     (with no options) parsing -> V token -> V -> exec -> X
+    // -> unset     (with no options) parsing -> V token -> V -> exec -> V
     // -> env       (with no options or arguments) parsing -> V token -> V -> exec -> V
-    // -> exit      (with no options) parsing -> V token -> V -> exec -> X
+    // -> exit      (with no options) parsing -> V token -> V -> exec -> V
 		
 
 // !! TEMPORAL FIX, 11/11/2024 -> Add of a space at the end of the line in the case of 

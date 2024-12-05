@@ -92,7 +92,7 @@ char	**ft_split(char *s, char c)
 
 	in_quotes = 0;
 	in_quote = 0;
-	split = malloc((count_words(s, c) + 1) * sizeof(char *));
+	split = malloc((count_words(s, c) + 2) * sizeof(char *));
 	if (!s || !split)
 		return (NULL);
 	i = -1;
@@ -145,21 +145,5 @@ char	**ft_split(char *s, char c)
 		}	
 	}
 	split[j] = NULL;
-	/*
-	int i_c = 0;
-	int j_c;
-	while (split[i_c])
-	{
-		j_c = 0;
-		while (split[i_c][j_c])
-		{
-			printf("char -> %c | ", split[i_c][j_c]);
-			j_c++;
-		}
-		
-		printf("\n");
-		i_c++;
-	}
-	*/
 	return (split);
 }
