@@ -1,7 +1,21 @@
 #include "minishell.h"
 
 
+void free_env(t_shell *shell)
+{
+    t_env *tmp;
+    t_env *current;
 
+    current = shell->env;
+    while (current != NULL)
+    {
+        tmp = current;
+        current = current->next;
+        free(tmp->env_var);  // Libère la chaîne allouée par ft_strdup
+        free(tmp);           // Libère le nœud t_env
+    }
+    shell->env = NULL;
+}
 
 
 int main(int argc, char **argv, char **envp)
@@ -23,6 +37,7 @@ int main(int argc, char **argv, char **envp)
 		manage_signals();// ADD FROM IRIS
 		shell->error = 0;
         shell->cmd = readline("\033[34;01mMinishell : \033[00m");
+		add_history(shell->cmd);
 		if (shell->cmd == NULL) //IRIS I used NULL instead of \0 because "cmd[0]" produces a SEGFAULT
 		{
 			printf("exit\n");
@@ -30,12 +45,10 @@ int main(int argc, char **argv, char **envp)
 		}
 		if(shell->cmd[0] == '\0' || verif_quotes(shell->cmd))
 		{
-			cpy_cmd = ft_strdup(shell->cmd);
 			ret_val = 0;
 		}
 		else
 		{
-			cpy_cmd = ft_strdup(shell->cmd);
 			cmd_cleaner(shell);
 			expansion(shell);
 			here_doc(shell);
@@ -64,7 +77,7 @@ int main(int argc, char **argv, char **envp)
 				exec_main(token, shell->cmd, envp, shell);
 			//if(shell->error == 1)
 			//	printf("\033[0;31mMinishell : command invalid \033[00m\n");
-			//free_all_token(token, len_token(cmd)); //-> IMPORTANT DE FOU, FIX DE LEAK
+			free_all_token(token); //-> IMPORTANT DE FOU, FIX DE LEAK
 			//break ;
 		}
 		else if(ret_val > 1)
@@ -74,11 +87,11 @@ int main(int argc, char **argv, char **envp)
 			//free_all_token(token, len_token(cmd)); //-> IMPORTANT DE FOU, FIX DE LEAK
 			//break ; // Quand je test mes leaks //
 		}
-        add_history(cpy_cmd);
         free(shell->cmd);
 		//free(cpy_cmd);*/
     }
 	unlink("/tmp/.heredoc");
+	free_env(shell);
     free(shell->cmd);
 	if(cpy_cmd)
 		free(cpy_cmd);

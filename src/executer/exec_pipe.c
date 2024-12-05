@@ -40,7 +40,7 @@ void child_process(int fd[2], t_token *token, char *file_in, t_shell *shell)
 		i++;
 	}
 	cmd_exec = ft_split(cmd_join, ' ');
-
+	free(cmd_join);
     
 	/* Work in progress, 17/10 : -> Implementation de la verification et execution d'un builtin*/
 	if(check_cmd_quotes(cmd_exec[0]) > 1)

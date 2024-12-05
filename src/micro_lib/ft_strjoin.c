@@ -6,7 +6,7 @@
 /*   By: misaac-c <misaac-c@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/21 19:08:38 by misaac-c          #+#    #+#             */
-/*   Updated: 2024/09/26 15:05:17 by misaac-c         ###   ########.fr       */
+/*   Updated: 2024/12/05 13:54:58 by misaac-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (new_char == NULL)
 		return (NULL);
 	suite_join(s1, s2, new_char, len1);
+	free(s1);
 	return (new_char);
 }
 /*

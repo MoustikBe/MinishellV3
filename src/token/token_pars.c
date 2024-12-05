@@ -42,7 +42,7 @@ char *make_to_pars(t_shell *shell, int i)
 		j++;
 		k++;
 	}
-	to_pars = malloc(sizeof(char) * j);
+	to_pars = malloc(sizeof(char) * j + 1);
 	j = 0;
 	k = k_save;
 	while (shell->cmd[k] && shell->cmd[k] != '|')
@@ -71,6 +71,7 @@ void token_parser(t_token *token, t_shell *shell, int len)
 			// Function that cut the part that we need to pars after a pipe //
 			to_pars = make_to_pars(shell, i);
 			return_val = parsing_main(to_pars);
+			free(to_pars);
 			if (return_val == 0)
 				shell->error = 1;
 			// i est l'equivalent au nombre d'espace trouver entre chaque partie de la commande.

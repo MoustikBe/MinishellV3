@@ -16,7 +16,7 @@ void copy_env(char **envp, t_shell *shell)
 	// TANT QUE envp a du contenu // 
 	while (envp[i])
 	{
-		// CREER UN NODE ET Y AJOUTER LA VALEUR ACTUEL // 
+		// CREER UN NODE ET Y AJOUTER LA VALEUR ACTUEL //
 		new = malloc(sizeof(t_env));
 		new->env_var = ft_strdup(envp[i]);
 		new->next = NULL;

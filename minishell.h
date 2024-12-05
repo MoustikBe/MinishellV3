@@ -116,7 +116,7 @@ int is_outfile_append(t_token *token, int i);
 int is_cmd(t_token *token, int i);
 int is_flag(t_token *token, int i);
 // src/token/token_utils.c //
-void free_all_token(t_token *token, int len);
+void free_all_token(t_token *token);
 int len_for_token(char *cmd, int i);
 int len_token(char *cmd);
 void token_copy(t_token *token, char *cmd, int i, int j);
