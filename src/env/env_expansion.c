@@ -87,8 +87,10 @@ int copy_env_cmd(int j_copy, int i, t_shell *shell)
 			i_exit++;
 			//printf("looping\n");
 		}
+		free(exit_val);
 		return(i_exit);
 	}
+	free(exit_val);
 	env_v = shell->env;
 	while (env_v)
 	{
@@ -129,6 +131,7 @@ int copy_env_cmd(int j_copy, int i, t_shell *shell)
 				j++;
 				len++;
 			}
+			free(cmp_cmd_2); // Fix leaks, (not sure add by me to prevent possible leaks)
 			return (j);
 		}
 		else
@@ -137,6 +140,7 @@ int copy_env_cmd(int j_copy, int i, t_shell *shell)
 			env_v = env_v->next;
 		}
 	}
+	free(cmp_cmd_2); // Fix leaks, (not sure add by me to prevent possible leaks)
 	return(0);
 }
 
@@ -156,6 +160,7 @@ void expansion(t_shell *shell)
 	int flag = 0;
 	int j_copy;
 	char *cmp_cmd;
+	char *char_itoa; // Fix leaks, issue because not set in a var that we can free 
 
 	// CONNAITRE la len de la nouvelle commande. donc
 	while (shell->cmd[i])
@@ -185,9 +190,14 @@ void expansion(t_shell *shell)
 			// MNT essaye de trouver une correspondance et si il y'a une correspondance 
 			// RENVOYER 1 SI PAS 0
 			if(str_cmp(cmp_cmd, "?") == 1)
-				len = len + ft_strlen(ft_itoa(shell->last_exit_status));
+			{
+				char_itoa = ft_itoa(shell->last_exit_status); // Fix leaks, management of the memory for ft_itoa
+				len = len + ft_strlen(char_itoa);
+				free(char_itoa);
+			}
 			else 
 				len = len + search_in_env(shell, cmp_cmd);
+			free(cmp_cmd); // Fix leaks, memory free after stop using it
 			//printf(" len_search -> %d\n", search_in_env(shell, cmp_cmd));
 		}
 		else
