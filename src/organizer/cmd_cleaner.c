@@ -87,6 +87,7 @@ void cmd_cleaner(t_shell *shell)
 	}
 	pipe_cmd[j] = '\0';
 	//printf("%s\n", pipe_cmd);
+	free(shell->cmd); // Fixing leaks
 	shell->cmd = ft_strdup(pipe_cmd);
 	free(pipe_cmd);
 }

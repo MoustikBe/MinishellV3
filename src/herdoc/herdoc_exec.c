@@ -88,8 +88,8 @@ void exec_herdoc(t_shell *shell)
 		// SI valeur differentes -> sauvegarder et continuer
 		free(gnl_val);
 	}
-	//free(delemiter);
-	//free(gnl_val);
+	free(delemiter); // Fixing leaks
+	free(gnl_val); // Fixing leaks
 }
 
 
@@ -150,8 +150,11 @@ void replace_heredoc(t_shell *shell)
 			i++;
 		}
 	}
+	free(tmp_file); // Fixing leaks
 	new_cmd[len] = '\0';
+	free(shell->cmd); // Fixing leaks
 	shell->cmd = ft_strdup(new_cmd);
+	free(new_cmd); // Fixing leaks
 }
 
 int check_env_var(char *str)
