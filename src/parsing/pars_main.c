@@ -73,7 +73,7 @@ int parsing_main(char *cmd)
 			if(pars_cd(pars_cmd) == 0)
 			{
 				free_array(pars_cmd);
-				return(2);
+				return(0);
 			}
 			free_array(pars_cmd);
 			return(1);
@@ -84,7 +84,7 @@ int parsing_main(char *cmd)
 			if(pars_export(pars_cmd) == 0)
 			{
 				free_array(pars_cmd);
-				return(2);
+				return(0);
 			}
 			free_array(pars_cmd);
 			return(1);
@@ -95,7 +95,7 @@ int parsing_main(char *cmd)
 			if(pars_syntax(pars_cmd) == 0)
 			{
 				free_array(pars_cmd);
-				return(2);
+				return(0);
 			}
 			free_array(pars_cmd);
 			return(1);
@@ -106,7 +106,7 @@ int parsing_main(char *cmd)
 			if(pars_dolar(pars_cmd) == 0)
 			{
 				free_array(pars_cmd);
-				return(2);
+				return(0);
 			}
 			free_array(pars_cmd);
 			return(1);

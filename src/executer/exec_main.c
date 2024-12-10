@@ -15,10 +15,13 @@ int check_path(t_shell *shell)
 			while (split_path[i])
 			{
 				if(str_cmp(split_path[i], "/usr/local/bin") == 1)
+				{
+					free_array(split_path);
 					return(1);
-				free(split_path[i]);
+				}
 				i++;
 			}
+			free_array(split_path);
 		}
 		env = env->next;
 	}
@@ -118,6 +121,7 @@ void exec_bin(t_token *token, char *cmd, char **envp, t_shell *shell)
 	if(!path)
 		return ;
 	command = ft_split(cmd_new, ' ');
+	free(cmd_new);
 	i = 0;
 	while(command[i])
 	{
@@ -130,7 +134,8 @@ void exec_bin(t_token *token, char *cmd, char **envp, t_shell *shell)
 		}
 	}
 	execve(path, command, envp);
-
+	free(path);
+	free_array(command);
 }
 
 int check_pipe(t_token *token)
