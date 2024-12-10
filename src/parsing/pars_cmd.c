@@ -15,7 +15,7 @@ int check_cmd_quotes(char *cmd_check)
 		return(6);
 	else if(str_cmp_quotes(cmd_check, "env") == 1 || str_cmp_quotes(cmd_check, "/bin/env") == 1)
 		return(7);
-	else if(str_cmp_quotes(cmd_check, "exit") == 1)
+	else if(str_cmp_quotes(cmd_check, "exit") == 1 || str_cmp_quotes(cmd_check, "/bin/exit") == 1)
 		return(8);
 	else if(check_syntax(cmd_check) == 1)
 		return(9);
