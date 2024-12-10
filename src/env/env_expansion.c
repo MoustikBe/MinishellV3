@@ -173,14 +173,14 @@ void expansion(t_shell *shell)
 			flag = 1;
 			i++;
 			i_copy = i;
-			while (shell->cmd[i] && (ft_isalnum(shell->cmd[i]) || shell->cmd[i] == '_'))
+			while (shell->cmd[i] && (ft_isalnum(shell->cmd[i]) || shell->cmd[i] == '_') || shell->cmd[i] == '?')
 			{
 				i++;
 				j++;
 			}
-			cmp_cmd = malloc(sizeof(char) * j + 2);
+			cmp_cmd = malloc(sizeof(char) * j + 1);
 			j = 0;
-			while (shell->cmd[i_copy] && shell->cmd[i_copy] != ' ' && shell->cmd[i_copy] != '"')
+			while (shell->cmd[i_copy] && (ft_isalnum(shell->cmd[i_copy]) || shell->cmd[i_copy] == '_') || shell->cmd[i_copy] == '?')
 			{
 				cmp_cmd[j] = shell->cmd[i_copy];
 				j++;
@@ -215,7 +215,7 @@ void expansion(t_shell *shell)
 //	printf(" len -> %d\n", len);
 	if(flag != 1)
 		return ;
-	shell->env_cmd = malloc(sizeof(char) * (len + 1));
+	shell->env_cmd = malloc(sizeof(char) * (len + 2));
 	// CORRECTE LEN TROUVER// 
 	// COPIE MNT //
 	i = 0;
