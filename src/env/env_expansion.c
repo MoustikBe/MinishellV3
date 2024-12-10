@@ -200,7 +200,7 @@ void expansion(t_shell *shell)
 //	printf(" len -> %d\n", len);
 	if(flag != 1)
 		return ;
-	shell->env_cmd = malloc(sizeof(char) * len);
+	shell->env_cmd = malloc(sizeof(char) * len + 1);
 	// CORRECTE LEN TROUVER// 
 	// COPIE MNT //
 	i = 0;
