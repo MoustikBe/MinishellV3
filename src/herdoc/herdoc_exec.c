@@ -121,7 +121,7 @@ void replace_heredoc(t_shell *shell)
 		}
 	}
 
-	new_cmd = malloc(sizeof(char) * len + ft_strlen("/tmp/.heredoc") + 1); 
+	new_cmd = malloc(sizeof(char) * len + ft_strlen("/tmp/.heredoc") + 2); // Fix Valgrind write error, allocation memeroy was missing 1 bytes. 
 	len = 0;
 	i = 0;
 	while (shell->cmd[i])
@@ -158,6 +158,7 @@ int check_env_var(char *str)
 {
 	int i;
 
+	i = 0; // Fix Valgrind, value not set at 0 to start to cross.
 	while (str[i])
 	{
 		if(str[i] == '$')
