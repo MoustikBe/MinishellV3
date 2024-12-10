@@ -132,6 +132,7 @@ char *clean_name(char *src)
 	}
 	dest[i] = '\0';
 	//printf("CALL -> %s\n", dest);
+	free(src); // Fix leaks, need to free the previous value
 	return (dest);
 }
 
