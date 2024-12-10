@@ -178,7 +178,7 @@ void expansion(t_shell *shell)
 				i++;
 				j++;
 			}
-			cmp_cmd = malloc(sizeof(char) * j + 1);
+			cmp_cmd = malloc(sizeof(char) * j + 2);
 			j = 0;
 			while (shell->cmd[i_copy] && shell->cmd[i_copy] != ' ' && shell->cmd[i_copy] != '"')
 			{
