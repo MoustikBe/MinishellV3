@@ -53,7 +53,7 @@ int search_in_env(t_shell *shell, char *cmp_cmd)
 			//printf("MATCH\n");
 			len = ft_strlen(cmp_cmd_2);
 			free(cmp_cmd_2);  // Fixing leaks, value not free at the start.
-			return(ft_strlen(env_v->env_var) - len);
+			return(ft_strlen(env_v->env_var) - len); // Fix valgrind, bad assembly of the value for cmp_cmd with quote.
 			
 		}
 		free(cmp_cmd_2);
@@ -90,7 +90,6 @@ int copy_env_cmd(int j_copy, int i, t_shell *shell)
 		free(exit_val);
 		return(i_exit);
 	}
-	free(exit_val);
 	env_v = shell->env;
 	while (env_v)
 	{
@@ -102,8 +101,8 @@ int copy_env_cmd(int j_copy, int i, t_shell *shell)
 			i++;
 		}
 		i = j;
-		len = 0;
 		cmp_cmd_1 = malloc(sizeof(char) * len + 1);
+		len = 0;
 		i++;
 		while (shell->cmd[i] && shell->cmd[i] != ' ' && shell->cmd[i] != '"')
 		{
@@ -131,16 +130,17 @@ int copy_env_cmd(int j_copy, int i, t_shell *shell)
 				j++;
 				len++;
 			}
+			free(cmp_cmd_1);
 			free(cmp_cmd_2); // Fix leaks, (not sure add by me to prevent possible leaks)
 			return (j);
 		}
 		else
 		{
+			free(cmp_cmd_1);
 			free(cmp_cmd_2);
 			env_v = env_v->next;
 		}
 	}
-	free(cmp_cmd_2); // Fix leaks, (not sure add by me to prevent possible leaks)
 	return(0);
 }
 
@@ -152,6 +152,7 @@ void expansion(t_shell *shell)
 	// FAIRE UN SPLIT de la cmd. Si la fonction renvois 10. -> il faut changer la commande. 
 	
 	// TENTATIVE // 
+	int quot_flag = 0;
 	int i = 0;
 	int i_copy = 0;
 	int j = 0;
@@ -167,19 +168,19 @@ void expansion(t_shell *shell)
 	{
 		//printf("Crossing this char -> %c\n", shell->cmd[i]);
 		// TROUVER UN MOYEN DE SAVOIR SI IL S'AGIT DE $?
-		if(shell->cmd[i] == '$' && shell->cmd[i -1] != '\'')
+		if(shell->cmd[i] == '$' && quot_flag == 0)
 		{
 			flag = 1;
 			i++;
 			i_copy = i;
-			while (shell->cmd[i] && shell->cmd[i] != ' ')
+			while (shell->cmd[i] && (ft_isalnum(shell->cmd[i]) || shell->cmd[i] == '_'))
 			{
 				i++;
 				j++;
 			}
 			cmp_cmd = malloc(sizeof(char) * j + 1);
 			j = 0;
-			while (shell->cmd[i_copy] && shell->cmd[i_copy] != ' ')
+			while (shell->cmd[i_copy] && shell->cmd[i_copy] != ' ' && shell->cmd[i_copy] != '"')
 			{
 				cmp_cmd[j] = shell->cmd[i_copy];
 				j++;
@@ -196,13 +197,17 @@ void expansion(t_shell *shell)
 				free(char_itoa);
 			}
 			else 
-				len = len + search_in_env(shell, cmp_cmd);
+				len = len + search_in_env(shell, cmp_cmd); 
 			free(cmp_cmd); // Fix leaks, memory free after stop using it
 			//printf(" len_search -> %d\n", search_in_env(shell, cmp_cmd));
 		}
 		else
 		{
 		//	printf("char -> %c\n", shell->cmd[i]);
+			if(shell->cmd[i] == '\'' && quot_flag == 0)
+				quot_flag = 1;
+			else if(shell->cmd[i] == '\'' && quot_flag == 1)
+				quot_flag = 0;
 			len++;
 			i++;
 		}
@@ -210,15 +215,16 @@ void expansion(t_shell *shell)
 //	printf(" len -> %d\n", len);
 	if(flag != 1)
 		return ;
-	shell->env_cmd = malloc(sizeof(char) * len + 1);
+	shell->env_cmd = malloc(sizeof(char) * (len + 1));
 	// CORRECTE LEN TROUVER// 
 	// COPIE MNT //
 	i = 0;
 	i_copy = 0;
 	j = 0;
+	quot_flag = 0;
 	while (shell->cmd[i])
 	{
-		if(shell->cmd[i] == '$' && shell->cmd[i - 1] != '\'')
+		if(shell->cmd[i] == '$' && quot_flag == 0)
 		{
 			i_copy = i;
 			j_copy = j;
@@ -230,6 +236,10 @@ void expansion(t_shell *shell)
 		else
 		{
 		//	printf("cmd normal... |%c| index -> %d\n", shell->cmd[i], i);
+			if(shell->cmd[i] == '\'' && quot_flag == 0)
+				quot_flag = 1;
+			else if(shell->cmd[i] == '\'' && quot_flag == 1)
+				quot_flag = 0;
 			shell->env_cmd[j] = shell->cmd[i];
 			j++;
 			i++;
@@ -240,3 +250,5 @@ void expansion(t_shell *shell)
 	shell->cmd = ft_strdup(shell->env_cmd);
 	free(shell->env_cmd);
 }
+
+// echo hello word "$USER"
