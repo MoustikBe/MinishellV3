@@ -175,7 +175,7 @@ int is_cmd(t_token *token, int i)
         token[i].id = 15;
     else if(str_cmp(token[i].str, "env") || str_cmp(token[i].str, "/bin/env"))
 		token[i].id = 16;
-	else if(str_cmp(token[i].str, "exit"))
+	else if(str_cmp(token[i].str, "exit") || str_cmp(token[i].str, "/bin/exit"))
 		token[i].id = 17;
     else if(check_bin(token[i].str) || direct_bin(token[i].str))
         token[i].id = 10;
