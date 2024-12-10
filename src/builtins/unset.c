@@ -10,13 +10,14 @@ char *build_cmp(char *str)
 		i++;
 	if(str[i] != '=')
 		return(NULL);
-	cmp_cmd = malloc(sizeof(char) * i + 1);
+	cmp_cmd = malloc(sizeof(char) * (i + 1));
 	i = 0;
 	while (str[i] && str[i] != '=')
 	{
 		cmp_cmd[i] = str[i];
 		i++;
 	}
+	cmp_cmd[i] = '\0'; // Ajout du character manquant sa provoquait une erreur de unitilize val avec valgrind
 	return(cmp_cmd);
 }
 
@@ -53,6 +54,7 @@ void unset(t_shell *shell, t_token *token, int j)
             {
                	temp = env_v->next;
                 env_v->next = temp->next;
+				free(cmp_cmd); // Leaks FIX
                 free(temp->env_var);
                 free(temp);
                 break; 

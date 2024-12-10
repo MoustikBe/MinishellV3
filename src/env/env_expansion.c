@@ -40,6 +40,7 @@ char *expanding_cmd(t_shell *shell)
 int search_in_env(t_shell *shell, char *cmp_cmd)
 {
 	t_env *env_v;
+	int len; // Fixing leaks, len store the len of the cmp_cmd before the free
 	char *cmp_cmd_2;
 
 	env_v = shell->env;
@@ -50,7 +51,10 @@ int search_in_env(t_shell *shell, char *cmp_cmd)
 		if(str_cmp(cmp_cmd, cmp_cmd_2) == 1)
 		{
 			//printf("MATCH\n");
-			return(ft_strlen(env_v->env_var) - ft_strlen(cmp_cmd_2));
+			len = ft_strlen(cmp_cmd_2);
+			free(cmp_cmd_2);  // Fixing leaks, value not free at the start.
+			return(ft_strlen(env_v->env_var) - len);
+			
 		}
 		free(cmp_cmd_2);
 		env_v = env_v->next;

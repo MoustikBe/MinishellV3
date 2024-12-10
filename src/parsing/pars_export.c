@@ -25,7 +25,7 @@ int pars_export(char **pars_cmd)
 			if(equal == 1 && flag == 0)
 			{
 				j_copy = j - 1;
-				while (pars_cmd[i][j_copy])
+				while (j_copy >= 0) // Fix Valgrind, condtion change from pars_cmd[i][j_copy] -> checking the 
 				{
 					if(ft_isalnum(pars_cmd[i][j_copy]) == 0)
 					{

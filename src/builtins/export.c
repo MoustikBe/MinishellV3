@@ -114,13 +114,16 @@ void export(t_shell *shell, t_token *token, int j)
 		//printf("Adding -> %d\n", token[j].str);
 		if(token[j].str[0] == 0)
 			break;
-		else if(search_in_env(shell, equal_cmd(token[j].str)))
+		else
+			equal = equal_cmd(token[j].str); // Fixing leaks, allocation in variable for better managaement. Adding condition as well.
+		if(search_in_env(shell, equal))
 		{
 			// THE MOST STRANGE BUG, when I debug with g3 fsanitize, export replace dont work more // 
 			// ADD THE VALUE AT THE END OF THE LIST
 			add_to_env(shell, token[j].str);
 			// REMOVE  THE OLDER VAL
-			token[j].str = ft_strdup(equal_cmd(token[j].str));
+			free(token[j].str);
+			token[j].str = ft_strdup(equal); // Fixing leaks, allocation on a variable free at the end of the loop turn
 			unset(shell, token, j - 1);
 			j++;
 		}
@@ -129,6 +132,7 @@ void export(t_shell *shell, t_token *token, int j)
 			add_to_env(shell, token[j].str);
 			j++;
 		}
+		free(equal); // Fixing leaks
 	}
 	return ;
 }
