@@ -112,30 +112,62 @@ char *new_cmd(char *str)
 void exec_bin(t_token *token, char *cmd, char **envp, t_shell *shell)
 {
 	char *path;
-	char *cmd_new;
-	char **command;
+	//char *cmd_new;
+	char *command;
+	char *try_in;
+	char **exec_cmd;
 	int i;
 
-	cmd_new = new_cmd(cmd);
+	//cmd_new = new_cmd(cmd);
 	path = make_path(token[0].str, shell);
 	if(!path)
 		return ;
-	command = ft_split(cmd_new, ' ');
-	free(cmd_new);
+	
 	i = 0;
+	command = calloc(1, 1);
+	while (token[i].str)
+	{
+		if(token[i].id == 4 || token[i].id == 5 && str_cmp(token[0].str, "cat") == 0 && str_cmp(token[0].str, "/bin/cat") == 0 || token[i].id == 40 )
+		{
+			if(token[i].id == 5)
+			{
+				try_in = clean_name(token[i].str);
+				if(access(try_in, O_RDONLY) != 0)
+				{
+					printf("bash: %s: No such file or directory", try_in);
+					free(try_in);
+					exit(1);
+				}
+				free(try_in);
+			}
+			i++;
+		}
+		else
+		{
+			command = ft_strjoin(command, token[i].str);
+			command = ft_strjoin(command, " ");
+			i++;
+		}
+	}
+
+	exec_cmd = ft_split(command, ' ');
+	free(command);
+	/*
 	while(command[i])
 	{
 		if(command[i][0] == '>')
 			i++;
 		else
-		{
-			command[i] = clean_name(command[i]);
-			i++;
-		}
+		//{
+		//	command[i] = clean_name(command[i]);
+		//	fprintf(stderr, "command[i] -> %s\n", command[i]);
+		//	i++;
+		//}
 	}
-	execve(path, command, envp);
+	*/
+	execve(path, exec_cmd, envp);
 	free(path);
-	free_array(command);
+	free_array(exec_cmd);
 }
 
 int check_pipe(t_token *token)

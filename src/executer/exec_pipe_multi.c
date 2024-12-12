@@ -61,6 +61,8 @@ void	command_execution(t_token *token, t_shell *shell)
 {
 	char *cmd_join;
 	char *path;
+	char *fd_mngt;
+	int file;
 	char **cmd_exec;
 	int i_copy;
 
@@ -69,11 +71,53 @@ void	command_execution(t_token *token, t_shell *shell)
 	while(token[shell->index].id != 6 && token[shell->index].str)
 	{	
 		//fprintf(stderr, "cmd join -> %s\n", token[shell->index].str);
-		if(token[shell->index].id == 4 || token[shell->index].id == 40)
+		if(token[shell->index].id == 4)
+		{
+			fd_mngt = ft_strdup(token[shell->index].str);
+			file = open(fd_mngt, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+			if (file == -1) 
+			{
+				perror("open");
+				exit(EXIT_FAILURE);
+			}
+			dup2(file, STDOUT_FILENO);
+			close(file);
+			free(fd_mngt);
 			shell->index++;
-		cmd_join = ft_strjoin(cmd_join, token[shell->index].str);
-		cmd_join = ft_strjoin(cmd_join, " ");
-		shell->index++;
+		}
+		else if(token[shell->index].id == 5 && str_cmp(token[i_copy].str, "cat") == 0 && str_cmp(token[i_copy].str, "/bin/cat") == 0)
+		{
+			fd_mngt = clean_name(token[shell->index].str);
+			if(access(fd_mngt, O_RDONLY) != 0)
+			{
+				write(2, "Minishell : No such file or directory\n", 7);
+				free(fd_mngt);
+				shell->last_exit_status = 1;
+				exit(1);
+			}
+			free(fd_mngt);
+			shell->index++;
+		}
+		else if(token[shell->index].id == 40)
+		{
+			fd_mngt = ft_strdup(token[shell->index].str);
+			file = open(fd_mngt, O_WRONLY | O_APPEND | O_CREAT, 0644);
+			if (file == -1) 
+			{
+				perror("open");
+				exit(EXIT_FAILURE);
+			}
+			dup2(file, STDOUT_FILENO);
+			close(file);
+			free(fd_mngt);
+			shell->index++;
+		}
+		else 
+		{
+			cmd_join = ft_strjoin(cmd_join, token[shell->index].str);
+			cmd_join = ft_strjoin(cmd_join, " ");
+			shell->index++;
+		}
 	}
 	cmd_exec = ft_split(cmd_join, ' ');
 	//fprintf(stderr, "cmd join 2.0 -> %s\n", token[shell->index].str);

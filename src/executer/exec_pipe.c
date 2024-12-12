@@ -35,9 +35,15 @@ void child_process(int fd[2], t_token *token, char *file_in, t_shell *shell)
 	cmd_join = calloc(1, 1);
 	while(token[i].id != 6)
 	{
-		cmd_join = ft_strjoin(cmd_join, token[i].str);
-		cmd_join = ft_strjoin(cmd_join, " ");
-		i++;
+		//fprintf(stderr, "%d\n", token[i].id);
+		if(token[i].id == 4 || token[i].id == 5 && str_cmp(token[0].str, "cat") == 0 && str_cmp(token[0].str, "/bin/cat") == 0 ||token[i].id == 40)
+			i++;
+		else
+		{
+			cmd_join = ft_strjoin(cmd_join, token[i].str);
+			cmd_join = ft_strjoin(cmd_join, " ");
+			i++;
+		}
 	}
 	cmd_exec = ft_split(cmd_join, ' ');
 	free(cmd_join);
@@ -73,7 +79,7 @@ void parent_process(int fd[2], t_token *token, t_shell *shell)
     int file;
 	char **cmd_exec;
 	char *path;
-	char *cmd_join;
+	char *cmd_join = NULL;
 	char *fd_mngt;
 	int i;
 	int i_copy;
@@ -88,11 +94,14 @@ void parent_process(int fd[2], t_token *token, t_shell *shell)
 	while(token[i].str)
 	{
 		//fprintf(stderr, "%d\n", token[i].id);
-		if(token[i].id == 4 || token[i].id == 40)
+		if(token[i].id == 4 || token[i].id == 5 && str_cmp(token[i_copy].str, "cat") == 0 && str_cmp(token[i_copy].str, "/bin/cat") == 0 ||token[i].id == 40)
 			i++;
-		cmd_join = ft_strjoin(cmd_join, token[i].str);
-		cmd_join = ft_strjoin(cmd_join, " ");
-		i++;
+		else
+		{
+			cmd_join = ft_strjoin(cmd_join, token[i].str);
+			cmd_join = ft_strjoin(cmd_join, " ");
+			i++;
+		}
 	}
     wait(0);
     // Duplication de l'entrée du pipe vers stdin
@@ -142,9 +151,6 @@ void parent_process(int fd[2], t_token *token, t_shell *shell)
 		}
 		i++;
 	}
-	
-	
-
 	cmd_exec = ft_split(cmd_join, ' ');
 	if(check_cmd_quotes(cmd_exec[0]) > 1)
 	{
