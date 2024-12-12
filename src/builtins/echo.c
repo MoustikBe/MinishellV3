@@ -16,7 +16,7 @@ void	echo(t_token *token, t_shell *shell, int j)
 	
 	// Echo is identify now we go direct to the second part of the commmand
 	j++;
-	if(token[j].id == 2)
+	while(token[j].id == 2)
 	{
 		// CHECKER SI LE FLAG est bien -n 
 		i = 1;
@@ -29,7 +29,9 @@ void	echo(t_token *token, t_shell *shell, int j)
 			{	
 				j++;
 				flag = 1;
-			} 	
+			} 
+			else 
+				break;
 		}
 	}
 	//fprintf(stderr, "j -> %d\n", j);
