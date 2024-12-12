@@ -46,7 +46,7 @@ int parsing_main(char *cmd)
 	if(pars_cmd[0] == NULL) // Fix Valgrind, segfault in the case of ''
 	{
 		free_array(pars_cmd);
-		return(1);
+		return(-1);
 	}
 	ret_val = check_cmd_quotes(pars_cmd[0]); 
 	// Le parsing est seulement extremement important dans le cas des builtins. //
