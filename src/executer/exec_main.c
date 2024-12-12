@@ -134,7 +134,7 @@ void exec_bin(t_token *token, char *cmd, char **envp, t_shell *shell)
 				try_in = clean_name(token[i].str);
 				if(access(try_in, O_RDONLY) != 0)
 				{
-					printf("bash: %s: No such file or directory", try_in);
+					printf("bash: %s: No such file or directory\n", try_in);
 					free(try_in);
 					exit(1);
 				}
