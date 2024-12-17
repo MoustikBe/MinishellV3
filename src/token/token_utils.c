@@ -96,22 +96,22 @@ void token_copy(t_token *token, char *cmd, int i, int j)
 	{
 		if (cmd[j] == ' ' && in_quotes == 0  && in_quote == 0)
 			break;
-		else if(cmd[j] == '"' && in_quotes == 0 && in_quote == 0)
+		else if(cmd[j] == '"' && in_quotes == 0)
 		{
 			j++;
 			in_quotes = 1;
 		}
-		else if(cmd[j] == '"' && in_quotes == 1 && in_quote == 0)
+		else if(cmd[j] == '"' && in_quotes == 1)
 		{
 			j++;
 			in_quotes = 0;
 		}
-		else if(cmd[j] == '\'' && in_quote == 0 && in_quotes == 0)
+		else if(cmd[j] == '\'' && in_quote == 0)
 		{
 			j++;
 			in_quote = 1;
 		}
-		else if(cmd[j] == '\'' && in_quote == 1 && in_quotes == 0)
+		else if(cmd[j] == '\'' && in_quote == 1)
 		{
 			j++;
 			in_quote = 0;

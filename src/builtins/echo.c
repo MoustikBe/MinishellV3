@@ -39,6 +39,8 @@ void	echo(t_token *token, t_shell *shell, int j)
 	{
 		if(token[j].str[0] == 0)
 			break;
+		if(str_cmp(token[j].str, "\"") == 1)
+			j++;
 		/*
 		printf("looping, %d\n",token[j].str[k]);
 		while (token[j].str[k])
@@ -50,7 +52,7 @@ void	echo(t_token *token, t_shell *shell, int j)
 		if(str_cmp(token[j].str, " ") == 1)
 			j++;
 		*/
-		if(token[j].id == 4 || token[j].id == 40 || token[j].id == 5)
+		else if(token[j].id == 4 || token[j].id == 40 || token[j].id == 5)
 			j++;
 		/*
 		else if(str_cmp(token[j].str, "$?"))
