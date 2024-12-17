@@ -43,7 +43,7 @@ void cmd_cleaner(t_shell *shell)
 	}
 	if(shell->cmd[i - 1] != ' ')
 		mem++;
-	pipe_cmd = malloc(sizeof(char) * mem + 2);
+	pipe_cmd = malloc(sizeof(char) * mem + 3);
 	i = 0; 
 	while(shell->cmd[i])
 	{

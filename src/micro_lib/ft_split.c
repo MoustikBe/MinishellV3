@@ -11,37 +11,44 @@ static int	count_words(char *s, char c)
 {
 	int	count;
 	int	word;
-	int	check;
-	int in_quotes;
-	int in_quote;
+	int	in_quotes;
+	int	in_quote;
 
 	in_quotes = 0;
 	in_quote = 0;
-	count = 0;
-	check = 0;
 	word = 0;
-	// pwd | "Hello wolrd"
-	// Tant que le char S existe 
-	while (s[count] != '\0')
+	count = 0;
+
+	while (s[count])
 	{
-		if(s[count] == '"' && in_quotes == 0)
+		// Gestion des guillemets doubles
+		if (s[count] == '"' && in_quotes == 0)
 			in_quotes = 1;
-		else if(s[count] == '"' && in_quotes == 1)
-			in_quotes = 0;
-		else if(s[count] == '\'' && in_quote == 0)
-			in_quote = 1;
-		else if(s[count] == '\'' && in_quote == 1)
-			in_quote = 0;
-		// Si le char S est different de espace et que check = 0, on compte 1 mot
-		else if (s[count] != c && check == 0)
+		else if (s[count] == '"' && in_quotes == 1)
 		{
-			check = 1;
+			in_quotes = 0;
 			word++;
+			if (s[count + 1] == '"') // Gérer les guillemets successifs
+				word++;
 		}
-		// Sinon si le char S est egal a espace check devient 0
-		else if ((s[count] == c && in_quotes == 0 && in_quote == 0) || (s[count] == c && in_quote == 0 && in_quotes == 0))
-			check = 0;
-		// Sinon on conitnue a parcourir dans tous les cas 
+		// Gestion des guillemets simples
+		else if (s[count] == '\'' && in_quote == 0)
+			in_quote = 1;
+		else if (s[count] == '\'' && in_quote == 1)
+		{
+			in_quote = 0;
+			word++;
+			if (s[count + 1] == '\'') // Gérer les guillemets successifs
+				word++;
+		}
+		// Compter les mots en dehors des guillemets
+		else if (s[count] != c && in_quotes == 0 && in_quote == 0)
+		{
+			word++;
+			while (s[count] && s[count] != c && s[count] != '"' && s[count] != '\'')
+				count++;
+			count--;
+		}
 		count++;
 	}
 	return (word);
@@ -53,14 +60,18 @@ static char	*word_dup(char *str, int start, int finish)
 	int 	s_start;
 	int		new_alloc;
 	int		i;
+	int		inside = 0;
 
 	s_start = start;
 	new_alloc = 0;
 	i = 0;
 	while(s_start < finish)
 	{
-		if(str[s_start] == '"' || str[s_start] == '\'')
+		if(str[s_start] == '"' && inside == 0|| str[s_start] == '\'' && inside == 0)
+		{
+			inside = 1;
 			s_start++;
+		}
 		else
 		{
 			s_start++;
@@ -70,10 +81,14 @@ static char	*word_dup(char *str, int start, int finish)
 	word = malloc((new_alloc + 1) * sizeof(char));
 	if (!word)
 		return (NULL);
+	inside = 0;
 	while(start < finish)
 	{
-		if(str[start] == '"' || str[start] == '\'')
+		if(str[start] == '"' && inside == 0 || str[start] == '\'' && inside == 0)
+		{
+			inside = 1;
 			start++;
+		}
 		else
 			word[i++] = str[start++];
 	}	
