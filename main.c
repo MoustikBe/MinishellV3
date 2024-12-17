@@ -44,9 +44,7 @@ int main(int argc, char **argv, char **envp)
 			break;
 		}
 		if(shell->cmd[0] == '\0' || verif_quotes(shell->cmd))
-		{
-			ret_val = 0;
-		}
+			ret_val = -1;
 		else
 		{
 			cmd_cleaner(shell);
@@ -54,8 +52,9 @@ int main(int argc, char **argv, char **envp)
 			here_doc(shell);
 			ret_val = parsing_main(shell->cmd); //parsing
 		}
-		
-		if(ret_val == 0)
+		if(ret_val == -1)
+			shell->last_exit_status = 127;
+		else if(ret_val == 0)
 		{
             printf("\033[0;31mMinishell : command invalid \033[00m\n");
 			shell->last_exit_status = 127;
@@ -80,6 +79,7 @@ int main(int argc, char **argv, char **envp)
 			//	printf("\033[0;31mMinishell : command invalid \033[00m\n");
 			//free_all_token(token); //-> IMPORTANT DE FOU, FIX DE LEAK
 		}
+		/*
 		else if(ret_val > 1)
 		{
 			printf("\033[0;31mMinishell : command invalid \033[00m\n");
@@ -87,6 +87,7 @@ int main(int argc, char **argv, char **envp)
 			free_all_token(token);
 			//free_all_token(token); //-> IMPORTANT DE FOU, FIX DE LEAK
 		}
+		*/
         free(shell->cmd);
 		//free(cpy_cmd);*/
     }
