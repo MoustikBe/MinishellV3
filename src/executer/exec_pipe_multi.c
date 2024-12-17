@@ -47,6 +47,7 @@ void	step_1(pid_t pid, t_token *token, t_shell *shell)
 		path = make_path(cmd_exec[0], shell);
 		//fprintf(stderr, "step 1 | path -> %s\n", path);
     	execve(path, cmd_exec, NULL);
+		exit(2);
 	}
 }
 
