@@ -168,6 +168,7 @@ void exec_bin(t_token *token, char *cmd, char **envp, t_shell *shell)
 	execve(path, exec_cmd, envp);
 	free(path);
 	free_array(exec_cmd);
+	exit(2);
 }
 
 int check_pipe(t_token *token)
