@@ -49,13 +49,13 @@ int len_for_token(char *cmd, int i)
 	{
 		if (cmd[i] == ' ' && in_quotes == 0 && in_quote == 0)
 			break;
-		else if(cmd[i] == '"' && in_quotes == 0)
+		else if(cmd[i] == '"' && in_quotes == 0 && in_quote == 0)
 			in_quotes = 1;
-		else if(cmd[i] == '"' && in_quotes == 1)
+		else if(cmd[i] == '"' && in_quotes == 1 && in_quote == 0)
 			in_quotes = 0;
-		else if(cmd[i] == '\'' && in_quote == 0)
+		else if(cmd[i] == '\'' && in_quote == 0 && in_quotes == 0)
 			in_quote = 1;
-		else if(cmd[i] == '\'' && in_quote == 1)
+		else if(cmd[i] == '\'' && in_quote == 1 && in_quotes == 0)
 			in_quote = 0;
 		i++;
 		j++;
@@ -123,5 +123,11 @@ void token_copy(t_token *token, char *cmd, int i, int j)
 			j++;
 		}
 	}
-	token[i].str[k] = '\0';
+	if(token[i].str[k - 1] == 0)
+	{
+		free(token[i].str);
+		token[i].str = ft_strdup("\"");
+	}
+	else
+		token[i].str[k] = '\0';
 }

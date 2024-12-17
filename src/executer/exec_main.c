@@ -168,6 +168,7 @@ void exec_bin(t_token *token, char *cmd, char **envp, t_shell *shell)
 	execve(path, exec_cmd, envp);
 	free(path);
 	free_array(exec_cmd);
+	printf("\033[0;31mMinishell : command invalid \033[00m\n");
 	exit(2);
 }
 
