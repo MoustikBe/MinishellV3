@@ -25,7 +25,7 @@ t_token *token_main(char *cmd, t_token *token, t_shell *shell)
 		token_copy(token, cmd, i, j);
 		//printf("len_for_token -> %d\n", len_space);
 		//printf("\033[0;31mtoken[i].str -> %s\033[00m\n", token[i].str); 
-		if(str_cmp(token[i].str, "\0") == 1)
+		if(token[i].str[0] == 0)
 		{
 			free(token[i].str);
 			token[i].str = ft_strdup("\"");
