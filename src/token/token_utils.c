@@ -123,11 +123,5 @@ void token_copy(t_token *token, char *cmd, int i, int j)
 			j++;
 		}
 	}
-	if(token[i].str[k - 1] == 0)
-	{
-		free(token[i].str);
-		token[i].str = ft_strdup("\"");
-	}
-	else
-		token[i].str[k] = '\0';
+	token[i].str[k] = '\0';
 }
